@@ -12,6 +12,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="cinematic-bg">
+        <video id="bg-hero" autoplay muted loop playsinline class="cinematic-video">
+            <source src="assets/bg-video.mp4" type="video/mp4">
+        </video>
+        <video id="bg-mission" autoplay muted loop playsinline class="cinematic-video" style="opacity: 0;">
+            <source src="assets/mission-bg.mp4" type="video/mp4">
+        </video>
+        <video id="bg-portfolio" autoplay muted loop playsinline class="cinematic-video" style="opacity: 0;">
+            <source src="assets/portfolio-bg.mp4" type="video/mp4">
+        </video>
+    </div>
+    <canvas id="particle-canvas"></canvas>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -35,12 +47,7 @@
     <!-- Content Wrapper for Smooth Scroll -->
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="hero">
-            <div class="hero-video-wrapper">
-                <video autoplay muted loop playsinline class="hero-video">
-                    <source src="assets/bg-video.mp4" type="video/mp4">
-                </video>
-            </div>
+        <section id="hero" class="hero bg-transparent">
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1 class="stagger-up">
@@ -52,12 +59,7 @@
         </section>
 
         <!-- Mission Section -->
-        <section id="mission" class="section mission">
-            <div class="mission-video-wrapper">
-                <video autoplay muted loop playsinline class="mission-video">
-                    <source src="assets/mission-bg.mp4" type="video/mp4">
-                </video>
-            </div>
+        <section id="mission" class="section mission bg-transparent">
             <div class="mission-overlay"></div>
             <div class="container container-medium mission-content">
                 <div class="mission-text-blocks">
@@ -100,29 +102,55 @@
         </section>
 
         <!-- Portfolio Section -->
-        <section id="portfolio" class="section portfolio bg-light">
-            <div class="container">
-                <h2 class="section-heading fade-in-up">Portfolio.</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item fade-in-up delay-1">
-                        <div class="img-wrapper">
-                            <img src="assets/portfolio_digital_art.png" alt="Ethereal Landscapes" loading="lazy">
-                            <div class="img-overlay">
-                                <h3>Ethereal Landscapes</h3>
-                                <p>Digital Installation</p>
+        <section id="portfolio" class="section portfolio bg-transparent">
+            <div class="portfolio-overlay"></div>
+            <!-- Beam Canvas for SVG drawing -->
+            <svg class="beam-canvas" width="100%" height="100%">
+                <defs>
+                   <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                       <feGaussianBlur stdDeviation="3" result="blur"/>
+                       <feMerge>
+                           <feMergeNode in="blur"/>
+                           <feMergeNode in="SourceGraphic"/>
+                       </feMerge>
+                   </filter>
+                </defs>
+                <path id="beam-path" class="light-beam" d="" filter="url(#glow)"></path>
+            </svg>
+
+            <div class="container portfolio-mystical">
+                <div class="portfolio-header fade-in-up">
+                    <h2 class="section-heading light mb-1">Portfolio Site.</h2>
+                    <p class="subtitle">Light Link Projects</p>
+                </div>
+                
+                <div class="mystical-window-wrapper fade-in-up delay-1">
+                    <button class="slider-btn prev-btn">&lt;</button>
+                    <!-- Magical Wooden Frame -->
+                    <div class="wooden-frame" id="main-frame">
+                        <div class="white-card" id="project-card">
+                            <div class="card-content">
+                                <h3 id="proj-title">Project 1</h3>
+                                <div class="proj-body">
+                                    <div class="proj-img-wrap">
+                                        <img id="proj-img" src="assets/portfolio_digital_art.png" alt="Project Image">
+                                    </div>
+                                    <div class="proj-desc">
+                                        <p id="proj-text">Description goes here</p>
+                                        <button class="btn-learn">LEARN MORE</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="gallery-item fade-in-up delay-2" style="margin-top: 4rem;">
-                        <div class="img-wrapper">
-                            <img src="assets/portfolio_sculpture.png" alt="Silent Forms" loading="lazy">
-                            <div class="img-overlay">
-                                <h3>Silent Forms</h3>
-                                <p>Sculpture & Space</p>
-                            </div>
-                        </div>
+                    <button class="slider-btn next-btn">&gt;</button>
+                </div>
+
+                <div class="project-library fade-in-up delay-2">
+                    <h4 class="lib-title">PROJECT LIBRARY</h4>
+                    <div class="thumbnail-list" id="thumbnail-list">
+                        <!-- Thumbnails injected by JS -->
                     </div>
-                    <!-- Additional items can go here -->
                 </div>
             </div>
         </section>

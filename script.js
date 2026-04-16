@@ -1,11 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Navbar Scroll Effect
     const navbar = document.getElementById("navbar");
+    const logoImg = document.querySelector(".logo img");
+    const missionSection = document.getElementById("mission");
+    
     window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
             navbar.classList.add("scrolled");
         } else {
             navbar.classList.remove("scrolled");
+        }
+
+        if (missionSection && logoImg) {
+            const offset = window.innerWidth <= 768 ? 60 : 100;
+            if (window.scrollY >= (missionSection.offsetTop - offset)) {
+                logoImg.src = "assets/logo_transparent.png";
+            } else {
+                logoImg.src = "assets/logo_white.png";
+            }
         }
     });
 
@@ -28,4 +40,247 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fade-in elements
     const animatedElements = document.querySelectorAll('.fade-in-up, .stagger-up');
     animatedElements.forEach(el => observer.observe(el));
+
+    // --- Mystical Portfolio Logic ---
+    const projects = [
+        {
+            title: "Project 1: Connection Gateway",
+            img: "assets/portfolio_digital_art.png",
+            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sourcing and displaya tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+            title: "Project 2: Light Pulse",
+            img: "assets/portfolio_sculpture.png",
+            desc: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident."
+        },
+        {
+            title: "Project 3: Canopy Connection",
+            img: "assets/portfolio_digital_art.png",
+            desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis."
+        },
+        {
+            title: "Project 4: Floral Flow",
+            img: "assets/portfolio_sculpture.png",
+            desc: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+        }
+    ];
+
+    let currentIndex = 0;
+    const cardEl = document.getElementById("project-card");
+    const titleEl = document.getElementById("proj-title");
+    const imgEl = document.getElementById("proj-img");
+    const textEl = document.getElementById("proj-text");
+    const thumbList = document.getElementById("thumbnail-list");
+    const beamPath = document.getElementById("beam-path");
+    const mainFrame = document.getElementById("main-frame");
+
+    // Initialize Thumbnails
+    if (thumbList) {
+        projects.forEach((proj, idx) => {
+            const thumb = document.createElement("div");
+            thumb.className = "thumbnail-item";
+            thumb.style.backgroundImage = `url('${proj.img}')`;
+            if (idx === 0) thumb.classList.add("active");
+            
+            thumb.addEventListener("click", () => {
+                if (currentIndex !== idx) {
+                    currentIndex = idx;
+                    updateSlider();
+                }
+                fireBeam(thumb);
+            });
+
+            thumb.addEventListener("mouseenter", () => {
+                fireBeam(thumb);
+            });
+
+            thumbList.appendChild(thumb);
+        });
+    }
+
+    function updateSlider() {
+        if (!cardEl) return;
+        
+        // Fade out
+        cardEl.classList.add("fading");
+        
+        setTimeout(() => {
+            // Update content
+            const proj = projects[currentIndex];
+            titleEl.textContent = proj.title;
+            imgEl.src = proj.img;
+            textEl.textContent = proj.desc;
+            
+            // Update active thumbnail
+            document.querySelectorAll(".thumbnail-item").forEach((thumb, idx) => {
+                thumb.classList.toggle("active", idx === currentIndex);
+            });
+            
+            // Fade in
+            cardEl.classList.remove("fading");
+        }, 400); // Wait for CSS transition (0.4s)
+    }
+
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+            updateSlider();
+        });
+        
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % projects.length;
+            updateSlider();
+        });
+    }
+
+    // Light Beam Logic
+    let beamTimeout;
+    function fireBeam(thumbnailEl) {
+        if (!beamPath || !mainFrame) return;
+
+        const thumbRect = thumbnailEl.getBoundingClientRect();
+        const frameRect = mainFrame.getBoundingClientRect();
+        
+        // Ensure relative to viewport/document nicely via bounding rects
+        const svgRect = beamPath.ownerSVGElement.getBoundingClientRect();
+
+        // Calculate coordinates relative to SVG canvas
+        const startX = thumbRect.left + thumbRect.width / 2 - svgRect.left;
+        const startY = thumbRect.top - svgRect.top; // Top center of thumbnail
+        
+        const endX = frameRect.left + frameRect.width / 2 - svgRect.left;
+        const endY = frameRect.bottom - 20 - svgRect.top; // Bottom center of the mystical frame
+        
+        // Control point for quadratic curve to make an electric/curved beam
+        const cpX = (startX + endX) / 2 + (Math.random() * 100 - 50);
+        const cpY = startY - (startY - endY) / 2;
+
+        const pathData = `M ${startX},${startY} Q ${cpX},${cpY} ${endX},${endY}`;
+        beamPath.setAttribute("d", pathData);
+        
+        // Trigger animation
+        beamPath.classList.remove("active");
+        void beamPath.offsetWidth; // Trigger reflow
+        beamPath.classList.add("active");
+
+        // Cleanup after animation
+        clearTimeout(beamTimeout);
+        beamTimeout = setTimeout(() => {
+            beamPath.classList.remove("active");
+        }, 600);
+    }
+
+    // --- Cinematic Background Logic ---
+    const bgHero = document.getElementById('bg-hero');
+    const bgMission = document.getElementById('bg-mission');
+    const bgPortfolio = document.getElementById('bg-portfolio');
+    
+    const heroSec = document.getElementById('hero');
+    const missionSec = document.getElementById('mission');
+    const portfolioSec = document.getElementById('portfolio');
+
+    // Canvas Setup
+    const canvas = document.getElementById('particle-canvas');
+    let ctx, width, height, particles = [], scrollRatio = 0;
+    if(canvas) {
+        ctx = canvas.getContext('2d');
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Conservative Particle Array (increased slightly to 85 per user request)
+        for(let i=0; i<85; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                baseSize: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.4,
+                speedY: (Math.random() - 0.5) * 0.4 - 0.2, 
+                life: Math.random() * Math.PI * 2,
+                offset: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        if(!heroSec || !missionSec || !portfolioSec) return;
+        
+        const heroRect = heroSec.getBoundingClientRect();
+        const missionRect = missionSec.getBoundingClientRect();
+        const portfolioRect = portfolioSec.getBoundingClientRect();
+        
+        // Function to map box intersection to opacity smoothly
+        const getVisibility = (rect) => {
+            const totalH = window.innerHeight;
+            if (rect.bottom < 0 || rect.top > totalH) return 0;
+            
+            let visibleHeight = Math.min(rect.bottom, totalH) - Math.max(rect.top, 0);
+            return Math.max(0, Math.min(1, visibleHeight / totalH));
+        };
+
+        let heroOp = getVisibility(heroRect);
+        let missionOp = getVisibility(missionRect);
+        let portOp = getVisibility(portfolioRect);
+        
+        // Stacked crossfade: Bottom layers stay 1, top layers fade in.
+        if(bgMission) bgMission.style.opacity = missionOp;
+        if(bgPortfolio) bgPortfolio.style.opacity = portOp;
+
+        if(canvas) {
+            // Show particles only when we scroll past 40% of the Hero section. Hide entirely on Hero.
+            if (heroOp < 0.6) {
+                canvas.style.opacity = 1;
+            } else {
+                canvas.style.opacity = 0;
+            }
+
+            // Ratio of Mission relative to Forest
+            let phase = missionOp / (Math.max(heroOp, portOp) + missionOp || 1);
+            scrollRatio = isNaN(phase) ? 0 : phase;
+        }
+    });
+
+    if(canvas) {
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            const r = Math.floor(255 * (1 - scrollRatio) + 0 * scrollRatio);
+            const g = Math.floor(215 * (1 - scrollRatio) + 255 * scrollRatio);
+            const b = Math.floor(0 * (1 - scrollRatio) + 255 * scrollRatio);
+
+            particles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX + Math.sin(p.life * 2 + p.offset) * 0.3;
+                p.life += 0.01;
+
+                const blinkFreq = 1 + scrollRatio * 15; 
+                const alpha = Math.abs(Math.sin(p.life * blinkFreq)) * 0.7 + 0.15; 
+                const size = p.baseSize * (1 - scrollRatio * 0.5);
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, Math.max(0.1, size), 0, Math.PI * 2);
+                
+                ctx.shadowBlur = 10 * (1 - scrollRatio) + 2 * scrollRatio;
+                ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                ctx.fill();
+
+                if (p.y < -20) p.y = height + 20;
+                if (p.y > height + 20) p.y = -20;
+                if (p.x < -20) p.x = width + 20;
+                if (p.x > width + 20) p.x = -20;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+
+    setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
 });

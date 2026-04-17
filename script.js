@@ -11,14 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
             navbar.classList.remove("scrolled");
         }
 
-        if (missionSection && logoImg) {
-            const offset = window.innerWidth <= 768 ? 60 : 100;
-            if (window.scrollY >= (missionSection.offsetTop - offset)) {
-                logoImg.src = "assets/logo_transparent.png";
-            } else {
-                logoImg.src = "assets/logo_white.png";
-            }
-        }
     });
 
     // Intersection Observer for scroll animations
@@ -98,27 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const contentEl = document.querySelector(".card-content");
+
     function updateSlider() {
-        if (!cardEl) return;
+        if (!contentEl) return;
         
-        // Fade out
-        cardEl.classList.add("fading");
+        // Update content instantly without animations
+        const proj = projects[currentIndex];
+        titleEl.textContent = proj.title;
+        imgEl.src = proj.img;
+        textEl.textContent = proj.desc;
         
-        setTimeout(() => {
-            // Update content
-            const proj = projects[currentIndex];
-            titleEl.textContent = proj.title;
-            imgEl.src = proj.img;
-            textEl.textContent = proj.desc;
-            
-            // Update active thumbnail
-            document.querySelectorAll(".thumbnail-item").forEach((thumb, idx) => {
-                thumb.classList.toggle("active", idx === currentIndex);
-            });
-            
-            // Fade in
-            cardEl.classList.remove("fading");
-        }, 400); // Wait for CSS transition (0.4s)
+        // Update active thumbnail
+        document.querySelectorAll(".thumbnail-item").forEach((thumb, idx) => {
+            thumb.classList.toggle("active", idx === currentIndex);
+        });
     }
 
     const prevBtn = document.querySelector(".prev-btn");
@@ -177,10 +163,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const bgHero = document.getElementById('bg-hero');
     const bgMission = document.getElementById('bg-mission');
     const bgPortfolio = document.getElementById('bg-portfolio');
+    const bgNews = document.getElementById('bg-news');
+    const bgContact = document.getElementById('bg-contact-wrapper');
     
     const heroSec = document.getElementById('hero');
     const missionSec = document.getElementById('mission');
     const portfolioSec = document.getElementById('portfolio');
+    const newsSec = document.getElementById('news');
+    const contactSec = document.getElementById('contact');
 
     // Canvas Setup
     const canvas = document.getElementById('particle-canvas');
@@ -214,34 +204,50 @@ document.addEventListener("DOMContentLoaded", () => {
         const heroRect = heroSec.getBoundingClientRect();
         const missionRect = missionSec.getBoundingClientRect();
         const portfolioRect = portfolioSec.getBoundingClientRect();
+        const newsRect = newsSec ? newsSec.getBoundingClientRect() : null;
+        const contactRect = contactSec ? contactSec.getBoundingClientRect() : null;
         
-        // Function to map box intersection to opacity smoothly
-        const getVisibility = (rect) => {
+        // Decoupled logic: FadeIn handles cinematic stacking to prevent base-layer dips.
+        // Coverage handles precise particle system visibility.
+        
+        const getFadeIn = (rect) => {
+            if (!rect) return 0;
+            const totalH = window.innerHeight;
+            if (rect.top <= 0) return 1;           // Scrolled past top
+            if (rect.top >= totalH) return 0;      // Not yet reached
+            return 1 - (rect.top / totalH);        // Fading in
+        };
+
+        const getCoverage = (rect) => {
+            if (!rect) return 0;
             const totalH = window.innerHeight;
             if (rect.bottom < 0 || rect.top > totalH) return 0;
-            
             let visibleHeight = Math.min(rect.bottom, totalH) - Math.max(rect.top, 0);
             return Math.max(0, Math.min(1, visibleHeight / totalH));
         };
 
-        let heroOp = getVisibility(heroRect);
-        let missionOp = getVisibility(missionRect);
-        let portOp = getVisibility(portfolioRect);
-        
-        // Stacked crossfade: Bottom layers stay 1, top layers fade in.
-        if(bgMission) bgMission.style.opacity = missionOp;
-        if(bgPortfolio) bgPortfolio.style.opacity = portOp;
+        // Stacked crossfade: Bottom layers stay 1, preventing the lowest video from showing through
+        if(bgMission) bgMission.style.opacity = getFadeIn(missionRect);
+        if(bgPortfolio) bgPortfolio.style.opacity = getFadeIn(portfolioRect);
+        if(bgNews) bgNews.style.opacity = getFadeIn(newsRect);
+        if(bgContact) bgContact.style.opacity = getFadeIn(contactRect);
+
+        let heroCov = getCoverage(heroRect);
+        let missionCov = getCoverage(missionRect);
+        let portCov = getCoverage(portfolioRect);
+        let newsCov = getCoverage(newsRect);
+        let contactCov = getCoverage(contactRect);
 
         if(canvas) {
-            // Show particles only when we scroll past 40% of the Hero section. Hide entirely on Hero.
-            if (heroOp < 0.6) {
-                canvas.style.opacity = 1;
-            } else {
+            // Show particles only on Mission and Portfolio. Hide on Hero, News, and Contact.
+            if (heroCov > 0.6 || newsCov > 0.3 || contactCov > 0.1) {
                 canvas.style.opacity = 0;
+            } else {
+                canvas.style.opacity = 1;
             }
 
             // Ratio of Mission relative to Forest
-            let phase = missionOp / (Math.max(heroOp, portOp) + missionOp || 1);
+            let phase = missionCov / (Math.max(heroCov, portCov) + missionCov || 1);
             scrollRatio = isNaN(phase) ? 0 : phase;
         }
     });
@@ -280,6 +286,42 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animate);
         }
         animate();
+    }
+
+    // --- Portfolio Modal Logic ---
+    const learnBtn = document.querySelector('.btn-learn');
+    const modal = document.getElementById('portfolio-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modalImg = document.getElementById('modal-img');
+    const modalDesc = document.getElementById('modal-desc');
+
+    if (learnBtn && modal) {
+        learnBtn.addEventListener('click', () => {
+            // Update modal content to match selected project
+            modalImg.src = projects[currentIndex].img;
+            modalDesc.innerText = "Artist's Note: " + projects[currentIndex].desc;
+            
+            modal.style.display = 'flex';
+            // Slight delay to trigger CSS fade-in & scale-up
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+            
+            // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 500); // Matches CSS 0.5s transition
+        };
+
+        modalClose.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
     }
 
     setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);

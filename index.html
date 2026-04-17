@@ -22,6 +22,13 @@
         <video id="bg-portfolio" autoplay muted loop playsinline class="cinematic-video" style="opacity: 0;">
             <source src="assets/portfolio-bg.mp4" type="video/mp4">
         </video>
+        <div id="bg-news" class="cinematic-video" style="opacity: 0; background: #fafafa;"></div>
+        <div id="bg-contact-wrapper" class="cinematic-video" style="opacity: 0;">
+            <video autoplay muted loop playsinline class="cinematic-video" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+                <source src="assets/contact-bg.mp4" type="video/mp4">
+            </video>
+            <div class="contact-overlay"></div>
+        </div>
     </div>
     <canvas id="particle-canvas"></canvas>
 
@@ -29,7 +36,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#hero" class="logo">
-                <img src="assets/logo_white.png" alt="B-Glow Logo">
+                <img src="assets/logo_transparent.png" alt="B-Glow Logo">
             </a>
             <ul class="nav-links">
                 <li><a href="#mission">Mission</a></li>
@@ -119,10 +126,6 @@
             </svg>
 
             <div class="container portfolio-mystical">
-                <div class="portfolio-header fade-in-up">
-                    <h2 class="section-heading light mb-1">Portfolio Site.</h2>
-                    <p class="subtitle">Light Link Projects</p>
-                </div>
                 
                 <div class="mystical-window-wrapper fade-in-up delay-1">
                     <button class="slider-btn prev-btn">&lt;</button>
@@ -156,7 +159,7 @@
         </section>
 
         <!-- News Section -->
-        <section id="news" class="section news">
+        <section id="news" class="section news bg-transparent">
             <div class="container">
                 <div class="news-header fade-in-up">
                     <h2 class="section-heading">News.</h2>
@@ -189,9 +192,9 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="section contact bg-dark">
-            <div class="container container-medium">
-                <h2 class="section-heading light fade-in-up">Collaborate.</h2>
+        <section id="contact" class="section contact bg-transparent">
+            <div class="container container-medium" style="position: relative; z-index: 2;">
+                <h2 class="section-heading fade-in-up">Collaborate.</h2>
                 <div class="contact-grid">
                     <div class="contact-info fade-in-up delay-1">
                         <p class="contact-intro">We are always looking to partner with visionary artists, wellness practitioners, and forward-thinking brands.</p>
@@ -227,14 +230,28 @@
                     </form>
                 </div>
             </div>
-        </section>
         
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2026 B-Glow. All rights reserved.</p>
-            </div>
-        </footer>
+            <footer class="footer">
+                <div class="container">
+                    <p>&copy; 2026 B-Glow. All rights reserved.</p>
+                </div>
+            </footer>
+        </section>
     </main>
+
+    <!-- Portfolio Overlay Modal -->
+    <div id="portfolio-modal" class="portfolio-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <button class="modal-close" id="modal-close">&times;</button>
+        <div class="modal-content">
+            <div class="modal-img-wrap">
+                <img id="modal-img" src="" alt="Project Full Image">
+            </div>
+            <div class="modal-text">
+                <p id="modal-desc">Artist Note</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | B-Glow</title>
+    <meta name="description"
+        content="B-Glow is a small arts collective dedicated to the idea that creation begins with recognition, not ambition.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="about-page">
+    <!-- Fixed cinematic background: mission-bg video stays visible throughout -->
+    <div id="cinematic-bg">
+        <video class="cinematic-video" autoplay muted loop playsinline style="opacity: 1;">
+            <source src="assets/mission-bg.mp4" type="video/mp4">
+        </video>
+    </div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_transparent.png" alt="B-Glow Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="nav-active">About</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#news">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support"
+                        target="_blank" rel="noopener">Donate</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. Intro Hero -->
+        <section class="about-section about-intro">
+            <div class="about-intro-content">
+                <h1 class="about-intro-headline fade-in-up">
+                    You are already Luminous.
+                </h1>
+                <p class="about-intro-body fade-in-up delay-1">
+                    Arts help you rediscover it.
+                </p>
+                <p class="about-intro-sub fade-in-up delay-2">
+                    B-Glow is a small arts collective dedicated to the idea<br>
+                    that creation begins with recognition, not ambition.
+                </p>
+            </div>
+            <a href="#philosophy" class="about-scroll-cue fade-in-up delay-3" aria-label="Scroll down">&darr;</a>
+        </section>
+
+        <!-- 2. Philosophy -->
+        <section id="philosophy" class="about-section about-philosophy">
+            <div class="about-editorial">
+                <span class="about-label fade-in-up">01 &middot; Philosophy</span>
+                <div class="about-body-text">
+                    <blockquote class="philosophy-pullquote fade-in-up delay-1">
+                        "Be yourself, at your own pace."
+                    </blockquote>
+                    <p class="fade-in-up delay-2">
+                        Art is not a tool for creating something new. It is a mirror that awakens the light already
+                        within you.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Our Direction -->
+        <section class="about-section about-direction">
+            <div class="about-editorial">
+                <span class="about-label fade-in-up">02 &middot; Our Direction</span>
+                <div class="about-body-text">
+                    <blockquote class="philosophy-pullquote fade-in-up delay-1">
+                        "Art for Everyone."
+                    </blockquote>
+                    <p class="fade-in-up delay-2">
+                        We create immersive experiences where anyone can connect, reflect, and shine. Art belongs to
+                        all of us.
+                    </p>
+                    <a href="index.html#portfolio" class="about-direction-cta fade-in-up delay-3">See our program
+                        &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Founder's Story -->
+        <section class="about-section about-founder">
+            <div class="about-founder-content">
+                <span class="about-label fade-in-up">03 &middot; Founder's Story</span>
+                <div class="founder-layout">
+                    <div class="founder-portrait fade-in-up delay-1">
+                        <img src="assets/founder-portrait.jpg" alt="Soohyun Aria Jo, Founder of B-Glow">
+                    </div>
+                    <div class="founder-text">
+                        <p class="founder-opener fade-in-up delay-2">B-Glow began with a question.</p>
+                        <p class="fade-in-up delay-3">
+                            While pursuing her Master of Music in Classical Voice at Manhattan School of Music, Soohyun
+                            Aria Jo constantly asked herself:
+                        </p>
+                        <blockquote class="founder-quote fade-in-up delay-3">
+                            "What kind of positive influence can I, as an individual, offer to others in this world?"
+                        </blockquote>
+                        <p class="fade-in-up delay-4">
+                            Her answer was <em>Art</em>. Art is a space where the inherent sparkle within each of us is
+                            revealed and empowered. This brilliance is not an external force but an internal energy:
+                            the essence of one's true self. By encouraging constant self-observation and understanding,
+                            art helps release suppressed emotions. Through the mirror of art, audiences can finally set
+                            aside their social masks and begin to breathe as their authentic selves.
+                        </p>
+                        <p class="fade-in-up delay-4">
+                            Through the window of art, she hopes people find hope, consolation, and heartfelt
+                            encouragement. In a world where our individual light is often dimmed by the frantic pace of
+                            life, B-Glow strives to help everyone rediscover their own glow and live according to their
+                            unique nature. We are here to help people discover their potential and cultivate the
+                            strength to live a more meaningful life.
+                        </p>
+                        <blockquote class="founder-quote founder-closer fade-in-up delay-4">
+                            "I want to help people rediscover the light in their own eyes, and feel the true value of
+                            this life."
+                        </blockquote>
+                        <p class="founder-signature fade-in-up delay-4">Soohyun Aria Jo, Founder</p>
+                        <a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support"
+                            class="founder-cta fade-in-up delay-4" target="_blank" rel="noopener">Stand with this
+                            vision &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Closing CTA -->
+        <section class="about-section about-closing">
+            <div class="about-closing-content">
+                <h2 class="about-closing-line fade-in-up">Be glow, at your own pace.</h2>
+                <div class="about-cta-row fade-in-up delay-1">
+                    <a href="index.html#portfolio" class="about-cta">See what we've made &rarr;</a>
+                    <a href="index.html#contact" class="about-cta">Come talk to us &rarr;</a>
+                    <a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" class="about-cta"
+                        target="_blank" rel="noopener">Support our vision &rarr;</a>
+                </div>
+                <a href="index.html" class="about-back-link fade-in-up delay-2">&larr; Back to home</a>
+            </div>
+            <footer class="footer">
+                <div class="container">
+                    <p>&copy; 2026 B-Glow. All rights reserved. &middot;
+                        <a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support"
+                            class="footer-link" target="_blank" rel="noopener">Support our vision</a>
+                    </p>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,12 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div id="cinematic-bg">
         <video id="bg-hero" autoplay muted loop playsinline class="cinematic-video">
@@ -24,7 +28,8 @@
         </video>
         <div id="bg-news" class="cinematic-video" style="opacity: 0; background: #fafafa;"></div>
         <div id="bg-contact-wrapper" class="cinematic-video" style="opacity: 0;">
-            <video autoplay muted loop playsinline class="cinematic-video" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+            <video autoplay muted loop playsinline class="cinematic-video"
+                style="position: absolute; top:0; left:0; width:100%; height:100%;">
                 <source src="assets/contact-bg.mp4" type="video/mp4">
             </video>
             <div class="contact-overlay"></div>
@@ -70,25 +75,28 @@
             <div class="mission-overlay"></div>
             <div class="container container-medium mission-content">
                 <div class="mission-text-blocks">
-                    <h2 class="mission-headline fade-in-up">You already possess your own brilliance.<br>Arts help you rediscover it.</h2>
-                    
+                    <h2 class="mission-headline fade-in-up">You already possess your own brilliance.<br>Arts help you
+                        rediscover it.</h2>
+
                     <div class="mission-desc accordion-item fade-in-up delay-1">
                         <button class="accordion-header">
                             <h3>Philosophy</h3>
                             <span class="icon">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p>Be yourself, at your own pace. Art is not a tool for creating something new; it is a mirror that awakens the light already within you.</p>
+                            <p><i>Be yourself, at your own pace.</i> Art is not a tool for creating something new; it is
+                                a mirror that awakens the light already within you.</p>
                         </div>
                     </div>
-                    
+
                     <div class="mission-desc accordion-item fade-in-up delay-2">
                         <button class="accordion-header">
                             <h3>Our Direction</h3>
                             <span class="icon">+</span>
                         </button>
                         <div class="accordion-content">
-                            <p>Making arts more accessible. Art is not for the few; it belongs to everyone. We create experiences where anyone can connect, reflect, and awaken.</p>
+                            <p>Making arts more accessible. Art is not for the few; it belongs to everyone. We create
+                                experiences where anyone can connect, reflect, and awaken.</p>
                         </div>
                     </div>
                 </div>
@@ -105,6 +113,18 @@
                         <span>Glow</span>
                     </div>
                 </div>
+
+                <h3 class="core-values-title fade-in-up delay-4" style="margin-top: 60px;">Our Team</h3>
+                <div class="team-container fade-in-up delay-4">
+                    <div class="team-circle" data-team="member1">
+                        <img src="assets/portfolio_digital_art.png" alt="Team Member 1">
+                        <div class="team-overlay"><span>Alex</span></div>
+                    </div>
+                    <div class="team-circle" data-team="member2">
+                        <img src="assets/news_editorial.png" alt="Team Member 2">
+                        <div class="team-overlay"><span>Sam</span></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -114,19 +134,19 @@
             <!-- Beam Canvas for SVG drawing -->
             <svg class="beam-canvas" width="100%" height="100%">
                 <defs>
-                   <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                       <feGaussianBlur stdDeviation="3" result="blur"/>
-                       <feMerge>
-                           <feMergeNode in="blur"/>
-                           <feMergeNode in="SourceGraphic"/>
-                       </feMerge>
-                   </filter>
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
                 </defs>
                 <path id="beam-path" class="light-beam" d="" filter="url(#glow)"></path>
             </svg>
 
             <div class="container portfolio-mystical">
-                
+
                 <div class="mystical-window-wrapper fade-in-up delay-1">
                     <button class="slider-btn prev-btn">&lt;</button>
                     <!-- Magical Wooden Frame -->
@@ -162,8 +182,8 @@
         <section id="news" class="section news bg-transparent">
             <div class="container">
                 <div class="news-header fade-in-up">
-                    <h2 class="section-heading">News.</h2>
-                    <a href="#" class="view-all">View All Articles</a>
+                    <h2 class="section-heading">Events</h2>
+                    <a href="#" class="view-all">View All Events</a>
                 </div>
                 <div class="article-grid">
                     <article class="article-card fade-in-up delay-1">
@@ -173,7 +193,8 @@
                         <div class="article-content">
                             <span class="date">October 15, 2026</span>
                             <h3>The Symmetry of Silence: New Exhibition Opening</h3>
-                            <p>Join us for an exploration of spatial design and mindful observation in our latest gallery presentation.</p>
+                            <p>Join us for an exploration of spatial design and mindful observation in our latest
+                                gallery presentation.</p>
                         </div>
                     </article>
                     <article class="article-card fade-in-up delay-2">
@@ -184,7 +205,8 @@
                         <div class="article-content">
                             <span class="date">September 28, 2026</span>
                             <h3>Art & Wellness Retreat Highlights</h3>
-                            <p>A look back at our transformative weekend blending creative workshops with intensive meditation.</p>
+                            <p>A look back at our transformative weekend blending creative workshops with intensive
+                                meditation.</p>
                         </div>
                     </article>
                 </div>
@@ -194,10 +216,11 @@
         <!-- Contact Section -->
         <section id="contact" class="section contact bg-transparent">
             <div class="container container-medium" style="position: relative; z-index: 2;">
-                <h2 class="section-heading fade-in-up">Collaborate.</h2>
+                <h2 class="section-heading fade-in-up">Contact Us</h2>
                 <div class="contact-grid">
                     <div class="contact-info fade-in-up delay-1">
-                        <p class="contact-intro">We are always looking to partner with visionary artists, wellness practitioners, and forward-thinking brands.</p>
+                        <p class="contact-intro">We are always looking to partner with visionary artists, wellness
+                            practitioners, and forward-thinking brands.</p>
                         <div class="contact-details">
                             <p><strong>General Inquiries</strong><br>hello@bglow.art</p>
                             <p><strong>Partnerships</strong><br>collaborate@bglow.art</p>
@@ -226,11 +249,12 @@
                             <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
                             <label for="message">Your Message</label>
                         </div>
-                        <button type="submit" class="submit-btn" onclick="event.preventDefault();">Send Proposal</button>
+                        <button type="submit" class="submit-btn" onclick="event.preventDefault();">Send
+                            Proposal</button>
                     </form>
                 </div>
             </div>
-        
+
             <footer class="footer">
                 <div class="container">
                     <p>&copy; 2026 B-Glow. All rights reserved.</p>
@@ -253,6 +277,23 @@
         </div>
     </div>
 
+    <!-- Team Detail Modal -->
+    <div id="team-modal" class="team-modal">
+        <div class="team-modal-backdrop" id="team-modal-backdrop"></div>
+        <button class="team-modal-close" id="team-modal-close">close</button>
+        <div class="team-modal-content">
+            <div class="team-modal-left">
+                <img id="team-modal-img" src="" alt="Team Member">
+            </div>
+            <div class="team-modal-right">
+                <h3 id="team-modal-name">Name</h3>
+                <p id="team-modal-role">Role</p>
+                <div class="team-modal-story" id="team-modal-story">Story goes here...</div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>

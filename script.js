@@ -325,4 +325,73 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
+
+    // --- Accordion Logic ---
+    const accordions = document.querySelectorAll('.accordion-header');
+    accordions.forEach(acc => {
+        acc.addEventListener('click', function() {
+            // Close other accordions if needed, but currently allowing multiple
+            const item = this.parentElement;
+            item.classList.toggle('active');
+        });
+    });
+
+    // --- Team Modal Logic ---
+    const teamData = {
+        member1: {
+            name: "Alex",
+            role: "Founder & Creative Director",
+            img: "assets/portfolio_digital_art.png",
+            story: "Alex has always believed that art is a mirror reflecting our inner light. With a background in digital arts and mindfulness, they founded B-GLOW to create spaces where people can discover themselves through immersive experiences."
+        },
+        member2: {
+            name: "Sam",
+            role: "Head of Operations & Wellness",
+            img: "assets/news_editorial.png",
+            story: "Sam brings a unique blend of operational excellence and wellness practices to B-GLOW. Their journey started in clinical psychology before pivoting to experiential art therapy, ensuring every project deeply resonates with the audience."
+        }
+    };
+
+    const teamCircles = document.querySelectorAll('.team-circle');
+    const teamModal = document.getElementById('team-modal');
+    const teamModalClose = document.getElementById('team-modal-close');
+    const teamModalBackdrop = document.getElementById('team-modal-backdrop');
+    
+    const teamModalImg = document.getElementById('team-modal-img');
+    const teamModalName = document.getElementById('team-modal-name');
+    const teamModalRole = document.getElementById('team-modal-role');
+    const teamModalStory = document.getElementById('team-modal-story');
+
+    if (teamCircles && teamModal) {
+        teamCircles.forEach(circle => {
+            circle.addEventListener('click', () => {
+                const memberKey = circle.getAttribute('data-team');
+                const member = teamData[memberKey];
+                
+                if (member) {
+                    teamModalImg.src = member.img;
+                    teamModalName.textContent = member.name;
+                    teamModalRole.textContent = member.role;
+                    teamModalStory.textContent = member.story;
+                }
+
+                teamModal.style.display = 'flex';
+                setTimeout(() => {
+                    teamModal.classList.add('active');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const closeTeamModal = () => {
+            teamModal.classList.remove('active');
+            setTimeout(() => {
+                teamModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 400); // match transition duration
+        };
+
+        if (teamModalClose) teamModalClose.addEventListener('click', closeTeamModal);
+        if (teamModalBackdrop) teamModalBackdrop.addEventListener('click', closeTeamModal);
+    }
 });

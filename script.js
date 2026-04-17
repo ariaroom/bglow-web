@@ -13,6 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+    // Nav link click feedback (adds .clicked for 400ms)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function() {
+            this.classList.add('clicked');
+            setTimeout(() => this.classList.remove('clicked'), 400);
+        });
+    });
+
     // Intersection Observer for scroll animations
     const observerOptions = {
         root: null,

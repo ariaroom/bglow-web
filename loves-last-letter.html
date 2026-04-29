@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love's Last Letter | B-Glow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .detail-hero {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .detail-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            z-index: 1;
+        }
+
+        .detail-content {
+            position: relative;
+            z-index: 10;
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+            font-weight: 600;
+        }
+
+        .detail-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 4rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .detail-desc {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .detail-desc .lead {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        .detail-desc .text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .detail-desc .quote {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            line-height: 1.4;
+            color: #ab724b;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Gallery Section Styles */
+        .gallery-section {
+            padding: 8rem 10%;
+            background: #faf9f6;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            gap: 10rem;
+        }
+
+        .gallery-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 5rem;
+            position: relative;
+        }
+
+        .gallery-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .gallery-img-wrap {
+            flex: 1.8;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .gallery-img-wrap img,
+        .gallery-img-wrap video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-img-wrap img {
+            cursor: zoom-in;
+        }
+
+        .gallery-img-wrap img:hover,
+        .gallery-img-wrap video:hover {
+            transform: translateY(-8px) scale(1.02);
+            z-index: 10;
+        }
+
+        .gallery-text-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 5rem;
+            align-self: flex-start;
+        }
+
+        .theme-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #222222;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 0.8rem;
+        }
+
+        .gallery-text-placeholder {
+            min-height: auto;
+            padding: 0.8rem 0 0.8rem 1.2rem;
+            border-left: 1px solid rgba(0, 0, 0, 0.15);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: rgba(0, 0, 0, 0.8);
+            transition: background 0.3s ease;
+        }
+
+        .desc-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #222;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            white-space: nowrap;
+        }
+
+        .gallery-text-placeholder p {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            text-align: left;
+        }
+
+        .gallery-text-placeholder p:last-child {
+            margin-bottom: 0;
+        }
+
+        .interactive-note {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(0, 0, 0, 0.03);
+            border-left: 3px solid #ab724b;
+            font-style: italic;
+            color: #333;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .lightbox.active .lightbox-img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            color: white;
+            font-size: 3.5rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            color: #d9a066;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            text-align: center;
+        }
+
+        .scroll-indicator a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .scroll-indicator a:hover {
+            color: #ffffff;
+        }
+
+        .scroll-arrow-svg {
+            animation: bounce 2s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-12px);
+            }
+
+            60% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 900px) {
+
+            .gallery-item,
+            .gallery-item:nth-child(even) {
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            .gallery-section {
+                gap: 6rem;
+                padding: 5rem 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_transparent.png" alt="B-Glow Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#news">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" target="_blank"
+                        rel="noopener">Donate</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="detail-hero">
+        <video class="detail-video" src="assets/포폴사랑의 유서 썸네일.mov" autoplay muted loop playsinline></video>
+        <div class="detail-content">
+            <div class="detail-desc">
+                <p class="quote fade-in-up">A final opportunity to say “I’m sorry,” “Thank you,” and “I love you.”</p>
+            </div>
+        </div>
+
+        <div class="scroll-indicator fade-in-up delay-1">
+            <a href="#exhibition-gallery" aria-label="Scroll down to gallery">
+                <svg width="28" height="40" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="scroll-arrow-svg">
+                    <path d="M12 0L12 38M12 38L2 28M12 38L22 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Exhibition Gallery Section -->
+    <section class="gallery-section" id="exhibition-gallery">
+        <!-- Theme 1: Nature -->
+        <div class="gallery-item">
+            <div class="gallery-img-wrap fade-in-up">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/자연1.jpg" alt="Nature 1">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/자연2.jpg" alt="Nature 2">
+            </div>
+            <div class="gallery-text-wrap fade-in-up delay-1">
+                <h3 class="theme-title">Nature</h3>
+                <div class="gallery-text-placeholder">
+                    <h4 class="desc-subtitle">Nature <span style="font-family: 'Inter', sans-serif;">&</span> Resilience (The Inherent Light)</h4>
+                    <p>Digital photography and video capturing the emerald sea and "Yoonseul" (shimmering reflection
+                        of
+                        sunlight on water) symbolize the world's inherent beauty.</p>
+                    <p>Just like nature shines in its pure state, this work shows that no matter how difficult life
+                        becomes, our innate brilliance and value never fade and remains unchanged.</p>
+                    <p>The majesty of nature acts as a catalyst to rebuild our will to breathe and move forward,
+                        proving
+                        that, even in the darkest moments, our value is never lost.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme 2: Dog -->
+        <div class="gallery-item">
+            <div class="gallery-img-wrap fade-in-up">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/강아지1.JPG" alt="Dog 1">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/강아지 2.jpg" alt="Dog 2">
+            </div>
+            <div class="gallery-text-wrap fade-in-up delay-1">
+                <h3 class="theme-title">Dog</h3>
+                <div class="gallery-text-placeholder">
+                    <h4 class="desc-subtitle">Unconditional Love (An Expanding Universe)</h4>
+                    <p>This piece explores the infinite expansion of love and the profound comfort found in a companion animal. A pet is living proof of how our inner worlds broaden as the circle of those we love grows. The shift in perspective finding joy in the small, fleeting lives around us is the purest transformation of worldview taught to us by these companions.</p>
+                    <p>The work pays tribute to a being who conveyed a wholeness of love through a silent, deep gaze. Their devotion, where their entire world centered on "me," and the human regret of not fully grasping that heart, are sublimated into a solemn promise of eternal reunion.</p>
+                    <p>Ultimately, a companion is more than a pet; they are mentors of pure love and a gateway to the world’s hidden beauty. The bond they leave behind sustains the soul, remaining as an inextinguishable warmth within our gaze.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme 3: Lover -->
+        <div class="gallery-item">
+            <div class="gallery-img-wrap fade-in-up">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/연인1.png" alt="Lover 1">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/연인2.PNG" alt="Lover 2">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/연인3.jpg" alt="Lover 3">
+            </div>
+            <div class="gallery-text-wrap fade-in-up delay-1">
+                <h3 class="theme-title">Lover</h3>
+                <div class="gallery-text-placeholder">
+                    <h4 class="desc-subtitle">Love <span style="font-family: 'Inter', sans-serif;">&</span> Connection (Sanctuary and Growth)</h4>
+                    <p>A depiction of a couple laughing and locking eyes amidst a heavy downpour reveals that true love is being happy as long as you are together, even in the middle of a storm.</p>
+                    <p>Standing before the purity of love, we finally shed our social masks to rediscover our most innocent selves. This profound immersion allows us to realize who we truly are and provides a sacred space for spiritual growth, proving that the strength to endure any "storm" is already ignited by the presence of another.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme 4: Mom -->
+        <div class="gallery-item">
+            <div class="gallery-img-wrap fade-in-up">
+                <img src="assets/exhibition_photos_ordered/엄마1.jpg" alt="Mom 1">
+                <img src="assets/exhibition_photos_ordered/사랑의 유서 사진 인화/수현 엄마 사진 2.JPG" alt="Mom 2">
+            </div>
+            <div class="gallery-text-wrap fade-in-up delay-1">
+                <h3 class="theme-title">Mom</h3>
+                <div class="gallery-text-placeholder">
+                    <h4 class="desc-subtitle">The Mother (Inheritance <span style="font-family: 'Inter', sans-serif;">&</span> Independence)</h4>
+                    <p>This collection of painting and photography explores the inheritance of love and the journey toward independence. The mother, composed of purples, blues, and mints, reflects her own history and unique identity. The child, primarily in vibrant yellows and reds, carries strokes of the mother's colors, symbolizing the profound influence and genetic bond they share.</p>
+                    <p>Above them, white star-looking fragments are actually falling stones that represents life’s hardships. While the mother once shielded the child from these stones, the painting captures the inevitable nature when the child, now grown, must leave that embrace. It is a poignant reminder that every individual must eventually face the world's challenges with their own strength, carrying the light they inherited into their own dazzling future</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme 5: Me -->
+        <div class="gallery-item">
+            <div class="gallery-img-wrap fade-in-up">
+                <img src="assets/exhibition_photos_ordered/me_concept.png" alt="Me - Vocal Performance Concept">
+                <video src="assets/exhibition_photos_ordered/The Final Awakening (Interactive Performance).mov" controls
+                    preload="metadata"></video>
+            </div>
+            <div class="gallery-text-wrap fade-in-up delay-1">
+                <h3 class="theme-title">Myself</h3>
+                <div class="gallery-text-placeholder">
+                    <h4 class="desc-subtitle">The Final Awakening (Interactive Performance)</h4>
+                    <p>The performance video captures the ultimate realization: that the person we love most is, in
+                        fact, ourselves. Our past struggles were born from a deep desire to be happy and a profound love
+                        for our own existence. In this installation, the performance begins only when an audience member
+                        places a white flower into a vase a symbolic ritual of honoring one’s life and awakening their
+                        suppressed inner song.</p>
+                    <p>This interaction transforms the "last letter" into a courageous declaration of self-forgiveness
+                        and self-love. Ultimately, this work proves the core mission of B-Glow: that every life is
+                        already luminous, and every individual possesses an innate brilliance waiting to be
+                        rediscovered.</p>
+                    <div class="interactive-note">
+                        <strong>Interactive Instruction:</strong> The song begins only when an audience member places a
+                        white flower into the vase.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" id="lightbox-img" src="">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.querySelector('.lightbox-close');
+            const images = document.querySelectorAll('.gallery-img-wrap img');
+
+            images.forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightbox.style.display = 'flex';
+                    setTimeout(() => lightbox.classList.add('active'), 10);
+                });
+            });
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                setTimeout(() => lightbox.style.display = 'none', 300);
+            };
+
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target !== lightboxImg) closeLightbox();
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

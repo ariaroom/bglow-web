@@ -801,7 +801,7 @@ h3,
 }
 
 .proj-img-wrap {
-    flex: 1;
+    flex: 1.5;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -812,6 +812,13 @@ h3,
     height: 100%;
     aspect-ratio: 4/3;
     object-fit: cover;
+    display: block;
+}
+
+.proj-img-wrap video {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
     display: block;
 }
 
@@ -832,21 +839,24 @@ h3,
     align-self: flex-start;
     padding: 0.6rem 1.5rem;
     background: transparent;
-    border: 2px solid #1a1a1a;
-    color: #1a1a1a;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    color: rgba(0, 0, 0, 0.9);
     border-radius: 25px;
     cursor: pointer;
     font-family: var(--font-body);
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.85rem;
+    margin-top: 3rem; /* Push down */
+    white-space: nowrap;
 }
 
 .btn-learn:hover {
-    background: #1a1a1a;
-    color: white;
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a1a1a;
+    border-color: rgba(0, 0, 0, 0.5);
 }
 
 .portfolio-header {

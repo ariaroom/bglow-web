@@ -5,12 +5,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const missionSection = document.getElementById("mission");
     
     window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
+        let threshold = 50;
+
+        // On the portfolio detail page, wait until the hero section is scrolled past
+        const detailHero = document.querySelector('.detail-hero');
+        if (detailHero) {
+            // Subtract navbar height so it triggers exactly when the white background reaches the top of the screen/navbar
+            threshold = detailHero.offsetHeight - navbar.offsetHeight;
+        }
+
+        if (window.scrollY > threshold) {
             navbar.classList.add("scrolled");
         } else {
             navbar.classList.remove("scrolled");
         }
-
     });
 
     // Nav link click feedback (adds .clicked for 400ms)
@@ -44,9 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Mystical Portfolio Logic ---
     const projects = [
         {
-            title: "Project 1: Connection Gateway",
-            img: "assets/portfolio_digital_art.png",
-            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sourcing and displaya tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+            title: "<div style=\"font-family: 'Playfair Display', 'Cormorant', serif; line-height: 1.1;\">Love's Last Letter</div><div style='font-family: \"Inter\", sans-serif; font-size: 0.45em; font-weight: 400; color: #666; letter-spacing: 0.5px; margin-top: 0.2rem;'>An immersive archive of love, memory, and voice.</div>",
+            img: "assets/포폴사랑의 유서 썸네일.mov",
+            url: "loves-last-letter.html",
+            desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-family: \"Playfair Display\", \"Cormorant\", serif; font-size: 1.45rem; font-weight: 400; line-height: 1.4; color: #1a1a1a; letter-spacing: -0.5px;'>An Immersive Exhibition<br><span style='font-family: \"Inter\", sans-serif; font-weight: 300; font-size: 1.35rem;'>&</span> Vocal Performance</p><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>Exploring the multifaceted layers of love from nature and family to our cherished companions.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>A final opportunity to say “I’m sorry,” “Thank you,” and “I love you.”</p></div>"
         },
         {
             title: "Project 2: Light Pulse",
@@ -69,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardEl = document.getElementById("project-card");
     const titleEl = document.getElementById("proj-title");
     const imgEl = document.getElementById("proj-img");
+    const videoEl = document.getElementById("proj-video");
     const textEl = document.getElementById("proj-text");
     const thumbList = document.getElementById("thumbnail-list");
     const beamPath = document.getElementById("beam-path");
@@ -79,7 +89,32 @@ document.addEventListener("DOMContentLoaded", () => {
         projects.forEach((proj, idx) => {
             const thumb = document.createElement("div");
             thumb.className = "thumbnail-item";
-            thumb.style.backgroundImage = `url('${proj.img}')`;
+            
+            if (proj.img.endsWith('.mov') || proj.img.endsWith('.mp4')) {
+                const vid = document.createElement('video');
+                vid.src = proj.img;
+                vid.autoplay = true;
+                vid.muted = true;
+                vid.loop = true;
+                vid.playsInline = true;
+                vid.style.width = '100%';
+                vid.style.height = '100%';
+                vid.style.objectFit = 'contain';
+                vid.style.pointerEvents = 'none';
+                
+                vid.addEventListener('timeupdate', function() {
+                    // Loop naturally without black screen
+                    if (this.duration && this.currentTime >= this.duration - 0.15) {
+                        this.currentTime = 0;
+                        this.play();
+                    }
+                });
+                
+                thumb.appendChild(vid);
+            } else {
+                thumb.style.backgroundImage = `url('${proj.img}')`;
+            }
+            
             if (idx === 0) thumb.classList.add("active");
             
             thumb.addEventListener("click", () => {
@@ -105,15 +140,37 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Update content instantly without animations
         const proj = projects[currentIndex];
-        titleEl.textContent = proj.title;
-        imgEl.src = proj.img;
-        textEl.textContent = proj.desc;
+        titleEl.innerHTML = proj.title;
+        
+        if (proj.img.endsWith('.mov') || proj.img.endsWith('.mp4')) {
+            imgEl.style.display = 'none';
+            videoEl.src = proj.img;
+            videoEl.style.display = 'block';
+            
+            // Loop naturally without black screen for main video
+            videoEl.ontimeupdate = function() {
+                if (videoEl.duration && videoEl.currentTime >= videoEl.duration - 0.15) {
+                    videoEl.currentTime = 0;
+                    videoEl.play();
+                }
+            };
+        } else {
+            videoEl.style.display = 'none';
+            videoEl.ontimeupdate = null;
+            imgEl.src = proj.img;
+            imgEl.style.display = 'block';
+        }
+        
+        textEl.innerHTML = proj.desc;
         
         // Update active thumbnail
         document.querySelectorAll(".thumbnail-item").forEach((thumb, idx) => {
             thumb.classList.toggle("active", idx === currentIndex);
         });
     }
+
+    // Call it initially to sync the UI with the first project
+    updateSlider();
 
     const prevBtn = document.querySelector(".prev-btn");
     const nextBtn = document.querySelector(".next-btn");
@@ -302,13 +359,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalClose = document.getElementById('modal-close');
     const modalBackdrop = document.getElementById('modal-backdrop');
     const modalImg = document.getElementById('modal-img');
+    const modalVideo = document.getElementById('modal-video');
     const modalDesc = document.getElementById('modal-desc');
 
     if (learnBtn && modal) {
         learnBtn.addEventListener('click', () => {
+            const proj = projects[currentIndex];
+            
+            // If project has a specific URL, open it in a new tab instead of showing the modal
+            if (proj.url) {
+                window.open(proj.url, '_blank');
+                return;
+            }
+            
             // Update modal content to match selected project
-            modalImg.src = projects[currentIndex].img;
-            modalDesc.innerText = "Artist's Note: " + projects[currentIndex].desc;
+            if (proj.img.endsWith('.mov') || proj.img.endsWith('.mp4')) {
+                modalImg.style.display = 'none';
+                modalVideo.src = proj.img;
+                modalVideo.style.display = 'block';
+                
+                // Loop naturally without black screen for modal video
+                modalVideo.ontimeupdate = function() {
+                    if (modalVideo.duration && modalVideo.currentTime >= modalVideo.duration - 0.15) {
+                        modalVideo.currentTime = 0;
+                        modalVideo.play();
+                    }
+                };
+            } else {
+                modalVideo.style.display = 'none';
+                modalVideo.ontimeupdate = null;
+                modalImg.src = proj.img;
+                modalImg.style.display = 'block';
+            }
+            modalDesc.innerHTML = "<strong>Artist's Note:</strong><br><br>" + proj.desc;
             
             modal.style.display = 'flex';
             // Slight delay to trigger CSS fade-in & scale-up

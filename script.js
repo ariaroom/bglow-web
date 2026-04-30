@@ -58,19 +58,22 @@ document.addEventListener("DOMContentLoaded", () => {
             desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-family: \"Playfair Display\", \"Cormorant\", serif; font-size: 1.45rem; font-weight: 400; line-height: 1.4; color: #1a1a1a; letter-spacing: -0.5px;'>An Immersive Exhibition<br><span style='font-family: \"Inter\", sans-serif; font-weight: 300; font-size: 1.35rem;'>&</span> Vocal Performance</p><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>Exploring the multifaceted layers of love from nature and family to our cherished companions.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>A final opportunity to say “I’m sorry,” “Thank you,” and “I love you.”</p></div>"
         },
         {
-            title: "Project 2: Light Pulse",
+            title: "<div style=\"font-family: 'Playfair Display', 'Cormorant', serif; line-height: 1.1;\">Upcoming Project</div>",
             img: "assets/portfolio_sculpture.png",
-            desc: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident."
+            desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>We are currently designing our next immersive experience.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>Stay tuned for what's next.</p></div>",
+            isComingSoon: true
         },
         {
-            title: "Project 3: Canopy Connection",
+            title: "<div style=\"font-family: 'Playfair Display', 'Cormorant', serif; line-height: 1.1;\">Upcoming Project</div>",
             img: "assets/portfolio_digital_art.png",
-            desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis."
+            desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>We are currently designing our next immersive experience.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>Stay tuned for what's next.</p></div>",
+            isComingSoon: true
         },
         {
-            title: "Project 4: Floral Flow",
+            title: "<div style=\"font-family: 'Playfair Display', 'Cormorant', serif; line-height: 1.1;\">Upcoming Project</div>",
             img: "assets/portfolio_sculpture.png",
-            desc: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+            desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>We are currently designing our next immersive experience.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>Stay tuned for what's next.</p></div>",
+            isComingSoon: true
         }
     ];
 
@@ -162,6 +165,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         textEl.innerHTML = proj.desc;
+        
+        // Hide "ENTER THE EXPERIENCE" button if coming soon
+        const btnLearn = document.querySelector('.btn-learn');
+        if (btnLearn) {
+            btnLearn.style.display = proj.isComingSoon ? 'none' : 'inline-block';
+        }
         
         // Update active thumbnail
         document.querySelectorAll(".thumbnail-item").forEach((thumb, idx) => {

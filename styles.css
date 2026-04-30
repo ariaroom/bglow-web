@@ -46,8 +46,18 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    pointer-events: none;
     /* We use JS for opacity, so transform ensures performance */
     will-change: opacity;
+}
+
+/* Hide iOS Safari's native play button overlay that appears when autoplay
+   is blocked (e.g. Low Power Mode) on background videos */
+.cinematic-video::-webkit-media-controls,
+.cinematic-video::-webkit-media-controls-start-playback-button,
+.cinematic-video::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none;
 }
 
 /* For video zoom logic to feel cinematic */

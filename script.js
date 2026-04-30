@@ -26,8 +26,33 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener('click', function() {
             this.classList.add('clicked');
             setTimeout(() => this.classList.remove('clicked'), 400);
+            // Close mobile menu on link click
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (navLinks && navLinks.classList.contains('open')) {
+                navLinks.classList.remove('open');
+                if (hamburger) hamburger.classList.remove('active');
+            }
         });
     });
+
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (hamburger && navLinksEl) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinksEl.classList.toggle('open');
+            hamburger.classList.toggle('active');
+        });
+        // Close when clicking outside the menu
+        document.addEventListener('click', (e) => {
+            if (!navLinksEl.contains(e.target) && !hamburger.contains(e.target)) {
+                navLinksEl.classList.remove('open');
+                hamburger.classList.remove('active');
+            }
+        });
+    }
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -53,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const projects = [
         {
             title: "<div style=\"font-family: 'Playfair Display', 'Cormorant', serif; line-height: 1.1;\">Love's Last Letter</div><div style='font-family: \"Inter\", sans-serif; font-size: 0.45em; font-weight: 400; color: #666; letter-spacing: 0.5px; margin-top: 0.2rem;'>An immersive archive of love, memory, and voice.</div>",
-            img: "assets/포폴사랑의 유서 썸네일.mov",
+            img: "assets/portfolio-thumbnail.mp4",
             url: "loves-last-letter.html",
             desc: "<div style='font-family: \"Inter\", sans-serif; display: flex; flex-direction: column; gap: 2rem; padding-top: 0.5rem;'><p style='font-family: \"Playfair Display\", \"Cormorant\", serif; font-size: 1.45rem; font-weight: 400; line-height: 1.4; color: #1a1a1a; letter-spacing: -0.5px;'>An Immersive Exhibition<br><span style='font-family: \"Inter\", sans-serif; font-weight: 300; font-size: 1.35rem;'>&</span> Vocal Performance</p><p style='font-size: 1.15rem; line-height: 1.8; color: #444; font-weight: 300;'>Exploring the multifaceted layers of love from nature and family to our cherished companions.</p><p style='font-family: \"Caveat\", cursive; font-size: 1.8rem; font-weight: 600; color: #ab724b; line-height: 1.4; padding-left: 1rem; border-left: 3px solid #ab724b; letter-spacing: 0.5px;'>A final opportunity to say “I’m sorry,” “Thank you,” and “I love you.”</p></div>"
         },
@@ -112,7 +137,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         this.play();
                     }
                 });
-                
+
+                vid.addEventListener('loadedmetadata', () => {
+                    const p = vid.play();
+                    if (p && typeof p.catch === 'function') p.catch(() => {});
+                });
+
                 thumb.appendChild(vid);
             } else {
                 thumb.style.backgroundImage = `url('${proj.img}')`;
@@ -148,8 +178,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (proj.img.endsWith('.mov') || proj.img.endsWith('.mp4')) {
             imgEl.style.display = 'none';
             videoEl.src = proj.img;
+            videoEl.muted = true;
+            videoEl.playsInline = true;
             videoEl.style.display = 'block';
-            
+            videoEl.load();
+            const playPromise = videoEl.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(() => {});
+            }
+
             // Loop naturally without black screen for main video
             videoEl.ontimeupdate = function() {
                 if (videoEl.duration && videoEl.currentTime >= videoEl.duration - 0.15) {

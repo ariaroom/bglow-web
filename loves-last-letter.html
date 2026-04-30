@@ -325,6 +325,64 @@
                 padding: 5rem 5%;
             }
         }
+
+        @media (max-width: 640px) {
+            .detail-title {
+                font-size: 2.6rem;
+            }
+
+            .detail-desc .quote {
+                font-size: 2.2rem;
+                line-height: 1.45;
+            }
+
+            .detail-content {
+                padding: 0 1.25rem;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .gallery-section {
+                padding: 4rem 1.25rem;
+                gap: 4.5rem;
+            }
+
+            .gallery-item,
+            .gallery-item:nth-child(even) {
+                gap: 2rem;
+            }
+
+            .gallery-img-wrap {
+                gap: 1.5rem;
+            }
+
+            .theme-title {
+                font-size: 1.7rem;
+                letter-spacing: 1px;
+            }
+
+            .desc-subtitle {
+                font-size: 1.1rem;
+                white-space: normal;
+                line-height: 1.35;
+            }
+
+            .gallery-text-placeholder {
+                padding: 0.6rem 0 0.6rem 1rem;
+                font-size: 0.95rem;
+                word-break: keep-all;
+                overflow-wrap: anywhere;
+            }
+
+            .gallery-text-wrap {
+                position: static;
+            }
+
+            .interactive-note {
+                font-size: 0.85rem;
+                padding: 0.7rem 1rem;
+            }
+        }
     </style>
 </head>
 
@@ -343,11 +401,15 @@
                 <li><a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" target="_blank"
                         rel="noopener">Donate</a></li>
             </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
     <section class="detail-hero">
-        <video class="detail-video" src="assets/포폴사랑의 유서 썸네일.mov" autoplay muted loop playsinline></video>
+        <video class="detail-video" src="assets/portfolio-thumbnail.mp4" autoplay muted loop playsinline></video>
         <div class="detail-content">
             <div class="detail-desc">
                 <p class="quote fade-in-up">A final opportunity to say “I’m sorry,” “Thank you,” and “I love you.”</p>
@@ -442,8 +504,8 @@
         <div class="gallery-item">
             <div class="gallery-img-wrap fade-in-up">
                 <img src="assets/exhibition_photos_ordered/me_concept.png" alt="Me - Vocal Performance Concept">
-                <video src="assets/exhibition_photos_ordered/The Final Awakening (Interactive Performance).mov" controls
-                    preload="metadata"></video>
+                <video src="assets/exhibition_photos_ordered/the-final-awakening.mp4" controls
+                    preload="metadata" playsinline></video>
             </div>
             <div class="gallery-text-wrap fade-in-up delay-1">
                 <h3 class="theme-title">Myself</h3>

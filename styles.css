@@ -311,6 +311,12 @@ h3,
 .hamburger {
     display: none;
     cursor: pointer;
+    padding: 10px;
+    margin-right: -10px;
+    z-index: 102;
+    position: relative;
+    background: transparent;
+    border: none;
 }
 
 .hamburger span {
@@ -319,10 +325,19 @@ h3,
     height: 1px;
     background-color: #fff;
     margin: 6px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color var(--transition-smooth);
 }
 
 .navbar.scrolled .hamburger span {
     background-color: var(--color-text-dark);
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(3.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    transform: translateY(-3.5px) rotate(-45deg);
 }
 
 /* Hero Section */
@@ -818,8 +833,10 @@ h3,
 .proj-img-wrap video {
     width: 100%;
     height: auto;
+    max-height: 420px;
     object-fit: contain;
     display: block;
+    background: #000;
 }
 
 .proj-desc {
@@ -1415,11 +1432,60 @@ h3,
 
 @media (max-width: 768px) {
     .nav-links {
-        display: none;
+        display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 75vw;
+        max-width: 320px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0;
+        padding: 90px 2rem 2rem;
+        background: rgba(20, 20, 20, 0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 101;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-links.open {
+        transform: translateX(0);
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a,
+    .navbar.scrolled .nav-links a,
+    body.events-page .nav-links a,
+    body.about-page .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 1.1rem 0;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .navbar.scrolled .nav-links a:hover,
+    body.events-page .nav-links a:hover,
+    body.about-page .nav-links a:hover {
+        color: #ffffff;
     }
 
     .hamburger {
         display: block;
+    }
+
+    .logo {
+        margin-left: 0;
     }
 
     .hero h1 {
@@ -1445,6 +1511,58 @@ h3,
 
     .contact-intro {
         font-size: 1.5rem;
+    }
+
+    /* Portfolio wooden frame: stack image/video above text */
+    .proj-body {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+
+    .proj-img-wrap {
+        flex: none;
+        width: 100%;
+    }
+
+    .proj-img-wrap video {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+        object-fit: contain;
+        background: #000;
+    }
+
+    .proj-desc {
+        flex: none;
+    }
+
+    .btn-learn {
+        margin-top: 0.5rem;
+        align-self: flex-start;
+    }
+
+    .white-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .card-content h3 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .mystical-window-wrapper {
+        gap: 4px;
+    }
+
+    .slider-btn {
+        font-size: 2rem;
+        padding: 6px;
+    }
+
+    .thumbnail-item {
+        width: 80px;
+        height: 56px;
     }
 }
 

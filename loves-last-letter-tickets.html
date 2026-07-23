@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Tickets | Love's Last Letter | B-Glow</title>
+    <meta name="description"
+        content="Choose your session and reserve tickets for Love's Last Letter — an immersive solo exhibition by Soohyun Jo in Brooklyn, NY.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="assets/logo_transparent.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --tk-bg: #f4f0e8;
+            --tk-card: #fdfbf6;
+            --tk-border: #e7dfd0;
+            --tk-accent: #c69a5f;
+            --tk-accent-dk: #b07a3d;
+            --tk-sel-bg: #f4e6d2;
+            --tk-sel-border: #d7b489;
+            --tk-ink: #33302b;
+            --tk-muted: #857c6f;
+        }
+
+        body.tickets-page {
+            background: var(--tk-bg);
+            color: var(--tk-ink);
+        }
+
+        .tickets-page main {
+            display: block;
+        }
+
+        /* ---------- Hero ---------- */
+        /* Base icon size — without this, inline <svg> defaults to 300x150 */
+        .tk-ic {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .tk-hero {
+            position: relative;
+            width: 100%;
+            line-height: 0;
+            background: #1a1512;
+        }
+
+        /* Full banner, natural aspect ratio — never cropped at any width */
+        .tk-hero-img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .tk-visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ---------- Layout ---------- */
+        .tk-main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 4.5rem 2rem 6rem;
+        }
+
+        .tk-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        /* ---------- Sessions ---------- */
+        .tk-h2 {
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            font-weight: 600;
+            margin: 0 0 0.4rem;
+        }
+
+        .tk-sub {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--tk-muted);
+            margin-bottom: 2.8rem;
+        }
+
+        .tk-day {
+            margin-bottom: 2.6rem;
+        }
+
+        .tk-day-title {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--tk-ink);
+            margin-bottom: 1.3rem;
+        }
+
+        .tk-day-title .tk-ic {
+            color: var(--tk-accent);
+        }
+
+        .tk-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .tk-slot {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 1.1rem 1.2rem;
+            background: var(--tk-card);
+            border: 1px solid var(--tk-border);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--font-body);
+            transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tk-slot:hover {
+            border-color: var(--tk-sel-border);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .tk-slot-time {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--tk-ink);
+        }
+
+        .tk-slot-finale {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--tk-accent-dk);
+        }
+
+        .tk-slot-spots {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--tk-muted);
+        }
+
+        .tk-slot.is-selected {
+            background: var(--tk-sel-bg);
+            border-color: var(--tk-sel-border);
+        }
+
+        .tk-slot-check {
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+            width: 20px;
+            height: 20px;
+            color: var(--tk-accent-dk);
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .tk-slot.is-selected .tk-slot-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tk-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin-top: 2rem;
+            padding: 1.1rem 1.3rem;
+            background: rgba(198, 154, 95, 0.08);
+            border: 1px solid var(--tk-border);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #6c6459;
+        }
+
+        .tk-note .tk-ic {
+            flex: 0 0 20px;
+            color: var(--tk-accent);
+            margin-top: 1px;
+        }
+
+        /* ---------- Summary ---------- */
+        .tk-summary {
+            position: sticky;
+            top: 100px;
+        }
+
+        .tk-card {
+            background: var(--tk-card);
+            border: 1px solid var(--tk-border);
+            border-radius: 18px;
+            padding: 2rem 1.9rem 2.1rem;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .tk-card-eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--tk-muted);
+            margin-bottom: 1.3rem;
+        }
+
+        .tk-selprod {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.6rem;
+        }
+
+        .tk-thumb {
+            width: 84px;
+            height: 84px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex: 0 0 84px;
+        }
+
+        .tk-prod-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 0.2rem;
+        }
+
+        .tk-prod-sub {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--tk-muted);
+        }
+
+        .tk-selmeta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            padding: 1.4rem 0;
+            border-top: 1px solid var(--tk-border);
+            border-bottom: 1px solid var(--tk-border);
+        }
+
+        .tk-selrow {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--tk-ink);
+        }
+
+        .tk-selrow .tk-ic {
+            flex: 0 0 18px;
+            width: 18px;
+            height: 18px;
+            color: var(--tk-accent);
+            margin-top: 2px;
+        }
+
+        .tk-selrow.is-placeholder {
+            color: var(--tk-muted);
+        }
+
+        .tk-label {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--tk-muted);
+            margin: 1.5rem 0 0.7rem;
+        }
+
+        .tk-select-wrap {
+            position: relative;
+        }
+
+        .tk-select-wrap select {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 0.9rem 2.5rem 0.9rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--tk-ink);
+            background: #fff;
+            border: 1px solid var(--tk-border);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .tk-select-wrap .tk-chevron {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: var(--tk-muted);
+            pointer-events: none;
+        }
+
+        .tk-type-note {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--tk-accent-dk);
+            margin-top: 0.55rem;
+        }
+
+        .tk-type-note.tk-muted {
+            color: var(--tk-muted);
+        }
+
+        /* Quantity picker (max 2 per order) */
+        .tk-qty {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .tk-qty-btn {
+            flex: 1;
+            padding: 0.75rem 0;
+            border: 1px solid var(--tk-border);
+            border-radius: 10px;
+            background: #fff;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--tk-ink);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tk-qty-btn:hover {
+            border-color: var(--tk-sel-border);
+        }
+
+        .tk-qty-btn.is-active {
+            background: var(--tk-sel-bg);
+            border-color: var(--tk-sel-border);
+            font-weight: 600;
+        }
+
+        .tk-qty-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Sold-out session slots */
+        .tk-slot.is-soldout {
+            opacity: 0.55;
+            cursor: not-allowed;
+            background: #f1ede4;
+        }
+
+        .tk-slot.is-soldout:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--tk-border);
+        }
+
+        .tk-slot-soldout {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #a4553f;
+        }
+
+        .tk-slots-loading {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--tk-muted);
+            padding: 0.5rem 0;
+        }
+
+        .tk-error {
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            background: #fbeae7;
+            border: 1px solid #ecccc4;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #8c3d2a;
+            display: none;
+        }
+
+        .tk-error.is-visible {
+            display: block;
+        }
+
+        /* `display: flex` below would otherwise beat the UA [hidden] rule */
+        .tk-line[hidden] {
+            display: none;
+        }
+
+        .tk-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #5f584d;
+            margin-top: 1.1rem;
+        }
+
+        .tk-line .tk-ic-info {
+            width: 15px;
+            height: 15px;
+            color: var(--tk-muted);
+            vertical-align: -2px;
+            margin-left: 3px;
+        }
+
+        .tk-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 1.4rem 0 1.6rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--tk-border);
+        }
+
+        .tk-total-label {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--tk-ink);
+        }
+
+        .tk-total-amt {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--tk-accent-dk);
+        }
+
+        .tk-total-amt small {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--tk-muted);
+            margin-right: 0.4rem;
+            vertical-align: 3px;
+        }
+
+        .tk-pay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            width: 100%;
+            padding: 1.05rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #dcc094 0%, #d0ad76 100%);
+            color: #4a3d28;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: filter 0.25s ease, transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .tk-pay:hover:not(:disabled) {
+            filter: brightness(1.04);
+            transform: translateY(-2px);
+        }
+
+        .tk-pay:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .tk-pay-arrow {
+            width: 18px;
+            height: 18px;
+        }
+
+        .tk-secure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--tk-muted);
+        }
+
+        .tk-secure .tk-ic {
+            width: 14px;
+            height: 14px;
+        }
+
+        .tk-secure strong {
+            font-weight: 600;
+            color: #6c6459;
+        }
+
+        .tk-policy {
+            margin-top: 1rem;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 300;
+            line-height: 1.55;
+            color: var(--tk-muted);
+        }
+
+        .tk-hint {
+            margin-top: 1.2rem;
+            padding: 1rem 1.1rem;
+            background: rgba(198, 154, 95, 0.1);
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.55;
+            color: #6c6459;
+        }
+
+        .tk-paymsg {
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            background: #eef3e9;
+            border: 1px solid #d5e0c8;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #4d5a3f;
+            display: none;
+        }
+
+        .tk-paymsg.is-visible {
+            display: block;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 900px) {
+            .tk-layout {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            /* Session picker must come first — the summary is the *result* of
+               choosing one, so putting it above leaves a dead pay button on top. */
+            .tk-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tk-main {
+                padding: 3rem 1.3rem 4rem;
+            }
+
+            .tk-h2 {
+                font-size: 2rem;
+            }
+
+            .tk-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tk-hero-inner {
+                left: 6%;
+                bottom: 10%;
+            }
+        }
+
+        @media (max-width: 460px) {
+            .tk-slots {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="tickets-page">
+
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="tk-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+            </symbol>
+            <symbol id="tk-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 2" />
+            </symbol>
+            <symbol id="tk-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+            </symbol>
+            <symbol id="tk-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 11v5M12 8h.01" />
+            </symbol>
+            <symbol id="tk-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="11" width="16" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </symbol>
+            <symbol id="tk-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M8 12l3 3 5-6" />
+            </symbol>
+            <symbol id="tk-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+            </symbol>
+            <symbol id="tk-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_transparent.png" alt="B-Glow Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#news">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" target="_blank"
+                        rel="noopener">Donate</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero (uses the exhibition key art, which carries its own title treatment) -->
+        <header class="tk-hero">
+            <img class="tk-hero-img" src="assets/Love's_Last_Letter_banner.png"
+                alt="Love's Last Letter — a woman reading a letter by the sea at sunset">
+            <h1 class="tk-visually-hidden">Love's Last Letter — Immersive Solo Exhibition · Reserve Tickets</h1>
+        </header>
+
+        <div class="tk-main">
+            <div class="tk-layout">
+
+                <!-- Sessions -->
+                <section class="tk-sessions">
+                    <h2 class="tk-h2">Choose Your Session</h2>
+                    <p class="tk-sub">Limited to 9 guests per session</p>
+
+                    <div id="sessions-root">
+                        <p class="tk-slots-loading">Loading sessions…</p>
+                    </div>
+
+                    <p class="tk-note">
+                        <svg class="tk-ic"><use href="#tk-info" /></svg>
+                        <span>Each session is approximately 60 minutes. Please arrive 10 minutes before your scheduled
+                            time.</span>
+                    </p>
+                </section>
+
+                <!-- Summary -->
+                <aside class="tk-summary">
+                    <div class="tk-card">
+                        <p class="tk-card-eyebrow">Your Selection</p>
+
+                        <div class="tk-selprod">
+                            <img class="tk-thumb" src="assets/Love's_Last_Letter_poster.png" alt="Love's Last Letter poster">
+                            <div>
+                                <p class="tk-prod-title">Love's Last Letter</p>
+                                <p class="tk-prod-sub">Immersive Solo Exhibition</p>
+                            </div>
+                        </div>
+
+                        <div class="tk-selmeta">
+                            <div class="tk-selrow is-placeholder" id="sel-date-row">
+                                <svg class="tk-ic"><use href="#tk-calendar" /></svg>
+                                <span id="sel-date">Select a session</span>
+                            </div>
+                            <div class="tk-selrow is-placeholder" id="sel-time-row">
+                                <svg class="tk-ic"><use href="#tk-clock" /></svg>
+                                <span id="sel-time">—</span>
+                            </div>
+                            <div class="tk-selrow">
+                                <svg class="tk-ic"><use href="#tk-pin" /></svg>
+                                <span>A Space Gallery<br>13 Grattan St #402,<br>Brooklyn, NY 11206</span>
+                            </div>
+                        </div>
+
+                        <label class="tk-label" for="qty-select">Tickets</label>
+                        <div class="tk-select-wrap">
+                            <select id="qty-select"></select>
+                            <svg class="tk-chevron"><use href="#tk-chevron" /></svg>
+                        </div>
+                        <p class="tk-type-note tk-muted" id="qty-note"></p>
+
+                        <div class="tk-line" id="eb-line">
+                            <span id="eb-label">Early Bird × 1</span>
+                            <span id="eb-amt">$29.00</span>
+                        </div>
+                        <div class="tk-line" id="gen-line" hidden>
+                            <span id="gen-label">General Admission × 1</span>
+                            <span id="gen-amt">$32.00</span>
+                        </div>
+                        <div class="tk-line" id="tax-line" hidden>
+                            <span id="tax-label">Sales Tax</span>
+                            <span id="tax-amt">$0.00</span>
+                        </div>
+                        <p class="tk-type-note" id="type-note"></p>
+
+                        <div class="tk-total">
+                            <span class="tk-total-label">Total</span>
+                            <span class="tk-total-amt"><small>USD</small><span id="total">$29.00</span></span>
+                        </div>
+
+                        <button class="tk-pay" id="pay-btn" disabled>
+                            Continue to Payment
+                            <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>
+                        </button>
+
+                        <p class="tk-secure">
+                            <svg class="tk-ic"><use href="#tk-lock" /></svg>
+                            Secure checkout powered by <strong>Stripe</strong>
+                        </p>
+
+                        <div class="tk-error" id="error-msg"></div>
+
+                        <div class="tk-hint">
+                            Secure your time.<br>
+                            Spots are limited to 9 guests per session.
+                        </div>
+
+                        <p class="tk-policy" id="refund-policy"></p>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 B-Glow. All rights reserved. &middot;
+                    <a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" class="footer-link"
+                        target="_blank" rel="noopener">Support our vision</a>
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        (function () {
+            var MAX_PER_ORDER = 2;
+            var state = {
+                sessionId: null,
+                sessionLabel: null,
+                dayLabel: null,
+                quantity: 1,
+                availability: null,
+                busy: false
+            };
+
+            var els = {
+                root: document.getElementById('sessions-root'),
+                selDate: document.getElementById('sel-date'),
+                selTime: document.getElementById('sel-time'),
+                selDateRow: document.getElementById('sel-date-row'),
+                selTimeRow: document.getElementById('sel-time-row'),
+                qtySelect: document.getElementById('qty-select'),
+                qtyNote: document.getElementById('qty-note'),
+                ebLine: document.getElementById('eb-line'),
+                ebLabel: document.getElementById('eb-label'),
+                ebAmt: document.getElementById('eb-amt'),
+                genLine: document.getElementById('gen-line'),
+                genLabel: document.getElementById('gen-label'),
+                genAmt: document.getElementById('gen-amt'),
+                taxLine: document.getElementById('tax-line'),
+                taxLabel: document.getElementById('tax-label'),
+                taxAmt: document.getElementById('tax-amt'),
+                typeNote: document.getElementById('type-note'),
+                total: document.getElementById('total'),
+                pay: document.getElementById('pay-btn'),
+                error: document.getElementById('error-msg'),
+                policy: document.getElementById('refund-policy')
+            };
+
+            function money(n) { return '$' + n.toFixed(2); }
+            function round2(n) { return Math.round(n * 100) / 100; }
+
+            function showError(msg) {
+                els.error.textContent = msg;
+                els.error.classList.add('is-visible');
+            }
+
+            function clearError() {
+                els.error.classList.remove('is-visible');
+            }
+
+            // ---------- Rendering ----------
+            function renderSessions(data) {
+                var days = [];
+                var byDay = {};
+                data.sessions.forEach(function (s) {
+                    if (!byDay[s.dayLabel]) { byDay[s.dayLabel] = []; days.push(s.dayLabel); }
+                    byDay[s.dayLabel].push(s);
+                });
+
+                els.root.innerHTML = '';
+                days.forEach(function (day) {
+                    var wrap = document.createElement('div');
+                    wrap.className = 'tk-day';
+
+                    var h3 = document.createElement('h3');
+                    h3.className = 'tk-day-title';
+                    h3.innerHTML = '<svg class="tk-ic"><use href="#tk-calendar" /></svg>' + day;
+                    wrap.appendChild(h3);
+
+                    var grid = document.createElement('div');
+                    grid.className = 'tk-slots';
+
+                    byDay[day].forEach(function (s) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'tk-slot' + (s.soldOut ? ' is-soldout' : '');
+                        btn.disabled = s.soldOut;
+                        btn.setAttribute('data-id', s.id);
+
+                        btn.innerHTML =
+                            '<span class="tk-slot-time">' + s.timeLabel + '</span>' +
+                            (s.isFinale ? '<span class="tk-slot-finale">Finale</span>' : '') +
+                            (s.soldOut
+                                ? '<span class="tk-slot-soldout">Sold Out</span>'
+                                : '<span class="tk-slot-spots">' + s.spotsLeft + ' spot' +
+                                  (s.spotsLeft === 1 ? '' : 's') + ' left</span>') +
+                            '<svg class="tk-slot-check"><use href="#tk-check" /></svg>';
+
+                        if (!s.soldOut) {
+                            btn.addEventListener('click', function () { selectSlot(btn, s, day); });
+                        }
+                        grid.appendChild(btn);
+                    });
+
+                    wrap.appendChild(grid);
+                    els.root.appendChild(wrap);
+                });
+            }
+
+            function selectSlot(btn, session, day) {
+                var prev = els.root.querySelector('.tk-slot.is-selected');
+                if (prev) prev.classList.remove('is-selected');
+                btn.classList.add('is-selected');
+
+                state.sessionId = session.id;
+                state.sessionLabel = session.timeLabel;
+                state.dayLabel = day;
+
+                els.selDate.textContent = day;
+                els.selTime.textContent = session.timeLabel;
+                els.selDateRow.classList.remove('is-placeholder');
+                els.selTimeRow.classList.remove('is-placeholder');
+
+                // Can't order more tickets than this session has left.
+                renderQty(Math.min(state.availability.maxPerOrder, session.spotsLeft));
+
+                clearError();
+                setPayReady(true);
+            }
+
+            // There is no per-person cap — you can take as many spots as the chosen
+            // session still has free, so the options depend on that session.
+            function renderQty(max) {
+                var want = state.quantity || 1;
+                els.qtySelect.innerHTML = '';
+                for (var i = 1; i <= max; i++) {
+                    var o = document.createElement('option');
+                    o.value = String(i);
+                    o.textContent = i + (i === 1 ? ' ticket' : ' tickets');
+                    els.qtySelect.appendChild(o);
+                }
+                state.quantity = Math.min(want, max) || 1;
+                els.qtySelect.value = String(state.quantity);
+                els.qtyNote.textContent = state.sessionId
+                    ? max + ' still available for this session.'
+                    : '';
+                updatePricing();
+            }
+
+            function setPayReady(ready) {
+                els.pay.disabled = !ready;
+                els.pay.innerHTML = ready
+                    ? 'Continue to Payment <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>'
+                    : 'Select a session first';
+            }
+
+            // Mirrors the server's split logic so the preview matches the charge.
+            function updatePricing() {
+                var a = state.availability;
+                if (!a) return;
+
+                var ebRemaining = a.earlyBird.remaining;
+                var eb = Math.min(state.quantity, ebRemaining);
+                var gen = state.quantity - eb;
+
+                var ebTotal = eb * a.prices.earlyBird;
+                var genTotal = gen * a.prices.general;
+
+                if (eb > 0) {
+                    els.ebLine.hidden = false;
+                    els.ebLabel.textContent = 'Early Bird × ' + eb;
+                    els.ebAmt.textContent = money(ebTotal);
+                } else {
+                    els.ebLine.hidden = true;
+                }
+
+                if (gen > 0) {
+                    els.genLine.hidden = false;
+                    els.genLabel.textContent = 'General Admission × ' + gen;
+                    els.genAmt.textContent = money(genTotal);
+                } else {
+                    els.genLine.hidden = true;
+                }
+
+                // Exclusive tax, rounded per line item the same way Stripe does,
+                // so this preview always matches the amount actually charged.
+                var tax = 0;
+                var t = a.tax;
+                if (t && t.enabled && !t.inclusive && t.percent > 0) {
+                    tax = round2(ebTotal * t.percent / 100) + round2(genTotal * t.percent / 100);
+                    els.taxLine.hidden = false;
+                    els.taxLabel.textContent = t.displayName + ' (' + t.percent + '%)';
+                    els.taxAmt.textContent = money(tax);
+                } else {
+                    els.taxLine.hidden = true;
+                }
+
+                els.total.textContent = money(ebTotal + genTotal + tax);
+
+                // Always name the General price: with Early Bird still available the
+                // buyer otherwise never sees what the ticket costs once it runs out.
+                if (ebRemaining > 0) {
+                    els.typeNote.textContent =
+                        'Early Bird ' + money(a.prices.earlyBird) + ' — only ' + ebRemaining +
+                        ' of ' + a.earlyBird.total + ' left. After that, General Admission ' +
+                        money(a.prices.general) + '.';
+                } else {
+                    els.typeNote.textContent =
+                        'Early Bird is sold out. General Admission ' + money(a.prices.general) + ' applies.';
+                }
+            }
+
+            // ---------- Data ----------
+            // A brief hiccup (server restart, cold start, flaky wifi) shouldn't put
+            // the page into its dead "unavailable" state — retry before giving up.
+            function fetchAvailability(attempt) {
+                attempt = attempt || 1;
+                return fetch('/api/availability', { headers: { 'Accept': 'application/json' } })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error('availability ' + r.status);
+                        return r.json();
+                    })
+                    .catch(function (err) {
+                        if (attempt >= 3) throw err;
+                        return new Promise(function (resolve) {
+                            setTimeout(resolve, attempt * 700);
+                        }).then(function () {
+                            return fetchAvailability(attempt + 1);
+                        });
+                    });
+            }
+
+            function loadAvailability() {
+                return fetchAvailability()
+                    .then(function (data) {
+                        state.availability = data;
+                        MAX_PER_ORDER = data.maxPerOrder || 2;
+                        if (data.refundPolicy) els.policy.textContent = data.refundPolicy;
+                        renderQty(MAX_PER_ORDER);
+                        renderSessions(data);
+                        updatePricing();
+                    })
+                    .catch(function (err) {
+                        console.error(err);
+                        els.root.innerHTML =
+                            '<p class="tk-slots-loading">Sessions could not be loaded. ' +
+                            'Please refresh, or email bglowteam@gmail.com.</p>';
+                        // Don't leave stale prices on screen implying you can buy.
+                        els.ebLine.hidden = true;
+                        els.genLine.hidden = true;
+                        els.taxLine.hidden = true;
+                        els.qtySelect.innerHTML = '';
+                        els.qtyNote.textContent = '';
+                        els.typeNote.textContent = '';
+                        els.total.textContent = '—';
+                        setPayReady(false);
+                        showError('Ticketing is temporarily unavailable. Please refresh, or email bglowteam@gmail.com.');
+                    });
+            }
+
+            // ---------- Checkout ----------
+            function startCheckout() {
+                if (state.busy || !state.sessionId) return;
+                state.busy = true;
+                clearError();
+                els.pay.disabled = true;
+                els.pay.textContent = 'Redirecting…';
+
+                fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId: state.sessionId, quantity: state.quantity })
+                })
+                    .then(function (r) {
+                        return r.json().then(function (body) { return { ok: r.ok, body: body }; });
+                    })
+                    .then(function (res) {
+                        if (res.ok && res.body.url) {
+                            window.location.href = res.body.url;
+                            return;
+                        }
+                        var map = {
+                            sold_out: 'Sorry — those spots were just taken. Please pick another session.',
+                            invalid_quantity: 'Please choose 1 or 2 tickets.',
+                            unknown_session: 'That session is no longer available.'
+                        };
+                        throw new Error(map[res.body.error] || 'Something went wrong. Please try again.');
+                    })
+                    .catch(function (err) {
+                        showError(err.message);
+                        state.busy = false;
+                        setPayReady(true);
+                        loadAvailability(); // refresh spot counts
+                    });
+            }
+
+            // ---------- Wire up ----------
+            els.qtySelect.addEventListener('change', function () {
+                state.quantity = Number(els.qtySelect.value) || 1;
+                updatePricing();
+            });
+
+            els.pay.addEventListener('click', startCheckout);
+            setPayReady(false);
+
+            if (new URLSearchParams(window.location.search).get('canceled')) {
+                showError('Checkout was canceled — your spots were released. Pick a session to try again.');
+            }
+
+            loadAvailability();
+        })();
+    </script>
+</body>
+
+</html>

@@ -2535,7 +2535,9 @@ body.events-page {
 }
 
 /* Navbar always in "scrolled" state on events page (white bg) */
-.events-page .navbar {
+.events-page .navbar,
+.tickets-page .navbar,
+.tk-success-page .navbar {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -2543,26 +2545,36 @@ body.events-page {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-.events-page .nav-links a {
+.events-page .nav-links a,
+.tickets-page .nav-links a,
+.tk-success-page .nav-links a {
     color: var(--color-text-dark);
     text-shadow: none;
 }
 
-.events-page .nav-links a:hover {
+.events-page .nav-links a:hover,
+.tickets-page .nav-links a:hover,
+.tk-success-page .nav-links a:hover {
     color: #000;
     text-shadow: none;
 }
 
-.events-page .logo {
+.events-page .logo,
+.tickets-page .logo,
+.tk-success-page .logo {
     opacity: 1;
     pointer-events: auto;
 }
 
-.events-page .logo::before {
+.events-page .logo::before,
+.tickets-page .logo::before,
+.tk-success-page .logo::before {
     opacity: 0;
 }
 
-.events-page .hamburger span {
+.events-page .hamburger span,
+.tickets-page .hamburger span,
+.tk-success-page .hamburger span {
     background-color: var(--color-text-dark);
 }
 

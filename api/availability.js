@@ -1,6 +1,7 @@
 import { db } from '../lib/db.js';
 import { taxInfo } from '../lib/tax.js';
 import { priceAmounts } from '../lib/prices.js';
+import { exhibitionEnded } from '../lib/ended.js';
 import {
     EARLY_BIRD_TOTAL,
     MAX_TICKETS_PER_ORDER,
@@ -56,6 +57,7 @@ export default async function handler(req, res) {
                 active: earlyBirdRemaining > 0
             },
             prices: await priceAmounts(),
+            ended: exhibitionEnded(),
             tax: await taxInfo(),
             refundPolicy: REFUND_POLICY,
             maxPerOrder: MAX_TICKETS_PER_ORDER

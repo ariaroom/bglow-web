@@ -1033,12 +1033,29 @@
                     });
             }
 
+            // Exhibition is over — no session picker, no checkout.
+            function showEnded() {
+                els.root.innerHTML =
+                    '<p class="tk-slots-loading">This exhibition has ended. ' +
+                    'Thank you to everyone who joined us. For inquiries, email bglowteam@gmail.com.</p>';
+                els.qtySelect.innerHTML = '';
+                els.qtyNote.textContent = '';
+                els.typeNote.textContent = '';
+                els.ebLine.hidden = true;
+                els.genLine.hidden = true;
+                els.taxLine.hidden = true;
+                els.total.textContent = '—';
+                els.pay.disabled = true;
+                els.pay.textContent = 'Exhibition Ended';
+            }
+
             function loadAvailability() {
                 return fetchAvailability()
                     .then(function (data) {
                         state.availability = data;
                         MAX_PER_ORDER = data.maxPerOrder || 2;
                         if (data.refundPolicy) els.policy.textContent = data.refundPolicy;
+                        if (data.ended) { showEnded(); return; }
                         renderQty(MAX_PER_ORDER);
                         renderSessions(data);
                         updatePricing();

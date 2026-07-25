@@ -142,7 +142,8 @@
                     <h2 class="section-heading">Events</h2>
                     <!-- <a href="events.html" class="view-all">View All Events</a> -->
                 </div>
-                <p class="ue-subhead fade-in-up delay-1">Upcoming Events</p>
+                <!-- Sections (Now Showing / Upcoming / Past) are built by JS below,
+                     classifying each event by today's date vs its start/end. -->
 
                 <!-- Inline icon sprite (referenced by the event cards below) -->
                 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -190,15 +191,19 @@
                     </defs>
                 </svg>
 
-                <div class="upcoming-grid">
+                <!-- Rendered sections land here -->
+                <div id="ue-sections"></div>
+
+                <!-- Event definitions. data-start / data-end drive classification. -->
+                <template id="ue-events">
 
                     <!-- Card 1: 항해 — Voyage -->
-                    <article class="ue-card fade-in-up delay-1">
+                    <article class="ue-card fade-in-up" data-start="2026-07-22" data-end="2026-07-27">
                         <div class="ue-poster">
                             <img src="assets/voyage_poster.png" alt="항해 — Voyage exhibition poster">
                         </div>
                         <div class="ue-body">
-                            <p class="ue-eyebrow">Upcoming</p>
+                            <p class="ue-eyebrow"></p>
                             <h3 class="ue-title">항해 <span class="ue-dash">—</span> Voyage</h3>
                             <p class="ue-subtitle">Group Exhibition</p>
                             <hr class="ue-divider">
@@ -214,12 +219,12 @@
                     </article>
 
                     <!-- Card 2: Love's Last Letter -->
-                    <article class="ue-card fade-in-up delay-2">
+                    <article class="ue-card fade-in-up" data-start="2026-08-30" data-end="2026-08-31">
                         <div class="ue-poster">
                             <img src="assets/Love's_Last_Letter_poster.png" alt="Love's Last Letter exhibition poster">
                         </div>
                         <div class="ue-body">
-                            <p class="ue-eyebrow">Upcoming</p>
+                            <p class="ue-eyebrow"></p>
                             <h3 class="ue-title ue-title-caps">Love's Last Letter</h3>
                             <p class="ue-subtitle">Immersive Solo Exhibition</p>
                             <hr class="ue-divider">
@@ -239,7 +244,7 @@
                         </div>
                     </article>
 
-                </div>
+                </template>
             </div>
         </section>
 
@@ -340,6 +345,77 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Classify each event by today's date and lay them out under
+        // Now Showing / Upcoming / Past sections. Empty sections are omitted.
+        (function () {
+            var tpl = document.getElementById('ue-events');
+            var root = document.getElementById('ue-sections');
+            if (!tpl || !root) return;
+
+            function midnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+            function parseDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+
+            var today = midnight(new Date());
+
+            var defs = [
+                { key: 'current', label: 'Now Showing', eyebrow: 'Now Showing' },
+                { key: 'upcoming', label: 'Upcoming', eyebrow: 'Upcoming' },
+                { key: 'past', label: 'Past Events', eyebrow: 'Ended' }
+            ];
+            var buckets = { current: [], upcoming: [], past: [] };
+
+            tpl.content.querySelectorAll('.ue-card').forEach(function (node) {
+                var card = node.cloneNode(true);
+                var start = parseDate(card.getAttribute('data-start'));
+                var end = parseDate(card.getAttribute('data-end'));
+                var status = today < start ? 'upcoming' : (today > end ? 'past' : 'current');
+                var def = defs.filter(function (d) { return d.key === status; })[0];
+
+                var eyebrow = card.querySelector('.ue-eyebrow');
+                if (eyebrow) eyebrow.textContent = def.eyebrow;
+
+                if (status === 'past') {
+                    card.classList.add('ue-card-past');
+                    // A past event can't be reserved — swap the button for a disabled note.
+                    var btn = card.querySelector('.ue-btn');
+                    if (btn) {
+                        var ended = document.createElement('span');
+                        ended.className = 'ue-btn ue-btn-ended';
+                        ended.textContent = 'Exhibition Ended';
+                        btn.parentNode.replaceChild(ended, btn);
+                    }
+                }
+                buckets[status].push(card);
+            });
+
+            defs.forEach(function (def) {
+                var list = buckets[def.key];
+                if (!list.length) return;
+                var sec = document.createElement('div');
+                sec.className = 'ue-section';
+                var h = document.createElement('p');
+                h.className = 'ue-subhead';
+                h.textContent = def.label;
+                var grid = document.createElement('div');
+                grid.className = 'upcoming-grid';
+                list.forEach(function (c) { grid.appendChild(c); });
+                sec.appendChild(h);
+                sec.appendChild(grid);
+                root.appendChild(sec);
+            });
+
+            // Reveal with the site's fade-in (these cards are added after the
+            // page's IntersectionObserver has already run, so trigger it here).
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    root.querySelectorAll('.ue-card.fade-in-up').forEach(function (c) {
+                        c.classList.add('visible');
+                    });
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>

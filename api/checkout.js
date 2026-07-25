@@ -1,6 +1,7 @@
 import { db } from '../lib/db.js';
 import { stripe } from '../lib/stripe.js';
 import { taxRateIds } from '../lib/tax.js';
+import { exhibitionEnded } from '../lib/ended.js';
 import {
     REFUND_POLICY,
     PRICE_EARLY_BIRD,
@@ -38,6 +39,11 @@ export default async function handler(req, res) {
     if (!sessionId) return res.status(400).json({ error: 'missing_session' });
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > MAX_TICKETS_PER_ORDER) {
         return res.status(400).json({ error: 'invalid_quantity' });
+    }
+
+    // Refuse once the exhibition is over — no reserving past-dated sessions.
+    if (exhibitionEnded()) {
+        return res.status(410).json({ error: 'ended' });
     }
 
     const supabase = db();

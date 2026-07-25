@@ -1059,6 +1059,36 @@ h3,
     gap: 2.5rem;
 }
 
+/* Now Showing / Upcoming / Past sections */
+.ue-section {
+    margin-bottom: 4rem;
+}
+
+.ue-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Past events read as muted / archived */
+.ue-card-past {
+    opacity: 0.82;
+}
+
+.ue-card-past .ue-poster img {
+    filter: grayscale(0.35);
+}
+
+.ue-card-past .ue-eyebrow {
+    color: #9a9488;
+}
+
+.ue-btn-ended {
+    background: #e7e1d5;
+    border-color: transparent;
+    color: #8a8275;
+    cursor: default;
+    pointer-events: none;
+}
+
 .ue-card {
     display: grid;
     grid-template-columns: minmax(0, 40%) minmax(0, 1fr);

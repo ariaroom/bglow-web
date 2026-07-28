@@ -17,6 +17,10 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 html {
     background: var(--lp-bg);
 }

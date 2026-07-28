@@ -56,8 +56,8 @@
 
         <p class="lp-hint" id="scapeHint">
             <span class="ko">작품을 이동하며 풍경을 선택해 주세요.</span>
-            Select the landscape as you move.<br>
-            The narration will continue &mdash; only the soundscape will change.
+            Select the landscape as you move.<span id="hintNarr"><br>
+                The narration will continue &mdash; only the soundscape will change.</span>
         </p>
 
         <section class="lp-scapes" id="scapes">
@@ -97,11 +97,13 @@
     <audio id="narration" preload="auto"></audio>
 
     <script>
-        // NOTE: the narration file is still a TTS placeholder reading the real
-        // letter — swap ../assets/audio/nature_narration.m4a when the recorded
-        // narration arrives. Letter text and soundscapes are final.
+        // NOTE: narration audio is coming later. Until then narration is null,
+        // which hides the "Listen to the Letter" player — the Sea/Grass/Sunset
+        // buttons play the soundscapes directly. When the recorded narration
+        // arrives, put it at ../assets/audio/nature_narration.m4a and set the
+        // path below.
         window.LETTER_PAGE = {
-            narration: "../assets/audio/nature_narration.m4a",
+            narration: null,
             soundscapes: [
                 { id: "sea", num: "01", label: "Sea", labelKo: "바다", sub: "Ocean Waves", icon: "sea", src: "../assets/audio/nature_sea.m4a" },
                 { id: "grass", num: "02", label: "Grass", labelKo: "잔디", sub: "Birdsong & Breeze", icon: "grass", src: "../assets/audio/nature_grass.m4a" },

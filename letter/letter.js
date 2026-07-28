@@ -31,8 +31,18 @@
     const durEl = document.getElementById('dur');
     const subEl = document.getElementById('playerSub');
     const narration = document.getElementById('narration');
-    narration.src = cfg.narration;
     const letterBody = document.getElementById('letterBody');
+
+    // Narration is optional: until the recorded file arrives the player is
+    // hidden and the soundscape buttons drive playback on their own.
+    const hasNarration = !!cfg.narration;
+    if (hasNarration) {
+        narration.src = cfg.narration;
+    } else {
+        player.hidden = true;
+        const hintNarr = document.getElementById('hintNarr');
+        if (hintNarr) hintNarr.hidden = true;
+    }
 
     // ---------- Soundscape selector ----------
     let currentId = cfg.soundscapes[0] ? cfg.soundscapes[0].id : null;
@@ -69,7 +79,8 @@
 
     // ---------- Audio engine ----------
     let ctx = null;
-    let started = false;
+    let started = false;    // narration has been started
+    let ambienceOn = false; // a soundscape has been started (tap on card or play)
     let ended = false;
     const arrayBuffers = {}; // id -> Promise<ArrayBuffer>
     const buffers = {};      // id -> AudioBuffer
@@ -109,14 +120,15 @@
             return; // narration still works without ambience
         }
         // Selection may have changed while the buffer was loading.
-        if (id !== currentId || active[id] || !started) return;
+        if (id !== currentId || active[id] || !ambienceOn) return;
         const src = ctx.createBufferSource();
         src.buffer = buf;
         src.loop = true;
         const gain = ctx.createGain();
         const now = ctx.currentTime;
+        const level = (hasNarration && started && !ended) ? SC_LEVEL : SC_LEVEL_SOLO;
         gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.linearRampToValueAtTime(ended ? SC_LEVEL_SOLO : SC_LEVEL, now + FADE);
+        gain.gain.linearRampToValueAtTime(level, now + FADE);
         src.connect(gain);
         gain.connect(ctx.destination);
         src.start();
@@ -137,10 +149,16 @@
     }
 
     function selectScape(id) {
-        if (id === currentId) return;
+        // A card tap is a user gesture, so the ambience can start right here —
+        // no narration needed.
+        ensureCtx();
+        ambienceOn = true;
+        if (id === currentId) {
+            if (!active[id]) startScape(id);
+            return;
+        }
         currentId = id;
         updateScapeUI();
-        if (!started || !ctx) return; // selection before play: just remember it
         Object.keys(active).forEach(stopScape);
         startScape(id);
     }
@@ -154,6 +172,7 @@
 
     playBtn.addEventListener('click', () => {
         ensureCtx();
+        ambienceOn = true;
         if (!started) {
             started = true;
             narration.play().catch(showAudioError);
@@ -271,4 +290,10 @@
 
     renderLetter();
     setState('idle');
+
+    // Tiny hook for automated smoke tests; harmless in production.
+    window.__lp = {
+        active: () => Object.keys(active),
+        ctxState: () => (ctx ? ctx.state : null)
+    };
 })();

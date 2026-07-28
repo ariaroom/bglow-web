@@ -97,9 +97,9 @@
     <audio id="narration" preload="auto"></audio>
 
     <script>
-        // NOTE: letter text and all four audio files are placeholders.
-        // Swap letter.ko / letter.en below and the files in ../assets/audio/
-        // when the artist's final text and extracted audio arrive.
+        // NOTE: the narration file is still a TTS placeholder reading the real
+        // letter — swap ../assets/audio/nature_narration.m4a when the recorded
+        // narration arrives. Letter text and soundscapes are final.
         window.LETTER_PAGE = {
             narration: "../assets/audio/nature_narration.m4a",
             soundscapes: [
@@ -108,20 +108,53 @@
                 { id: "sunset", num: "03", label: "Sunset", labelKo: "노을", sub: "Evening Wind", icon: "sunset", src: "../assets/audio/nature_sunset.m4a" }
             ],
             letter: {
-                ko: `사랑하는 너에게.
+                ko: `가끔 나는,
+세상의 기준 속에서
+나를 스스로 가둬두고 있었어.
 
-이 글은 임시로 채워 둔 편지입니다. 실제 편지 원고가 도착하면 이 자리에 그대로 옮겨질 예정입니다.
+그런데 아무 생각 없이
+마음이 편안했던 순간들이 있었어.
 
-바다 앞에서, 잔디 위에서, 노을 아래에서 — 같은 편지가 세 개의 풍경과 함께 읽히기를 바랍니다.
+집 앞 공원 벤치에 앉아
+흔들리는 나무를 바라보며
+새들이 지저귀는 소리를 듣던 때,
 
-지금 이 순간에도, 너는 충분히 빛나고 있어.`,
-                en: `To you, my love.
+여행을 떠나 바다를 바라보며
+파도 소리를 듣고 있던 순간들,
 
-This is a placeholder letter. The artist's final text will take its place here.
+그리고 하루의 끝에서,
+하늘이 천천히 붉게 물드는 모습을
+말없이 바라보던 순간들.
 
-Before the sea, on the grass, beneath the sunset — may the same letter be read across three landscapes.
+그때의 나는,
+아무 생각도 없이
+그냥 자유로웠어.
 
-Even in this very moment, you are shining enough.`
+너는 언제 가장 자유로워?`,
+                en: `Sometimes,
+I found myself confined
+by the standards of the world.
+
+And yet, there were moments
+when my mind grew quiet
+and my heart felt completely at ease.
+
+Sitting on a bench in the park near my home,
+watching the trees sway
+and listening to the birds sing.
+
+Gazing out at the sea during a trip,
+listening to the sound of the waves.
+
+And at the end of the day,
+quietly watching the sky
+slowly fill with the colors of sunset.
+
+In those moments,
+with my mind completely still,
+I was simply free.
+
+When do you feel most free?`
             }
         };
     </script>

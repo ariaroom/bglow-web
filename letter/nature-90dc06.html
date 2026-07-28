@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Nature · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Chapter 01 &middot; Nature</p>
+            <p class="lp-tagline">
+                <span class="ko">하나의 편지, 세 개의 풍경</span>
+                <span class="en">One letter, three landscapes</span>
+            </p>
+        </header>
+
+        <section class="lp-player" id="player" data-state="idle">
+            <button id="playBtn" class="lp-play" aria-label="Play">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4.5v15l13-7.5-13-7.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4.5" width="4" height="15" rx="1" />
+                    <rect x="14" y="4.5" width="4" height="15" rx="1" />
+                </svg>
+                <svg class="icon-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M6 3v4h4" />
+                </svg>
+            </button>
+            <div class="lp-player-info">
+                <p class="lp-player-title">Listen to the Letter</p>
+                <p class="lp-player-sub" id="playerSub">Narration with the selected soundscape</p>
+                <div class="lp-progress">
+                    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                    <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+                </div>
+            </div>
+        </section>
+
+        <p class="lp-hint" id="scapeHint">
+            <span class="ko">작품을 이동하며 풍경을 선택해 주세요.</span>
+            Select the landscape as you move.<br>
+            The narration will continue &mdash; only the soundscape will change.
+        </p>
+
+        <section class="lp-scapes" id="scapes">
+            <div class="lp-scapes-head">Now Playing</div>
+            <div class="lp-scape-grid"></div>
+        </section>
+
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+                <rect x="3" y="13" width="4" height="7" rx="2" />
+                <rect x="17" y="13" width="4" height="7" rx="2" />
+            </svg>
+            Please use headphones for the full experience.
+        </p>
+
+        <div class="lp-lang">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+        </div>
+
+        <details class="lp-letter">
+            <summary>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </summary>
+            <div class="lp-letter-body" id="letterBody" data-lang="ko"></div>
+        </details>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <audio id="narration" preload="auto"></audio>
+
+    <script>
+        // NOTE: letter text and all four audio files are placeholders.
+        // Swap letter.ko / letter.en below and the files in ../assets/audio/
+        // when the artist's final text and extracted audio arrive.
+        window.LETTER_PAGE = {
+            narration: "../assets/audio/nature_narration.m4a",
+            soundscapes: [
+                { id: "sea", num: "01", label: "Sea", labelKo: "바다", sub: "Ocean Waves", icon: "sea", src: "../assets/audio/nature_sea.m4a" },
+                { id: "grass", num: "02", label: "Grass", labelKo: "잔디", sub: "Birdsong & Breeze", icon: "grass", src: "../assets/audio/nature_grass.m4a" },
+                { id: "sunset", num: "03", label: "Sunset", labelKo: "노을", sub: "Evening Wind", icon: "sunset", src: "../assets/audio/nature_sunset.m4a" }
+            ],
+            letter: {
+                ko: `사랑하는 너에게.
+
+이 글은 임시로 채워 둔 편지입니다. 실제 편지 원고가 도착하면 이 자리에 그대로 옮겨질 예정입니다.
+
+바다 앞에서, 잔디 위에서, 노을 아래에서 — 같은 편지가 세 개의 풍경과 함께 읽히기를 바랍니다.
+
+지금 이 순간에도, 너는 충분히 빛나고 있어.`,
+                en: `To you, my love.
+
+This is a placeholder letter. The artist's final text will take its place here.
+
+Before the sea, on the grass, beneath the sunset — may the same letter be read across three landscapes.
+
+Even in this very moment, you are shining enough.`
+            }
+        };
+    </script>
+    <script src="letter.js"></script>
+</body>
+
+</html>

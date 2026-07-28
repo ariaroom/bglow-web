@@ -1,0 +1,427 @@
+/* QR letter pages — shared styles (separate from the main site's styles.css) */
+
+:root {
+    --lp-bg: #f7f3ec;
+    --lp-card: #fffdf9;
+    --lp-text: #40382e;
+    --lp-muted: #8d8272;
+    --lp-accent: #a97e52;
+    --lp-accent-soft: #f0e6d7;
+    --lp-border: #e5dccb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    background: var(--lp-bg);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--lp-bg);
+    color: var(--lp-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.letter-page {
+    width: 100%;
+    max-width: 430px;
+    padding: 3.5rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+/* Header */
+.lp-header {
+    text-align: center;
+}
+
+.lp-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+    margin-bottom: 0.75rem;
+}
+
+.lp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 1.1rem;
+}
+
+.lp-chapter {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--lp-accent);
+    margin-bottom: 1rem;
+}
+
+.lp-tagline .ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+
+.lp-tagline .en {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--lp-muted);
+}
+
+/* Player card */
+.lp-player {
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    box-shadow: 0 6px 24px rgba(115, 92, 60, 0.07);
+}
+
+.lp-play {
+    flex: 0 0 auto;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: none;
+    background: var(--lp-accent);
+    color: #fdfaf5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.lp-play:active {
+    transform: scale(0.94);
+}
+
+.lp-play svg {
+    width: 24px;
+    height: 24px;
+    display: none;
+}
+
+.lp-player[data-state="idle"] .icon-play,
+.lp-player[data-state="paused"] .icon-play {
+    display: block;
+    margin-left: 3px;
+}
+
+.lp-player[data-state="playing"] .icon-pause {
+    display: block;
+}
+
+.lp-player[data-state="ended"] .icon-replay {
+    display: block;
+}
+
+.lp-player-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.lp-player-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.lp-player-sub {
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--lp-muted);
+    margin-top: 0.2rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.lp-progress {
+    margin-top: 0.7rem;
+}
+
+.lp-progress input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(to right,
+            var(--lp-accent) 0%,
+            var(--lp-accent) var(--progress, 0%),
+            var(--lp-border) var(--progress, 0%),
+            var(--lp-border) 100%);
+    outline: none;
+}
+
+.lp-progress input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--lp-accent);
+    border: 2px solid var(--lp-card);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.lp-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--lp-muted);
+    margin-top: 0.35rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Hint */
+.lp-hint {
+    text-align: center;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--lp-muted);
+}
+
+.lp-hint .ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    color: var(--lp-text);
+    margin-bottom: 0.15rem;
+}
+
+/* Soundscape cards */
+.lp-scapes-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+    color: var(--lp-muted);
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.lp-scapes-head::before,
+.lp-scapes-head::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--lp-border);
+}
+
+.lp-scape-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+}
+
+.lp-scape {
+    background: var(--lp-card);
+    border: 1.5px solid var(--lp-border);
+    border-radius: 14px;
+    padding: 0.9rem 0.4rem 0.85rem;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.15s ease;
+}
+
+.lp-scape:active {
+    transform: scale(0.96);
+}
+
+.lp-scape.active {
+    border-color: var(--lp-accent);
+    background: var(--lp-accent-soft);
+}
+
+.lp-scape-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.6rem;
+    color: var(--lp-muted);
+    background: var(--lp-bg);
+    margin-bottom: 0.5rem;
+}
+
+.lp-scape.active .lp-scape-num {
+    background: var(--lp-accent);
+    color: #fdfaf5;
+}
+
+.lp-scape-icon {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.45rem;
+    color: var(--lp-accent);
+}
+
+.lp-scape-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.lp-scape-ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.lp-scape-en {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+}
+
+.lp-scape-sub {
+    display: block;
+    font-size: 0.58rem;
+    color: var(--lp-muted);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+}
+
+/* Headphones note */
+.lp-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lp-muted);
+}
+
+.lp-note svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+}
+
+/* Language toggle */
+.lp-lang {
+    display: flex;
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 999px;
+    padding: 4px;
+}
+
+.lp-lang button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.6rem 0;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.85rem;
+    color: var(--lp-muted);
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.lp-lang button.active {
+    background: var(--lp-accent);
+    color: #fdfaf5;
+}
+
+/* Letter */
+.lp-letter {
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.lp-letter summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.95rem;
+}
+
+.lp-letter summary::-webkit-details-marker {
+    display: none;
+}
+
+.lp-letter summary .chevron {
+    transition: transform 0.25s ease;
+    color: var(--lp-muted);
+}
+
+.lp-letter[open] summary .chevron {
+    transform: rotate(180deg);
+}
+
+.lp-letter summary .en-label {
+    font-family: 'Playfair Display', serif;
+    color: var(--lp-muted);
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+}
+
+.lp-letter-body {
+    padding: 0.3rem 1.5rem 1.6rem;
+    font-size: 0.95rem;
+    line-height: 2;
+}
+
+.lp-letter-body p {
+    margin-bottom: 1.2em;
+}
+
+.lp-letter-body p:last-child {
+    margin-bottom: 0;
+}
+
+.lp-letter-body[data-lang="ko"] {
+    font-family: 'Noto Serif KR', serif;
+}
+
+.lp-letter-body[data-lang="en"] {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.85;
+}
+
+/* Footer */
+.lp-footer {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+    margin-top: 0.5rem;
+}

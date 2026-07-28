@@ -22,7 +22,8 @@ const MIME = {
     '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
     '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg',
     '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.mp4': 'video/mp4',
-    '.webp': 'image/webp', '.ico': 'image/x-icon'
+    '.webp': 'image/webp', '.ico': 'image/x-icon',
+    '.m4a': 'audio/mp4', '.mp3': 'audio/mpeg', '.wav': 'audio/wav'
 };
 
 // Vercel adds these helpers to the response object.
@@ -86,7 +87,25 @@ const server = http.createServer(async (req, res) => {
         // Never cache during development: a stale HTML/JS copy makes edits look
         // like they did nothing, and keeps showing errors after a fix landed.
         res.setHeader('Cache-Control', 'no-store, must-revalidate');
-        fs.createReadStream(file).pipe(res);
+        // Range support so audio/video can seek locally, same as Vercel static.
+        const size = fs.statSync(file).size;
+        res.setHeader('Accept-Ranges', 'bytes');
+        const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+        if (range && (range[1] || range[2])) {
+            const start = range[1] ? parseInt(range[1], 10) : size - parseInt(range[2], 10);
+            const end = range[1] && range[2] ? Math.min(parseInt(range[2], 10), size - 1) : size - 1;
+            if (start >= size || start > end) {
+                res.setHeader('Content-Range', `bytes */${size}`);
+                return res.status(416).end();
+            }
+            res.status(206);
+            res.setHeader('Content-Range', `bytes ${start}-${end}/${size}`);
+            res.setHeader('Content-Length', end - start + 1);
+            fs.createReadStream(file, { start, end }).pipe(res);
+        } else {
+            res.setHeader('Content-Length', size);
+            fs.createReadStream(file).pipe(res);
+        }
     } else {
         res.status(404).send('Not found');
     }

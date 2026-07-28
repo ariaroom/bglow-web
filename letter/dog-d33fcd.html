@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Dog · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Chapter 02 &middot; Dog</p>
+        </header>
+
+        <section class="lp-player" id="player" data-state="idle">
+            <button id="playBtn" class="lp-play" aria-label="Play">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4.5v15l13-7.5-13-7.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4.5" width="4" height="15" rx="1" />
+                    <rect x="14" y="4.5" width="4" height="15" rx="1" />
+                </svg>
+                <svg class="icon-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M6 3v4h4" />
+                </svg>
+            </button>
+            <div class="lp-player-info">
+                <p class="lp-player-title">Listen to the Letter</p>
+                <p class="lp-player-sub" id="playerSub">Narration with ambient dog sounds</p>
+                <div class="lp-progress">
+                    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                    <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lp-scapes" id="scapes" hidden>
+            <div class="lp-scapes-head">Now Playing</div>
+            <div class="lp-scape-grid"></div>
+        </section>
+
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+                <rect x="3" y="13" width="4" height="7" rx="2" />
+                <rect x="17" y="13" width="4" height="7" rx="2" />
+            </svg>
+            Please use headphones for the full experience.
+        </p>
+
+        <div class="lp-lang">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+        </div>
+
+        <details class="lp-letter" open>
+            <summary>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </summary>
+            <div class="lp-letter-body" id="letterBody" data-lang="ko"></div>
+        </details>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <audio id="narration" preload="auto"></audio>
+
+    <script>
+        // NOTE: narration audio is coming later — narration: null hides the
+        // player until then. When the files arrive, mix the ambient dog tracks
+        // (run/approach + panting) into one loop, drop both files into
+        // ../assets/audio/, and fill in narration + soundscapes below.
+        window.LETTER_PAGE = {
+            narration: null,
+            soundscapes: [],
+            // When audio arrives:
+            // narration: "../assets/audio/dog_narration.m4a",
+            // soundscapes: [
+            //   { id: "dog", num: "01", label: "Dog", labelKo: "강아지", sub: "Run & Panting", icon: "sea", src: "../assets/audio/dog_ambient.m4a" }
+            // ],
+            letter: {
+                ko: `너를 알게 되고 나서,
+사랑하는 존재가 많아질수록
+더 행복해질 수 있다는 걸 알게 됐어.
+
+지나가는 강아지들만 봐도
+이유 없이 기분이 좋아지고,
+세상이 조금 더 아름다워 보였어.
+
+너는 말하지 않아도
+눈빛만으로
+나를 사랑하는 법을 알려줬어.
+
+그런데… 아가야, 정말 미안해.
+너의 세상은 온통 나였는데,
+나는 그만큼 너를 챙겨주지 못했던 것 같아.
+
+너를 많이 기다리게 한 것 같아.
+
+시간이 흘러
+우리가 다시 만나게 된다면,
+나를 데리러 와줄 수 있을까?
+
+그때가 오면…
+내가 정말 잘할게.
+
+너는,
+다시 만나고 싶은 존재가 있어?`,
+                en: `After getting to know you,
+I learned that the more beings I have to love,
+the happier I can become.
+
+Even just seeing dogs pass by
+would lift my mood for no reason at all,
+and make the world feel a little more beautiful.
+
+Without saying a word,
+you taught me how to love
+through your eyes alone.
+
+But… my baby, I'm so sorry.
+Your whole world was filled with me,
+and I don't think I cared for you
+as much as you loved me.
+
+I think I made you wait for me too often.
+
+If time passes,
+and we are able to meet again,
+would you come and find me?
+
+When that day comes…
+I promise I'll do better.
+
+Is there someone
+you long to meet again?`
+            }
+        };
+    </script>
+    <script src="letter.js"></script>
+</body>
+
+</html>

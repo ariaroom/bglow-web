@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Lover · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Chapter 04 &middot; Lover</p>
+        </header>
+
+        <section class="lp-player" id="player" data-state="idle">
+            <button id="playBtn" class="lp-play" aria-label="Play">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4.5v15l13-7.5-13-7.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4.5" width="4" height="15" rx="1" />
+                    <rect x="14" y="4.5" width="4" height="15" rx="1" />
+                </svg>
+                <svg class="icon-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M6 3v4h4" />
+                </svg>
+            </button>
+            <div class="lp-player-info">
+                <p class="lp-player-title">Listen to the Letter</p>
+                <p class="lp-player-sub" id="playerSub">Narration</p>
+                <div class="lp-progress">
+                    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                    <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lp-scapes" id="scapes" hidden>
+            <div class="lp-scapes-head">Now Playing</div>
+            <div class="lp-scape-grid"></div>
+        </section>
+
+        <div class="lp-lang">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+        </div>
+
+        <details class="lp-letter" open>
+            <summary>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </summary>
+            <div class="lp-letter-body" id="letterBody" data-lang="ko"></div>
+        </details>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <audio id="narration" preload="auto"></audio>
+
+    <script>
+        // NOTE: the Lover chapter has no audio at all — letter text only.
+        // The hidden player stays dormant unless narration is ever added.
+        window.LETTER_PAGE = {
+            narration: null,
+            soundscapes: [],
+
+            letter: {
+                ko: `너와 손을 잡고
+이 세상을 함께 살아가면서,
+나는 나를 조금씩 알아가게 됐고
+진심으로 사랑하는 법도 배웠어.
+
+완벽하지 않은 모습까지도
+있는 그대로 사랑할 수 있다는 걸,
+오히려 그 불완전함 때문에
+우리가 더 아름다울 수 있다는 걸 알게 됐어.
+
+처음에는 너를 통해
+내 안의 부족한 부분들이
+모두 채워질 수 있을 거라고 믿었던 것 같아.
+
+하지만 어느 순간 알게 됐어.
+내 안의 빈자리를 돌보는 일은
+결국 내가 해야 한다는 걸,
+그리고 내 삶의 중심에는
+내가 있어야 한다는 걸.
+
+그래도 너는
+말없이 내 곁을 지켜줬고,
+함께한 시간들은
+나를 조금 더 단단하게 만들어줬어.
+
+특별할 것 없는 평범한 날들 속에서
+변함없이 곁에 있어주는 너의 묵묵함은
+나의 안전지대가 되어줬고,
+나는 그 안에서
+조금 더 나답게
+앞으로 나아갈 수 있었어.
+
+너는 언제
+가장 너답다고 느껴?`,
+                en: `Walking through this world
+with your hand in mine,
+I came to understand myself more deeply
+and learned how to truly love who I am.
+
+I learned that even the imperfect parts of us
+can be loved exactly as they are,
+and that perhaps it is those very imperfections
+that make us all the more beautiful.
+
+At first,
+I think I believed that you could fill
+all the places within me
+that felt incomplete.
+
+But at some point, I realized
+that caring for those empty spaces
+was something I had to do for myself,
+and that I needed to remain
+at the center of my own life.
+
+Even so,
+you stayed quietly by my side,
+and the time we shared
+made me a little stronger.
+
+In the ordinary days
+when nothing remarkable seemed to happen,
+your steady presence became my safe place.
+
+And within that safety,
+I was able to move forward
+as more of who I truly am.
+
+When do you feel
+most like yourself?`
+            }
+        };
+    </script>
+    <script src="letter.js"></script>
+</body>
+
+</html>

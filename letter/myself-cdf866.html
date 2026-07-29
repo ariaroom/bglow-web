@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Myself · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Chapter 06 &middot; Myself</p>
+            <p class="lp-tagline">
+                <span class="en">The last letter is written<br>for the one who has walked this journey &mdash; you.</span>
+            </p>
+        </header>
+
+        <section class="lp-player" id="player" data-state="idle">
+            <button id="playBtn" class="lp-play" aria-label="Play">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4.5v15l13-7.5-13-7.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4.5" width="4" height="15" rx="1" />
+                    <rect x="14" y="4.5" width="4" height="15" rx="1" />
+                </svg>
+                <svg class="icon-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M6 3v4h4" />
+                </svg>
+            </button>
+            <div class="lp-player-info">
+                <p class="lp-player-title">Listen to the Letter</p>
+                <p class="lp-player-sub" id="playerSub">Narration</p>
+                <div class="lp-progress">
+                    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                    <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lp-scapes" id="scapes" hidden>
+            <div class="lp-scapes-head">Now Playing</div>
+            <div class="lp-scape-grid"></div>
+        </section>
+
+        <div class="lp-lang">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+        </div>
+
+        <details class="lp-letter" open>
+            <summary>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </summary>
+            <div class="lp-letter-body" id="letterBody" data-lang="ko"></div>
+        </details>
+
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 21v-8" />
+                <path d="M12 13c0-3 2-5.5 5-6-.3 3-2 5.5-5 6z" />
+                <path d="M12 13c0-3-2-5.5-5-6 .3 3 2 5.5 5 6z" />
+                <circle cx="12" cy="5.5" r="2" />
+            </svg>
+            After the letter, place the flower in the vase.
+        </p>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <audio id="narration" preload="auto"></audio>
+
+    <script>
+        // NOTE: narration audio is coming later — narration: null hides the
+        // player until then (../assets/audio/myself_narration.m4a).
+        window.LETTER_PAGE = {
+            narration: null,
+            soundscapes: [],
+
+            letter: {
+                ko: `나는 내 나약함 앞에서 자주 무너졌고,
+부족한 모습을 원망하며
+끊임없이 다른 사람과 나를 비교했어.
+
+세상이 정해놓은 기준에
+나를 맞추려고 애쓰다 보니,
+어느 순간
+진짜 내 모습을 잃어버렸던 것 같아.
+
+그런데 이제는 조금 알 것 같아.
+
+내가 그토록 아팠던 건
+나를 미워했기 때문이 아니라,
+사실은 누구보다
+나를 잘 살아내게 해주고 싶었기 때문이라는 걸.
+
+더 잘 살고 싶어서,
+조금 더 괜찮은 사람이 되고 싶어서,
+나는 나 자신을
+그렇게까지 몰아세웠던 거야.
+
+이제는 나를 다그치기보다 이해해주고,
+누구보다 먼저
+내 편이 되어주고 싶어.
+
+나는 내가 잘되었으면 좋겠어.
+누구보다 행복해졌으면 좋겠고,
+주어진 이 삶을
+끝까지 멋지게 살아내고 싶어.
+
+나는 이제,
+나를 가장 사랑해주고 싶어.
+
+그리고 그 마음을
+여기까지 함께 걸어온 너에게도
+건네고 싶어.
+
+우리가 이 세상에 태어나
+지금까지 살아왔다는 것만으로도,
+우리는 이미 충분히 귀하고
+대단한 사람들이야.
+
+태어나줘서 고마워.
+여기까지 살아와줘서 고마워.
+
+그리고 흩어진 내 편지의 조각들을
+끝까지 함께 찾아줘서
+정말 고마워.
+
+덕분에 나는
+다시 나에게 돌아올 수 있었어.
+
+이제 저기 놓인 꽃들 가운데
+마음이 가는 한 송이를 골라
+옆의 꽃병에 남겨줄래?
+
+네가 남긴 꽃 한 송이가 더해지고,
+내가 마지막 노래를 부르는 순간,
+흩어졌던 나의 영혼은
+비로소 다시 하나가 될 거야.`,
+                en: `I often felt defeated by my own weakness.
+I resented the parts of myself that fell short,
+and I spent so much time
+comparing myself to others.
+
+I tried so hard to fit
+the standards the world had set for me
+that somewhere along the way,
+I think I lost sight of who I truly was.
+
+But now,
+I think I'm beginning to understand.
+
+The reason I was hurting so deeply
+wasn't because I hated myself.
+It was because I cared about myself
+more than I knew.
+
+I wanted so badly to live well.
+I wanted to become someone better.
+And because of that,
+I kept pushing myself beyond what I could bear.
+
+Now, instead of being so hard on myself,
+I want to meet myself with understanding.
+I want to stand by my own side
+before asking anyone else to.
+
+I want good things for myself.
+I want to be truly happy,
+and I want to live this life
+with all the courage and beauty I can.
+
+From now on,
+I want to love myself
+more than anyone else ever could.
+
+And I want to share that love
+with you,
+who have walked beside me this far.
+
+The fact that we were born into this world
+and have made it all the way here
+is already enough to make us precious&mdash;
+and extraordinary.
+
+Thank you for coming into this world.
+Thank you for making it this far.
+
+And thank you, truly,
+for staying with me until the end
+and helping me gather
+the scattered pieces of my letters.
+
+Because of you,
+I was able to find my way back to myself.
+
+Now, would you choose one flower
+that speaks to your heart
+and place it in the vase beside you?
+
+When your flower joins the others,
+and I begin to sing my final song,
+the scattered pieces of my soul
+will finally become whole again.`
+            }
+        };
+    </script>
+    <script src="letter.js"></script>
+</body>
+
+</html>

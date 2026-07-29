@@ -6,6 +6,7 @@
   "description": "B-Glow website with Stripe-backed ticketing for Love's Last Letter",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
+    "nodemailer": "^9.0.3",
     "stripe": "^16.12.0"
   },
   "engines": {

@@ -458,6 +458,29 @@
             margin-left: 3px;
         }
 
+        .tk-email {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.85rem 1rem;
+            margin-top: 0.2rem;
+            border: 1px solid var(--tk-border);
+            border-radius: 10px;
+            background: #fff;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--tk-ink);
+        }
+
+        .tk-email:focus {
+            outline: none;
+            border-color: var(--tk-sel-border);
+        }
+
+        .tk-email.tk-invalid {
+            border-color: #cc8a7a;
+            background: #fbf3f0;
+        }
+
         .tk-total {
             display: flex;
             justify-content: space-between;
@@ -778,6 +801,13 @@
                             <span class="tk-total-amt"><small>USD</small><span id="total">$29.00</span></span>
                         </div>
 
+                        <label class="tk-label" for="email-input">Email for your ticket</label>
+                        <input type="email" id="email-input" class="tk-email" inputmode="email"
+                            autocomplete="email" placeholder="you@example.com">
+                        <p class="tk-type-note tk-muted" id="email-note">
+                            We'll send your ticket here, plus occasional updates from B-Glow. Unsubscribe anytime.
+                        </p>
+
                         <button class="tk-pay" id="pay-btn" disabled>
                             Continue to Payment
                             <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>
@@ -833,6 +863,7 @@
                 selTimeRow: document.getElementById('sel-time-row'),
                 qtySelect: document.getElementById('qty-select'),
                 qtyNote: document.getElementById('qty-note'),
+                email: document.getElementById('email-input'),
                 ebLine: document.getElementById('eb-line'),
                 ebLabel: document.getElementById('eb-label'),
                 ebAmt: document.getElementById('eb-amt'),
@@ -950,12 +981,22 @@
                 updatePricing();
             }
 
-            function setPayReady(ready) {
-                els.pay.disabled = !ready;
-                els.pay.innerHTML = ready
-                    ? 'Continue to Payment <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>'
-                    : 'Select a session first';
+            function validEmail(v) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
             }
+
+            // Pay needs BOTH a chosen session and a valid email for the ticket.
+            function refreshPay() {
+                var ready = !!state.sessionId && validEmail(els.email.value);
+                els.pay.disabled = !ready;
+                els.pay.innerHTML = !state.sessionId
+                    ? 'Select a session first'
+                    : (!validEmail(els.email.value)
+                        ? 'Enter your email'
+                        : 'Continue to Payment <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>');
+            }
+
+            function setPayReady() { refreshPay(); }
 
             // Mirrors the server's split logic so the preview matches the charge.
             function updatePricing() {
@@ -1073,14 +1114,14 @@
                         els.qtyNote.textContent = '';
                         els.typeNote.textContent = '';
                         els.total.textContent = '—';
-                        setPayReady(false);
+                        els.pay.disabled = true;
                         showError('Ticketing is temporarily unavailable. Please refresh, or email bglowteam@gmail.com.');
                     });
             }
 
             // ---------- Checkout ----------
             function startCheckout() {
-                if (state.busy || !state.sessionId) return;
+                if (state.busy || !state.sessionId || !validEmail(els.email.value)) return;
                 state.busy = true;
                 clearError();
                 els.pay.disabled = true;
@@ -1089,7 +1130,11 @@
                 fetch('/api/checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sessionId: state.sessionId, quantity: state.quantity })
+                    body: JSON.stringify({
+                        sessionId: state.sessionId,
+                        quantity: state.quantity,
+                        email: els.email.value.trim()
+                    })
                 })
                     .then(function (r) {
                         return r.json().then(function (body) { return { ok: r.ok, body: body }; });
@@ -1120,8 +1165,14 @@
                 updatePricing();
             });
 
+            els.email.addEventListener('input', function () {
+                els.email.classList.toggle('tk-invalid',
+                    els.email.value.length > 3 && !validEmail(els.email.value));
+                refreshPay();
+            });
+
             els.pay.addEventListener('click', startCheckout);
-            setPayReady(false);
+            refreshPay();
 
             if (new URLSearchParams(window.location.search).get('canceled')) {
                 showError('Checkout was canceled — your spots were released. Pick a session to try again.');

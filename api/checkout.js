@@ -34,6 +34,8 @@ export default async function handler(req, res) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body ?? {});
     const sessionId = String(body.sessionId ?? '');
     const quantity = Number(body.quantity ?? 1);
+    const email = String(body.email ?? '').trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     // Never trust the client: re-validate everything server-side.
     if (!sessionId) return res.status(400).json({ error: 'missing_session' });
@@ -92,6 +94,9 @@ export default async function handler(req, res) {
             line_items: lineItems,
             // Expire the Stripe session with the hold so spots are not stranded.
             expires_at: Math.floor(Date.now() / 1000) + HOLD_MINUTES * 60,
+            // Prefill the email they entered so it's consistent across payment
+            // methods (Apple Pay would otherwise override it with its own).
+            customer_email: emailOk ? email : undefined,
             success_url: `${base}/tickets-success.html?cs={CHECKOUT_SESSION_ID}`,
             cancel_url: `${base}/loves-last-letter-tickets.html?canceled=1`,
             custom_text: {

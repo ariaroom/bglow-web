@@ -1,32 +1,18 @@
 import { db } from '../lib/db.js';
 import { stripe } from '../lib/stripe.js';
 
-// Stripe signature verification needs the raw, unparsed body.
+// Stripe signature verification needs the exact raw bytes. Read them straight
+// off the request stream and NEVER touch req.body — accessing it triggers
+// @vercel/node's lazy JSON parse, which consumes the stream and leaves us with
+// re-serialized bytes that no longer match Stripe's signature.
 export const config = { api: { bodyParser: false } };
 
-function rawBody(req) {
-    // Some runtimes hand us the body already; only read the stream if not.
-    if (Buffer.isBuffer(req.body)) return Promise.resolve(req.body);
-    if (typeof req.body === 'string') return Promise.resolve(Buffer.from(req.body));
-
-    // If the body was parsed into an object, the exact bytes Stripe signed are
-    // gone and verification can never succeed. Fail loudly instead of silently.
-    if (req.body && typeof req.body === 'object') {
-        return Promise.reject(
-            new Error(
-                'Request body was parsed before reaching the handler. ' +
-                'Stripe signature verification needs the raw body — ' +
-                'ensure `export const config = { api: { bodyParser: false } }` is honored.'
-            )
-        );
+async function rawBody(req) {
+    const chunks = [];
+    for await (const chunk of req) {
+        chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
     }
-
-    return new Promise((resolve, reject) => {
-        const chunks = [];
-        req.on('data', (c) => chunks.push(Buffer.from(c)));
-        req.on('end', () => resolve(Buffer.concat(chunks)));
-        req.on('error', reject);
-    });
+    return Buffer.concat(chunks);
 }
 
 export default async function handler(req, res) {
@@ -44,6 +30,7 @@ export default async function handler(req, res) {
     let event;
     try {
         const buf = await rawBody(req);
+        console.log('[webhook] rawBody bytes:', buf.length, '| bodyType:', typeof req.body);
         event = stripe().webhooks.constructEvent(buf, req.headers['stripe-signature'], secret);
     } catch (err) {
         // Bad signature = not from Stripe. Reject.

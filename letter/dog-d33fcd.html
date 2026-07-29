@@ -69,7 +69,7 @@
             <button type="button" data-lang="en">English</button>
         </div>
 
-        <details class="lp-letter" open>
+        <details class="lp-letter">
             <summary>
                 <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
                 <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -88,17 +88,15 @@
 
     <script>
         // NOTE: narration audio is coming later — narration: null hides the
-        // player until then. When the files arrive, mix the ambient dog tracks
-        // (run/approach + panting) into one loop, drop both files into
-        // ../assets/audio/, and fill in narration + soundscapes below.
+        // player until then, and the single soundscape card acts as the play
+        // button. Once narration lands (../assets/audio/dog_narration.m4a),
+        // set the path below: the card hides itself and the ambience plays
+        // automatically underneath the narration.
         window.LETTER_PAGE = {
             narration: null,
-            soundscapes: [],
-            // When audio arrives:
-            // narration: "../assets/audio/dog_narration.m4a",
-            // soundscapes: [
-            //   { id: "dog", num: "01", label: "Dog", labelKo: "강아지", sub: "Run & Panting", icon: "sea", src: "../assets/audio/dog_ambient.m4a" }
-            // ],
+            soundscapes: [
+                { id: "dog", label: "Dog", labelKo: "강아지", sub: "Ambient Dog Sounds", icon: "paw", src: "../assets/audio/dog_ambient.m4a" }
+            ],
             letter: {
                 ko: `너를 알게 되고 나서,
 사랑하는 존재가 많아질수록

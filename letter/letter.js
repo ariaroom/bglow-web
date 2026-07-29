@@ -21,6 +21,7 @@
     const ICONS = {
         sea: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 14c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 18.5c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M13 9.5c1.8-4 5.5-4.5 7.5-2.5"/></svg>',
         grass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V9c0-2.5-1.5-4.5-4-5.5 1 2 1.2 3.6 1 5.5"/><path d="M12 20v-7c0-2.5 1.5-4.5 4-5.5-1 2-1.2 3.6-1 5.5"/><path d="M12 20v-4c0-2-1-3.5-3-4.5"/><path d="M4 20h16"/></svg>',
+        paw: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="9.5" r="1.7"/><circle cx="12" cy="7.5" r="1.7"/><circle cx="17.5" cy="9.5" r="1.7"/><path d="M12 12.5c-2.9 0-5.2 2.3-5.2 4.5 0 1.4 1.2 2.2 2.5 1.9 1-.2 1.8-.5 2.7-.5s1.7.3 2.7.5c1.3.3 2.5-.5 2.5-1.9 0-2.2-2.3-4.5-5.2-4.5z"/></svg>',
         sunset: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>'
     };
 
@@ -46,8 +47,17 @@
 
     // ---------- Soundscape selector ----------
     let currentId = cfg.soundscapes[0] ? cfg.soundscapes[0].id : null;
+    const scapesHead = document.querySelector('.lp-scapes-head');
 
-    if (cfg.soundscapes.length > 1) {
+    // Multiple soundscapes always show the selector. A single soundscape
+    // shows it only while there is no narration — then the card doubles as
+    // the play button. (With narration, a lone soundscape simply plays
+    // underneath and needs no UI.)
+    const showSelector = cfg.soundscapes.length > 1 ||
+        (cfg.soundscapes.length === 1 && !hasNarration);
+
+    if (showSelector) {
+        document.getElementById('scapes').hidden = false;
         const grid = document.querySelector('.lp-scape-grid');
         grid.style.gridTemplateColumns = `repeat(${cfg.soundscapes.length}, 1fr)`;
         cfg.soundscapes.forEach((s) => {
@@ -56,7 +66,7 @@
             btn.className = 'lp-scape' + (s.id === currentId ? ' active' : '');
             btn.dataset.id = s.id;
             btn.innerHTML =
-                `<span class="lp-scape-num">${s.num}</span>` +
+                (s.num ? `<span class="lp-scape-num">${s.num}</span>` : '') +
                 `<span class="lp-scape-icon">${ICONS[s.icon] || ''}</span>` +
                 `<span class="lp-scape-ko">${s.labelKo}</span>` +
                 `<span class="lp-scape-en">${s.label}</span>` +
@@ -64,6 +74,8 @@
             btn.addEventListener('click', () => selectScape(s.id));
             grid.appendChild(btn);
         });
+        // Until the visitor starts the sound themselves, invite the tap.
+        if (!hasNarration && scapesHead) scapesHead.textContent = 'Tap to Play';
     } else {
         const section = document.getElementById('scapes');
         if (section) section.hidden = true;
@@ -133,6 +145,7 @@
         gain.connect(ctx.destination);
         src.start();
         active[id] = { src, gain };
+        if (scapesHead) scapesHead.textContent = 'Now Playing';
     }
 
     function stopScape(id) {

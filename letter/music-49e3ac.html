@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Music · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Chapter 05 &middot; Music</p>
+        </header>
+
+        <section class="lp-player" id="player" data-state="idle">
+            <button id="playBtn" class="lp-play" aria-label="Play">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4.5v15l13-7.5-13-7.5z" />
+                </svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4.5" width="4" height="15" rx="1" />
+                    <rect x="14" y="4.5" width="4" height="15" rx="1" />
+                </svg>
+                <svg class="icon-replay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M4 12a8 8 0 1 0 2.3-5.6" />
+                    <path d="M6 3v4h4" />
+                </svg>
+            </button>
+            <div class="lp-player-info">
+                <p class="lp-player-title">Listen to My Song</p>
+                <p class="lp-player-sub" id="playerSub">Original song</p>
+                <div class="lp-progress">
+                    <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                    <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lp-scapes" id="scapes" hidden>
+            <div class="lp-scapes-head">Now Playing</div>
+            <div class="lp-scape-grid"></div>
+        </section>
+
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+                <rect x="3" y="13" width="4" height="7" rx="2" />
+                <rect x="17" y="13" width="4" height="7" rx="2" />
+            </svg>
+            Please use headphones for the full experience.
+        </p>
+
+        <div class="lp-lang">
+            <button type="button" data-lang="ko" class="active">한국어</button>
+            <button type="button" data-lang="en">English</button>
+        </div>
+
+        <details class="lp-letter">
+            <summary>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </summary>
+            <div class="lp-letter-body" id="letterBody" data-lang="ko"></div>
+        </details>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <audio id="narration" preload="auto"></audio>
+
+    <script>
+        // NOTE: the letter narration is coming later. Until then the single
+        // player carries the artist's original song. When the narration file
+        // arrives this chapter becomes the two-player layout from the design
+        // sheet (Listen to the Letter + Listen to My Song).
+        window.LETTER_PAGE = {
+            narration: "../assets/audio/music_song.m4a",
+            soundscapes: [],
+
+            letter: {
+                ko: `음악은 처음으로
+나를 특별한 사람처럼 느끼게 해줬어.
+
+음악과 함께 있을 때면
+세상이 조금 다른 색으로 보였고,
+나는 그 안에서
+기쁠 때도, 슬플 때도
+참 많은 위로를 받았어.
+
+그 감정을
+다른 사람들에게도 전하고 싶어서
+음악을 시작했고,
+그렇게 여기까지 오게 된 것 같아.
+
+하지만 음악을 하면서
+끊임없이 평가받는 순간들 속에서
+나를 다른 사람들과 비교하게 됐고,
+내 재능을 의심할 때도 많았어.
+
+때로는 무심한 말에 상처받았고,
+내가 왜 이 길을 걷고 있는지조차
+알 수 없는 순간들도 있었어.
+
+그럼에도 음악은 여전히
+내가 알지 못했던 세상을 보여주고,
+내 삶을 더 넓게 만들어준 존재야.
+
+그리고 무엇보다,
+아무것도 아닌 것 같았던 나에게
+이 세상에 존재할 가치가 있다고
+처음으로 말해준 친구였어.
+
+너는 살아오면서
+스스로를 특별한 사람이라고
+느껴본 적이 있어?`,
+                en: `Music was the first thing
+that made me feel like someone special.
+
+Whenever I was with music,
+the world seemed to take on different colors,
+and within it,
+I found so much comfort—
+in moments of joy,
+and in moments of sadness.
+
+I wanted to share
+that feeling with other people,
+and I think that is why
+I began making music,
+and how I found my way here.
+
+But as I continued,
+through all the moments
+of being constantly evaluated,
+I often found myself
+comparing who I was to others,
+and doubting my own talent.
+
+At times,
+careless words would wound me,
+and there were moments
+when I no longer knew
+why I was even doing this.
+
+And yet, music is still
+the one that opened my world wider
+and showed me a life
+I had never known before.
+
+More than anything,
+it was the first friend
+to tell me
+that I was someone worth being
+in this world.
+
+Have you ever,
+at any moment in your life,
+felt that you were someone special?`
+            }
+        };
+    </script>
+    <script src="letter.js"></script>
+</body>
+
+</html>

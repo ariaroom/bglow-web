@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     }
 
     // Build line items. An order can straddle the Early Bird cap, e.g. buying 2
-    // when only 1 Early Bird ticket is left -> 1 @ $29 + 1 @ $32.
+    // when only 1 Early Bird ticket is left -> 1 @ $29 + 1 @ $35.
     // tax_rates is undefined unless STRIPE_TAX_RATE_ID is configured.
     const rates = taxRateIds();
     const lineItems = [];

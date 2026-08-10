@@ -429,3 +429,295 @@ body {
     color: var(--lp-muted);
     margin-top: 0.5rem;
 }
+
+/* ================= Stamps (stamps.js) ================= */
+
+/* Floating board link on letter pages */
+.st-board-link {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 999px;
+    padding: 0.55rem 0.6rem 0.55rem 1.1rem;
+    text-decoration: none;
+    color: var(--lp-text);
+    box-shadow: 0 6px 24px rgba(115, 92, 60, 0.16);
+    z-index: 50;
+}
+
+.st-board-link-label {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.82rem;
+}
+
+.st-board-link-label em {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    color: var(--lp-muted);
+    margin-left: 0.3rem;
+}
+
+.st-board-link-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    background: var(--lp-accent);
+    color: #fdfaf5;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Letter pages need room for the floating link */
+body:has(.st-board-link) .letter-page {
+    padding-bottom: 5.5rem;
+}
+
+/* First-visit stamp toast */
+.st-toast {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(64, 56, 46, 0.28);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.st-toast.show {
+    opacity: 1;
+}
+
+.st-toast-seal {
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    border: 2.5px double var(--lp-accent);
+    outline: 2px solid var(--lp-accent);
+    outline-offset: 4px;
+    background: var(--lp-card);
+    color: var(--lp-accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transform: scale(2.1) rotate(14deg);
+    transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.st-toast.show .st-toast-seal {
+    transform: scale(1) rotate(-8deg);
+}
+
+.st-toast-icon svg {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.st-toast-name {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.st-toast-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.95rem;
+    color: #fdfaf5;
+    text-shadow: 0 1px 8px rgba(64, 56, 46, 0.5);
+}
+
+/* Board grid */
+.st-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem 0.6rem;
+}
+
+.st-slot {
+    position: relative;
+    background: var(--lp-card);
+    border: 1.5px solid var(--lp-border);
+    border-radius: 14px;
+    padding: 1rem 0.4rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.st-slot.next {
+    border-color: var(--lp-accent);
+    background: var(--lp-accent-soft);
+}
+
+.st-seal {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2px dashed var(--lp-border);
+    color: var(--lp-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.st-slot.stamped .st-seal {
+    border: 2.5px double var(--lp-accent);
+    color: var(--lp-accent);
+    transform: rotate(-8deg);
+    background: var(--lp-bg);
+}
+
+.st-num {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--lp-bg);
+    border: 1px solid var(--lp-border);
+    color: var(--lp-muted);
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-slot.stamped .st-num {
+    background: var(--lp-accent);
+    border-color: var(--lp-accent);
+    color: #fdfaf5;
+    transform: rotate(8deg);
+}
+
+.st-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.st-slot:not(.stamped) .st-name-ko,
+.st-slot:not(.stamped) .st-name-en {
+    opacity: 0.45;
+}
+
+.st-name-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.st-name-en {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    color: var(--lp-muted);
+}
+
+.st-next-tag {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lp-accent);
+    color: #fdfaf5;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.6rem;
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    white-space: nowrap;
+}
+
+/* Board: progress + guide + finale */
+.st-progress {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--lp-accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.st-guide {
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 18px;
+    padding: 1.2rem 1.4rem;
+    text-align: center;
+}
+
+.st-guide-head {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+    margin-bottom: 0.4rem;
+}
+
+.st-guide-next {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.st-guide-sub {
+    font-size: 0.8rem;
+    color: var(--lp-muted);
+    margin-top: 0.45rem;
+    line-height: 1.6;
+}
+
+.st-finale {
+    background: var(--lp-card);
+    border: 1px solid var(--lp-accent);
+    border-radius: 18px;
+    padding: 1.8rem 1.5rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.st-finale.show {
+    opacity: 1;
+    transform: none;
+}
+
+.st-finale-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+}
+
+.st-finale-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: var(--lp-accent);
+}
+
+.st-finale-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lp-muted);
+    margin-top: 0.8rem;
+    line-height: 1.7;
+}

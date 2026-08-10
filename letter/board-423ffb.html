@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Stamp Board · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Stamp Board &middot; 스탬프 보드</p>
+        </header>
+
+        <p class="st-progress" id="stampCount">0 / 6</p>
+
+        <section class="st-grid" id="stampBoard"></section>
+
+        <section class="st-guide" id="boardGuide" hidden>
+            <p class="st-guide-head">Next Artwork</p>
+            <p class="st-guide-next"></p>
+            <p class="st-guide-sub">작품 옆의 QR 코드를 스캔하면<br>스탬프가 찍힙니다.</p>
+        </section>
+
+        <section class="st-finale" id="boardFinale" hidden>
+            <p class="st-finale-title">여섯 통의 편지를 모두 읽으셨습니다.</p>
+            <p class="st-finale-text">이제 꽃 한 송이를<br>화병에 꽂아주세요.</p>
+            <p class="st-finale-en">You have read all six letters.<br>Now, please place a flower in the vase.</p>
+        </section>
+
+        <p class="lp-hint">
+            <span class="ko">정해진 순서를 따라 여섯 개의 편지를 만나보세요.</span>
+            Follow the route and meet all six letters.
+        </p>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <script src="stamps.js"></script>
+</body>
+
+</html>

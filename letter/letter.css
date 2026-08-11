@@ -529,15 +529,25 @@ body:has(.st-board-link) .letter-page {
 }
 
 .st-toast-name {
-    font-family: 'Noto Serif KR', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .st-toast-text {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.95rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
     color: #fdfaf5;
+    text-shadow: 0 1px 8px rgba(64, 56, 46, 0.5);
+}
+
+.st-toast-text-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.8rem;
+    color: #fdfaf5;
+    opacity: 0.85;
+    margin-top: -0.6rem;
     text-shadow: 0 1px 8px rgba(64, 56, 46, 0.5);
 }
 
@@ -619,15 +629,15 @@ body:has(.st-board-link) .letter-page {
     opacity: 0.45;
 }
 
-.st-name-ko {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
 .st-name-en {
     font-family: 'Playfair Display', serif;
-    font-size: 0.75rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.st-name-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.72rem;
     color: var(--lp-muted);
 }
 
@@ -638,10 +648,12 @@ body:has(.st-board-link) .letter-page {
     transform: translateX(-50%);
     background: var(--lp-accent);
     color: #fdfaf5;
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.6rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
     border-radius: 999px;
-    padding: 0.2rem 0.6rem;
+    padding: 0.25rem 0.65rem;
     white-space: nowrap;
 }
 
@@ -671,9 +683,9 @@ body:has(.st-board-link) .letter-page {
 }
 
 .st-guide-next {
-    font-family: 'Noto Serif KR', serif;
+    font-family: 'Playfair Display', 'Noto Serif KR', serif;
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .st-guide-sub {
@@ -681,6 +693,13 @@ body:has(.st-board-link) .letter-page {
     color: var(--lp-muted);
     margin-top: 0.45rem;
     line-height: 1.6;
+}
+
+.st-guide-sub-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.72rem;
+    color: var(--lp-muted);
+    margin-top: 0.35rem;
 }
 
 .st-finale {
@@ -700,24 +719,24 @@ body:has(.st-board-link) .letter-page {
 }
 
 .st-finale-title {
-    font-family: 'Noto Serif KR', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.05rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 0.8rem;
 }
 
 .st-finale-text {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.15rem;
-    line-height: 1.9;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.7;
     color: var(--lp-accent);
 }
 
-.st-finale-en {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.85rem;
+.st-finale-sub {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.82rem;
     color: var(--lp-muted);
-    margin-top: 0.8rem;
-    line-height: 1.7;
+    margin-top: 0.9rem;
+    line-height: 1.8;
 }

@@ -81,7 +81,7 @@
         link.className = 'st-board-link';
         link.href = BOARD_URL;
         link.innerHTML =
-            '<span class="st-board-link-label">스탬프 보드 <em>Stamp Board</em></span>' +
+            '<span class="st-board-link-label">Stamp Board <em>스탬프 보드</em></span>' +
             `<span class="st-board-link-count">${count(stamps)} / ${CHAPTERS.length}</span>`;
         document.body.appendChild(link);
 
@@ -94,9 +94,10 @@
             toast.innerHTML =
                 '<div class="st-toast-seal">' +
                 `<span class="st-toast-icon">${ch.icon}</span>` +
-                `<span class="st-toast-name">${ch.ko}</span>` +
+                `<span class="st-toast-name">${ch.en}</span>` +
                 '</div>' +
-                '<p class="st-toast-text">스탬프가 찍혔습니다</p>';
+                '<p class="st-toast-text">Stamp collected</p>' +
+                '<p class="st-toast-text-ko">스탬프가 찍혔습니다</p>';
             document.body.appendChild(toast);
             requestAnimationFrame(() => toast.classList.add('show'));
             setTimeout(() => {
@@ -126,9 +127,9 @@
                     <span class="st-num">${i + 1}</span>
                     <span class="st-icon">${c.icon}</span>
                 </div>
-                <span class="st-name-ko">${c.ko}</span>
                 <span class="st-name-en">${c.en}</span>
-                ${isNext ? '<span class="st-next-tag">다음 작품</span>' : ''}
+                <span class="st-name-ko">${c.ko}</span>
+                ${isNext ? '<span class="st-next-tag">Next</span>' : ''}
             </div>`;
         }).join('');
 
@@ -139,7 +140,7 @@
             requestAnimationFrame(() => finale.classList.add('show'));
         } else if (next) {
             guide.hidden = false;
-            guide.querySelector('.st-guide-next').textContent = `${next.ko} · ${next.en}`;
+            guide.querySelector('.st-guide-next').textContent = `${next.en} · ${next.ko}`;
         }
     }
 })();

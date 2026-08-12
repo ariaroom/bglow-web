@@ -41,8 +41,8 @@
                 </svg>
             </button>
             <div class="lp-player-info">
-                <p class="lp-player-title">Listen to the Letter</p>
-                <p class="lp-player-sub" id="playerSub">Narration</p>
+                <p class="lp-player-title">Listen to Mom&rsquo;s Voice</p>
+                <p class="lp-player-sub" id="playerSub">Mom&rsquo;s answer</p>
                 <div class="lp-progress">
                     <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
                     <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
@@ -69,7 +69,7 @@
             <button type="button" data-lang="en">English</button>
         </div>
 
-        <details class="lp-letter" open>
+        <details class="lp-letter">
             <summary>
                 <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
                 <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -87,17 +87,14 @@
     <audio id="narration" preload="auto"></audio>
 
     <script>
-        // NOTE: narration audio is coming later — narration: null hides the
-        // player until then. This chapter will also get a second independent
-        // player ("Listen to Mom's Voice"); the engine gains that mode when
-        // the audio files arrive.
+        // NOTE: the letter narration is still coming. Until then the single
+        // player carries Mom's answer. When the narration file arrives
+        // (../assets/audio/mother_narration.m4a) this chapter becomes the
+        // two-player layout from the design sheet.
         window.LETTER_PAGE = {
             chapter: "mother",
-            narration: null,
+            narration: "../assets/audio/mother_answer.m4a",
             soundscapes: [],
-            // When audio arrives:
-            // narration: "../assets/audio/mother_narration.m4a",
-            // second player: ../assets/audio/mother_answer.m4a (Mom's answer)
             letter: {
                 ko: `엄마는
 내가 이 세상에서 처음으로 사랑한 사람이야.

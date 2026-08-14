@@ -808,6 +808,13 @@
                             We'll send your ticket here, plus occasional updates from B-Glow. Unsubscribe anytime.
                         </p>
 
+                        <label class="tk-label" for="promo-input">Promo code <span class="tk-muted">(optional)</span></label>
+                        <input type="text" id="promo-input" class="tk-email" autocomplete="off"
+                            autocapitalize="characters" spellcheck="false" placeholder="e.g. LOVE2026">
+                        <p class="tk-type-note tk-muted" id="promo-note" hidden>
+                            The code prices every ticket from the general price and is applied on the payment page.
+                        </p>
+
                         <button class="tk-pay" id="pay-btn" disabled>
                             Continue to Payment
                             <svg class="tk-pay-arrow"><use href="#tk-arrow" /></svg>
@@ -864,6 +871,8 @@
                 qtySelect: document.getElementById('qty-select'),
                 qtyNote: document.getElementById('qty-note'),
                 email: document.getElementById('email-input'),
+                promo: document.getElementById('promo-input'),
+                promoNote: document.getElementById('promo-note'),
                 ebLine: document.getElementById('eb-line'),
                 ebLabel: document.getElementById('eb-label'),
                 ebAmt: document.getElementById('eb-amt'),
@@ -1133,7 +1142,8 @@
                     body: JSON.stringify({
                         sessionId: state.sessionId,
                         quantity: state.quantity,
-                        email: els.email.value.trim()
+                        email: els.email.value.trim(),
+                        promoCode: els.promo.value.trim()
                     })
                 })
                     .then(function (r) {
@@ -1147,7 +1157,8 @@
                         var map = {
                             sold_out: 'Sorry — those spots were just taken. Please pick another session.',
                             invalid_quantity: 'Please choose 1 or 2 tickets.',
-                            unknown_session: 'That session is no longer available.'
+                            unknown_session: 'That session is no longer available.',
+                            invalid_promo: 'That promo code isn\'t valid. Check the spelling or clear the field.'
                         };
                         throw new Error(map[res.body.error] || 'Something went wrong. Please try again.');
                     })
@@ -1163,6 +1174,10 @@
             els.qtySelect.addEventListener('change', function () {
                 state.quantity = Number(els.qtySelect.value) || 1;
                 updatePricing();
+            });
+
+            els.promo.addEventListener('input', function () {
+                els.promoNote.hidden = els.promo.value.trim() === '';
             });
 
             els.email.addEventListener('input', function () {

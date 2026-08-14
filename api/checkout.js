@@ -36,6 +36,7 @@ export default async function handler(req, res) {
     const quantity = Number(body.quantity ?? 1);
     const email = String(body.email ?? '').trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const promoInput = String(body.promoCode ?? '').trim().toUpperCase();
 
     // Never trust the client: re-validate everything server-side.
     if (!sessionId) return res.status(400).json({ error: 'missing_session' });
@@ -46,6 +47,23 @@ export default async function handler(req, res) {
     // Refuse once the exhibition is over — no reserving past-dated sessions.
     if (exhibitionEnded()) {
         return res.status(410).json({ error: 'ended' });
+    }
+
+    // Promo codes always price every ticket from the GENERAL price (the
+    // discount is "20% off $35", never off Early Bird), so validate the code
+    // before reserving — an invalid code must not strand a hold.
+    let promo = null;
+    if (promoInput) {
+        try {
+            const found = await stripe().promotionCodes.list({
+                code: promoInput, active: true, limit: 1
+            });
+            promo = found.data[0] || null;
+        } catch (err) {
+            console.error('[checkout:promo]', err.message);
+            return res.status(500).json({ error: 'server_error' });
+        }
+        if (!promo) return res.status(400).json({ error: 'invalid_promo' });
     }
 
     const supabase = db();
@@ -75,6 +93,22 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'server_error' });
     }
 
+    // A promo order takes no Early Bird units: give any it was assigned back
+    // to the pool so other buyers can still use them.
+    if (promo && hold.early_bird_qty > 0) {
+        const { error: shiftErr } = await supabase
+            .from('holds')
+            .update({ early_bird_qty: 0, general_qty: quantity })
+            .eq('id', hold.hold_id);
+        if (shiftErr) {
+            console.error('[checkout:promo-shift]', shiftErr.message);
+            await supabase.from('holds').update({ status: 'expired' }).eq('id', hold.hold_id);
+            return res.status(500).json({ error: 'server_error' });
+        }
+        hold.early_bird_qty = 0;
+        hold.general_qty = quantity;
+    }
+
     // Build line items. An order can straddle the Early Bird cap, e.g. buying 2
     // when only 1 Early Bird ticket is left -> 1 @ $29 + 1 @ $35.
     // tax_rates is undefined unless STRIPE_TAX_RATE_ID is configured.
@@ -97,6 +131,8 @@ export default async function handler(req, res) {
             // Prefill the email they entered so it's consistent across payment
             // methods (Apple Pay would otherwise override it with its own).
             customer_email: emailOk ? email : undefined,
+            // Server-applied discount (mutually exclusive with allow_promotion_codes).
+            discounts: promo ? [{ promotion_code: promo.id }] : undefined,
             success_url: `${base}/tickets-success.html?cs={CHECKOUT_SESSION_ID}`,
             cancel_url: `${base}/loves-last-letter-tickets.html?canceled=1`,
             custom_text: {
@@ -107,7 +143,8 @@ export default async function handler(req, res) {
                 session_id: sessionId,
                 quantity: String(quantity),
                 early_bird_qty: String(hold.early_bird_qty),
-                general_qty: String(hold.general_qty)
+                general_qty: String(hold.general_qty),
+                promo_code: promo ? promoInput : ''
             }
         });
 

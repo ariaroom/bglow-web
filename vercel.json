@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/ticket",
+      "destination": "/loves-last-letter-tickets.html"
+    },
+    {
+      "source": "/tickets",
+      "destination": "/loves-last-letter-tickets.html"
+    },
+    {
+      "source": "/one-year",
+      "destination": "https://one-year-letter.vercel.app/one-year"
+    },
+    {
+      "source": "/one-year/:path*",
+      "destination": "https://one-year-letter.vercel.app/one-year/:path*"
+    }
+  ]
+}

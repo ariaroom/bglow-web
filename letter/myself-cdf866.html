@@ -58,6 +58,15 @@
             <div class="lp-scape-grid"></div>
         </section>
 
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+                <rect x="3" y="13" width="4" height="7" rx="2" />
+                <rect x="17" y="13" width="4" height="7" rx="2" />
+            </svg>
+            Please use headphones for the full experience.
+        </p>
+
         <div class="lp-lang">
             <button type="button" data-lang="ko" class="active">한국어</button>
             <button type="button" data-lang="en">English</button>
@@ -92,10 +101,14 @@
 
     <script>
         // NOTE: narration audio is coming later — narration: null hides the
-        // player until then (../assets/audio/myself_narration.m4a).
+        // player until then (../assets/audio/myself_narration.m4a). Until it
+        // arrives the single BGM card acts as the play button; once narration
+        // lands, the BGM hides and plays underneath it automatically.
         window.LETTER_PAGE = {
             narration: null,
-            soundscapes: [],
+            soundscapes: [
+                { id: "bgm", label: "Background Music", labelKo: "배경음악", sub: "Calm Piano — RAUMI", icon: "note", src: "../assets/audio/myself_bgm.m4a" }
+            ],
 
             letter: {
                 ko: `나는 내 나약함 앞에서 자주 무너졌고,

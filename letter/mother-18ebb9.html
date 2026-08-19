@@ -41,8 +41,8 @@
                 </svg>
             </button>
             <div class="lp-player-info">
-                <p class="lp-player-title">Listen to Mom&rsquo;s Voice</p>
-                <p class="lp-player-sub" id="playerSub">Mom&rsquo;s answer</p>
+                <p class="lp-player-title">Listen to the Letter</p>
+                <p class="lp-player-sub" id="playerSub">Narration</p>
                 <div class="lp-progress">
                     <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
                     <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
@@ -53,6 +53,12 @@
         <section class="lp-scapes" id="scapes" hidden>
             <div class="lp-scapes-head">Now Playing</div>
             <div class="lp-scape-grid"></div>
+        </section>
+
+        <section class="lp-video">
+            <video src="../assets/video/mother_answer.mp4" poster="../assets/video/mother_answer_poster.jpg"
+                controls playsinline preload="metadata"></video>
+            <p class="lp-video-caption">Mom&rsquo;s Answer<span class="ko">엄마의 답변</span></p>
         </section>
 
         <p class="lp-note">
@@ -87,13 +93,12 @@
     <audio id="narration" preload="auto"></audio>
 
     <script>
-        // NOTE: the letter narration is still coming. Until then the single
-        // player carries Mom's answer. When the narration file arrives
-        // (../assets/audio/mother_narration.m4a) this chapter becomes the
-        // two-player layout from the design sheet.
+        // NOTE: Mom's answer is the inline VIDEO above. The letter narration
+        // is still coming — when it arrives (../assets/audio/mother_narration.m4a)
+        // set the path below and the audio player reappears.
         window.LETTER_PAGE = {
             chapter: "mother",
-            narration: "../assets/audio/mother_answer.m4a",
+            narration: null,
             soundscapes: [],
             letter: {
                 ko: `엄마는

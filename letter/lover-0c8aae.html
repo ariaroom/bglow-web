@@ -55,6 +55,15 @@
             <div class="lp-scape-grid"></div>
         </section>
 
+        <p class="lp-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+                <rect x="3" y="13" width="4" height="7" rx="2" />
+                <rect x="17" y="13" width="4" height="7" rx="2" />
+            </svg>
+            Please use headphones for the full experience.
+        </p>
+
         <div class="lp-lang">
             <button type="button" data-lang="ko" class="active">한국어</button>
             <button type="button" data-lang="en">English</button>
@@ -78,12 +87,14 @@
     <audio id="narration" preload="auto"></audio>
 
     <script>
-        // NOTE: the Lover chapter has no audio at all — letter text only.
-        // The hidden player stays dormant unless narration is ever added.
+        // NOTE: no narration for this chapter — the single BGM card acts as
+        // the play button (royalty-free track, credited in the card).
         window.LETTER_PAGE = {
             chapter: "lover",
             narration: null,
-            soundscapes: [],
+            soundscapes: [
+                { id: "bgm", label: "Background Music", labelKo: "배경음악", sub: "The Waltz 'Sublimation' — Lee Jaerhyang", icon: "note", src: "../assets/audio/lover_bgm.m4a" }
+            ],
 
             letter: {
                 ko: `너와 손을 잡고

@@ -22,6 +22,7 @@
         sea: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 14c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 18.5c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M13 9.5c1.8-4 5.5-4.5 7.5-2.5"/></svg>',
         grass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V9c0-2.5-1.5-4.5-4-5.5 1 2 1.2 3.6 1 5.5"/><path d="M12 20v-7c0-2.5 1.5-4.5 4-5.5-1 2-1.2 3.6-1 5.5"/><path d="M12 20v-4c0-2-1-3.5-3-4.5"/><path d="M4 20h16"/></svg>',
         paw: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6.5" cy="9.5" r="1.7"/><circle cx="12" cy="7.5" r="1.7"/><circle cx="17.5" cy="9.5" r="1.7"/><path d="M12 12.5c-2.9 0-5.2 2.3-5.2 4.5 0 1.4 1.2 2.2 2.5 1.9 1-.2 1.8-.5 2.7-.5s1.7.3 2.7.5c1.3.3 2.5-.5 2.5-1.9 0-2.2-2.3-4.5-5.2-4.5z"/></svg>',
+        note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>',
         sunset: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>'
     };
 

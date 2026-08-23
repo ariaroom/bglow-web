@@ -466,3 +466,12 @@ body {
     color: var(--lp-muted);
     margin-top: 0.5rem;
 }
+
+.lp-video-caption .ko-line {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-style: normal;
+    font-size: 0.92rem;
+    color: var(--lp-text);
+    margin-bottom: 0.25rem;
+}

@@ -653,21 +653,6 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-/* Finale (inline on the board once all six are collected) */
-.st-complete {
-    text-align: center;
-    border-top: 1px solid var(--lp-border);
-    padding-top: 1.8rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.st-complete.show {
-    opacity: 1;
-    transform: none;
-}
-
 /* Performance ticket revealed at 6/6 */
 .st-ticket {
     margin: 1.6rem auto 1.8rem;
@@ -681,9 +666,6 @@ body {
     text-align: left;
 }
 
-.st-complete.show .st-ticket {
-    animation: st-ticket-in 0.9s cubic-bezier(0.2, 1.3, 0.4, 1) 0.25s both;
-}
 
 @keyframes st-ticket-in {
     0% { opacity: 0; transform: translateY(28px) rotate(3deg) scale(0.96); }
@@ -758,52 +740,11 @@ body {
     text-align: center;
 }
 
-.st-finale-art {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 1.1rem;
-    border-radius: 50%;
-    border: 1px solid var(--lp-accent);
-    color: var(--lp-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.st-finale-art svg {
-    width: 30px;
-    height: 30px;
-}
 
-.st-finale-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.05rem;
-    font-weight: 500;
-}
 
-.st-finale-title-en {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--lp-muted);
-    margin-top: 0.3rem;
-}
 
-.st-finale-text {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.9rem;
-    line-height: 1.9;
-    margin-top: 1.2rem;
-}
 
-.st-finale-text-en {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.8rem;
-    line-height: 1.8;
-    color: var(--lp-muted);
-    margin-top: 0.8rem;
-}
 
 .lp-video-caption .ko-line {
     display: block;
@@ -812,4 +753,120 @@ body {
     font-size: 0.92rem;
     color: var(--lp-text);
     margin-bottom: 0.25rem;
+}
+
+/* ================= Finale page ================= */
+
+.fn-page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.fn-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+}
+
+.fn-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.45rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 1rem;
+}
+
+.fn-title-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--lp-muted);
+    margin-top: 0.5rem;
+}
+
+.fn-ticket {
+    margin: 2rem auto 2.2rem;
+    opacity: 0;
+}
+
+.fn-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.95rem;
+    line-height: 2;
+}
+
+.fn-text-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: var(--lp-muted);
+    margin-top: 0.9rem;
+}
+
+.fn-foot {
+    margin-top: 2.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+}
+
+.fn-seq {
+    opacity: 0;
+    transform: translateY(14px);
+}
+
+.fn-play .fn-seq {
+    animation: fn-fade 0.9s ease forwards;
+}
+
+.fn-play .fn-eyebrow { animation-delay: 0.2s; }
+.fn-play .fn-title { animation-delay: 0.5s; }
+.fn-play .fn-title-en { animation-delay: 0.8s; }
+.fn-play .fn-ticket { animation: st-ticket-in 1s cubic-bezier(0.2, 1.3, 0.4, 1) 1.5s both; }
+.fn-play .fn-text { animation-delay: 2.5s; }
+.fn-play .fn-text-en { animation-delay: 2.8s; }
+.fn-play .fn-foot { animation-delay: 3.3s; }
+
+@keyframes fn-fade {
+    to { opacity: 1; transform: none; }
+}
+
+/* Drifting petals behind the ticket */
+.fn-petals {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.fn-petal {
+    position: absolute;
+    top: -3vh;
+    width: 10px;
+    height: 14px;
+    background: #dcc9a2;
+    border-radius: 60% 40% 55% 45% / 60% 60% 40% 40%;
+    opacity: 0;
+    animation: fn-fall 9s linear infinite;
+}
+
+@keyframes fn-fall {
+    0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+    12% { opacity: 0.65; }
+    85% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(108vh) translateX(7vw) rotate(320deg); }
 }

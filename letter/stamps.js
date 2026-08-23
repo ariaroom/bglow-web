@@ -15,6 +15,7 @@
 (() => {
     const KEY = 'bglow.stamps.v1';
     const BOARD_URL = 'board-e6489d.html';
+    const FINALE_URL = 'finale-71cc50.html';
 
     // Route order for the exhibition.
     const CHAPTERS = [
@@ -111,7 +112,11 @@
             }
             // Carry the stamp in the URL too: the board animates it, and even
             // a storage-blocked browser still gets its moment.
-            location.href = `${BOARD_URL}?just=${chapterId}`;
+            if (count(read()) === CHAPTERS.length) {
+                location.href = FINALE_URL;
+            } else {
+                location.href = `${BOARD_URL}?just=${chapterId}`;
+            }
         });
     }
 
@@ -146,16 +151,33 @@
         document.getElementById('stampCount').textContent = `${done} / ${CHAPTERS.length}`;
 
         const guide = document.getElementById('boardGuide');
-        const finale = document.getElementById('boardFinale');
-        // Let the just-pressed animation land before revealing what's next.
-        const delay = just ? 1100 : 200;
-        setTimeout(() => {
-            if (complete) {
-                finale.hidden = false;
-                requestAnimationFrame(() => finale.classList.add('show'));
-            } else {
-                guide.hidden = false;
+        if (complete) {
+            // The board's job is done — hand over to the finale page.
+            setTimeout(() => { location.href = FINALE_URL; }, just ? 1300 : 400);
+        } else {
+            setTimeout(() => { guide.hidden = false; }, just ? 1100 : 200);
+        }
+    }
+
+    // ---------- finale page ----------
+
+    const fn = document.querySelector('.fn-page');
+    if (fn) {
+        // Reached without a full collection (shared URL, cleared storage):
+        // fall back to the board rather than showing an unearned ticket.
+        if (count(read()) < CHAPTERS.length) {
+            location.replace(BOARD_URL);
+        } else {
+            document.body.classList.add('fn-play');
+            const petals = document.querySelector('.fn-petals');
+            for (let i = 0; i < 10; i++) {
+                const petal = document.createElement('span');
+                petal.className = 'fn-petal';
+                petal.style.left = (5 + Math.random() * 90) + '%';
+                petal.style.animationDelay = (Math.random() * 6) + 's';
+                petal.style.animationDuration = (7 + Math.random() * 5) + 's';
+                petals.appendChild(petal);
             }
-        }, delay);
+        }
     }
 })();

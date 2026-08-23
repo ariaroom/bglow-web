@@ -690,6 +690,19 @@ body.st-arrive {
     100% { opacity: 1; transform: rotate(-2deg); }
 }
 
+.st-ticket {
+    position: relative;
+}
+
+.st-ticket::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(217, 201, 168, 0.45);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
 .st-ticket-main {
     flex: 1;
     padding: 1.3rem 1.4rem 1.2rem;
@@ -797,40 +810,79 @@ body.st-arrive {
     color: var(--lp-muted);
 }
 
-.fn-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.45rem;
-    font-weight: 500;
-    line-height: 1.5;
+.fn-ornament {
     margin-top: 1rem;
+    color: var(--lp-accent);
 }
 
-.fn-title-en {
+.fn-ornament svg {
+    width: 22px;
+    height: 22px;
+}
+
+.fn-title-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #3f4c37;
+    margin-top: 0.9rem;
+}
+
+.fn-title-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--lp-text);
+    margin-top: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.fn-story {
+    margin-top: 0.4rem;
+}
+
+.fn-story-en {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    margin-top: 1.1rem;
+}
+
+.fn-story-em {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     color: var(--lp-muted);
-    margin-top: 0.5rem;
+    margin-top: 1.1rem;
+}
+
+.fn-story-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.86rem;
+    font-weight: 300;
+    line-height: 1.95;
+    margin-top: 1.1rem;
+    word-break: keep-all;
+}
+
+.fn-story-ko-em {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    margin-top: 1.1rem;
+}
+
+.fn-divider {
+    margin-top: 1.6rem;
+    width: 150px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--lp-accent), transparent);
 }
 
 .fn-ticket {
     margin: 2rem auto 2.2rem;
     opacity: 0;
-}
-
-.fn-text {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.95rem;
-    line-height: 2;
-}
-
-.fn-text-en {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.82rem;
-    line-height: 1.8;
-    color: var(--lp-muted);
-    margin-top: 0.9rem;
 }
 
 .fn-foot {
@@ -851,12 +903,14 @@ body.st-arrive {
 }
 
 .fn-play .fn-eyebrow { animation-delay: 0.2s; }
-.fn-play .fn-title { animation-delay: 0.5s; }
-.fn-play .fn-title-en { animation-delay: 0.8s; }
-.fn-play .fn-ticket { animation: st-ticket-in 1s cubic-bezier(0.2, 1.3, 0.4, 1) 1.5s both; }
-.fn-play .fn-text { animation-delay: 2.5s; }
-.fn-play .fn-text-en { animation-delay: 2.8s; }
-.fn-play .fn-foot { animation-delay: 3.3s; }
+.fn-play .fn-ornament { animation-delay: 0.35s; }
+.fn-play .fn-title-big { animation-delay: 0.55s; }
+.fn-play .fn-title-ko { animation-delay: 0.85s; }
+.fn-play .fn-ticket { animation: st-ticket-in 1s cubic-bezier(0.2, 1.3, 0.4, 1) 1.6s both; }
+.fn-play .fn-story:not(.fn-story-last) { animation-delay: 2.6s; }
+.fn-play .fn-divider { animation-delay: 3s; }
+.fn-play .fn-story-last { animation-delay: 3.2s; }
+.fn-play .fn-foot { animation-delay: 3.7s; }
 
 @keyframes fn-fade {
     to { opacity: 1; transform: none; }

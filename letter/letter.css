@@ -469,313 +469,268 @@ body {
 
 /* ================= Stamps (stamps.js) ================= */
 
-/* Floating board link on letter pages */
-.st-board-link {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(1rem + env(safe-area-inset-bottom));
+/* In-app browser warning */
+.st-inapp {
+    position: sticky;
+    top: 0;
+    z-index: 60;
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    background: var(--lp-card);
-    border: 1px solid var(--lp-border);
-    border-radius: 999px;
-    padding: 0.55rem 0.6rem 0.55rem 1.1rem;
-    text-decoration: none;
-    color: var(--lp-text);
-    box-shadow: 0 6px 24px rgba(115, 92, 60, 0.16);
-    z-index: 50;
-}
-
-.st-board-link-label {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.82rem;
-}
-
-.st-board-link-label em {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.75rem;
-    color: var(--lp-muted);
-    margin-left: 0.3rem;
-}
-
-.st-board-link-count {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.75rem;
+    gap: 0.8rem;
     background: var(--lp-accent);
     color: #fdfaf5;
-    border-radius: 999px;
-    padding: 0.35rem 0.7rem;
-    font-variant-numeric: tabular-nums;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    padding: 0.7rem 1rem;
 }
 
-/* Letter pages need room for the floating link */
-body:has(.st-board-link) .letter-page {
-    padding-bottom: 5.5rem;
+.st-inapp button {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
-/* First-visit stamp toast */
-.st-toast {
-    position: fixed;
-    inset: 0;
+/* Stamp station at the bottom of each letter page */
+.st-station {
+    text-align: center;
+}
+
+.st-head {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    background: rgba(64, 56, 46, 0.28);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    z-index: 100;
+    gap: 0.8rem;
+    margin-bottom: 1.1rem;
+    color: var(--lp-muted);
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.st-toast.show {
-    opacity: 1;
+.st-head::before,
+.st-head::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--lp-border);
 }
 
-.st-toast-seal {
-    width: 118px;
-    height: 118px;
+.st-lead {
+    font-size: 0.85rem;
+    color: var(--lp-muted);
+    line-height: 1.7;
+    margin-bottom: 1.3rem;
+}
+
+.st-lead .ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    color: var(--lp-text);
+    margin-bottom: 0.15rem;
+}
+
+.st-seal-btn {
+    width: 104px;
+    height: 104px;
     border-radius: 50%;
-    border: 2.5px double var(--lp-accent);
-    outline: 2px solid var(--lp-accent);
-    outline-offset: 4px;
+    border: 1.5px solid var(--lp-accent);
     background: var(--lp-card);
     color: var(--lp-accent);
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
-    transform: scale(2.1) rotate(14deg);
-    transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+    cursor: pointer;
+    position: relative;
+    animation: st-invite 2.6s ease-in-out infinite;
 }
 
-.st-toast.show .st-toast-seal {
-    transform: scale(1) rotate(-8deg);
+.st-seal-btn::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px dashed var(--lp-accent);
+    border-radius: 50%;
+    opacity: 0.55;
 }
 
-.st-toast-icon svg {
-    width: 40px;
-    height: 40px;
+.st-seal-icon svg {
+    width: 34px;
+    height: 34px;
     display: block;
 }
 
-.st-toast-name {
+.st-seal-name {
     font-family: 'Playfair Display', serif;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.st-toast-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.05rem;
-    color: #fdfaf5;
-    text-shadow: 0 1px 8px rgba(64, 56, 46, 0.5);
+@keyframes st-invite {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(169, 126, 82, 0.25); }
+    50% { transform: scale(1.03); box-shadow: 0 0 0 9px rgba(169, 126, 82, 0); }
 }
 
-.st-toast-text-ko {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.8rem;
-    color: #fdfaf5;
-    opacity: 0.85;
-    margin-top: -0.6rem;
-    text-shadow: 0 1px 8px rgba(64, 56, 46, 0.5);
+.st-seal-btn.pressing {
+    animation: st-press 0.9s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
 }
 
-/* Board grid */
-.st-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.9rem 0.6rem;
+@keyframes st-press {
+    0% { transform: scale(1.7) rotate(6deg); opacity: 0.25; }
+    55% { transform: scale(0.94) rotate(-4deg); opacity: 1; }
+    75% { transform: scale(1.03) rotate(-4deg); }
+    100% { transform: scale(1) rotate(-4deg); background: var(--lp-accent-soft); }
 }
 
-.st-slot {
-    position: relative;
-    background: var(--lp-card);
-    border: 1.5px solid var(--lp-border);
-    border-radius: 14px;
-    padding: 1rem 0.4rem 0.9rem;
+.st-seal-btn.pressed,
+.st-seal-btn:disabled.pressed {
+    animation: none;
+    transform: rotate(-4deg);
+    background: var(--lp-accent-soft);
+    cursor: default;
+}
+
+.st-row {
+    margin-top: 1.5rem;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.15rem;
+    justify-content: center;
+    gap: 0.55rem;
 }
 
-.st-slot.next {
+.st-mini {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--lp-border);
+    color: var(--lp-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-mini svg {
+    width: 18px;
+    height: 18px;
+}
+
+.st-mini.here {
+    border-color: var(--lp-accent);
+}
+
+.st-mini.on {
     border-color: var(--lp-accent);
     background: var(--lp-accent-soft);
-}
-
-.st-seal {
-    position: relative;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    border: 2px dashed var(--lp-border);
-    color: var(--lp-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-}
-
-.st-slot.stamped .st-seal {
-    border: 2.5px double var(--lp-accent);
     color: var(--lp-accent);
-    transform: rotate(-8deg);
-    background: var(--lp-bg);
+    transform: rotate(-4deg);
 }
 
-.st-num {
-    position: absolute;
-    top: -7px;
-    right: -7px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--lp-bg);
-    border: 1px solid var(--lp-border);
-    color: var(--lp-muted);
-    font-size: 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.st-slot.stamped .st-num {
-    background: var(--lp-accent);
-    border-color: var(--lp-accent);
-    color: #fdfaf5;
-    transform: rotate(8deg);
-}
-
-.st-icon svg {
-    width: 28px;
-    height: 28px;
-    display: block;
-}
-
-.st-slot:not(.stamped) .st-name-ko,
-.st-slot:not(.stamped) .st-name-en {
-    opacity: 0.45;
-}
-
-.st-name-en {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.92rem;
-    font-weight: 600;
-}
-
-.st-name-ko {
-    font-family: 'Noto Serif KR', serif;
+.st-count {
+    margin-top: 0.7rem;
     font-size: 0.72rem;
+    letter-spacing: 2px;
     color: var(--lp-muted);
-}
-
-.st-next-tag {
-    position: absolute;
-    top: -9px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--lp-accent);
-    color: #fdfaf5;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.58rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 999px;
-    padding: 0.25rem 0.65rem;
-    white-space: nowrap;
-}
-
-/* Board: progress + guide + finale */
-.st-progress {
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    color: var(--lp-accent);
     font-variant-numeric: tabular-nums;
 }
 
-.st-guide {
-    background: var(--lp-card);
-    border: 1px solid var(--lp-border);
-    border-radius: 18px;
-    padding: 1.2rem 1.4rem;
-    text-align: center;
-}
-
-.st-guide-head {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--lp-muted);
-    margin-bottom: 0.4rem;
-}
-
-.st-guide-next {
-    font-family: 'Playfair Display', 'Noto Serif KR', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.st-guide-sub {
-    font-size: 0.8rem;
-    color: var(--lp-muted);
-    margin-top: 0.45rem;
-    line-height: 1.6;
-}
-
-.st-guide-sub-ko {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.72rem;
-    color: var(--lp-muted);
-    margin-top: 0.35rem;
-}
-
+/* Finale overlay */
 .st-finale {
-    background: var(--lp-card);
-    border: 1px solid var(--lp-accent);
-    border-radius: 18px;
-    padding: 1.8rem 1.5rem;
-    text-align: center;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(43, 36, 27, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.5s ease;
 }
 
 .st-finale.show {
     opacity: 1;
+}
+
+.st-finale-card {
+    max-width: 340px;
+    width: 100%;
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: 18px;
+    padding: 2.2rem 1.8rem 1.8rem;
+    text-align: center;
+    transform: translateY(14px) scale(0.97);
+    transition: transform 0.5s ease;
+}
+
+.st-finale.show .st-finale-card {
     transform: none;
 }
 
+.st-finale-art {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1.1rem;
+    border-radius: 50%;
+    border: 1px solid var(--lp-accent);
+    color: var(--lp-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-finale-art svg {
+    width: 30px;
+    height: 30px;
+}
+
 .st-finale-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Noto Serif KR', serif;
     font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+.st-finale-title-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lp-muted);
+    margin-top: 0.3rem;
 }
 
 .st-finale-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.35rem;
-    line-height: 1.7;
-    color: var(--lp-accent);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    margin-top: 1.2rem;
 }
 
-.st-finale-sub {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.82rem;
-    color: var(--lp-muted);
-    margin-top: 0.9rem;
+.st-finale-text-en {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
     line-height: 1.8;
+    color: var(--lp-muted);
+    margin-top: 0.8rem;
+}
+
+.st-finale-close {
+    margin-top: 1.5rem;
+    border: 1px solid var(--lp-accent);
+    background: none;
+    color: var(--lp-accent);
+    border-radius: 999px;
+    padding: 0.5rem 1.6rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
 }
 
 .lp-video-caption .ko-line {

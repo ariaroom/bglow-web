@@ -159,6 +159,18 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
+/* Longer, language-aware player description (Music chapter) */
+.lp-player-sub.desc {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    margin-top: 0.35rem;
+}
+
+.lp-player-sub.desc[data-lang="ko"] {
+    font-family: 'Noto Serif KR', serif;
+    font-style: normal;
+}
+
 .lp-progress {
     margin-top: 0.7rem;
 }

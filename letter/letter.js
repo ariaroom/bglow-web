@@ -297,6 +297,13 @@
 
     function renderLetter() {
         letterBody.dataset.lang = lang;
+        // Optional per-language UI copy (e.g. the Music chapter's song intro).
+        if (cfg.playerSub && subEl) {
+            subEl.innerHTML = cfg.playerSub[lang];
+            subEl.dataset.lang = lang;
+        }
+        const noteText = document.querySelector('.lp-note-text');
+        if (cfg.note && noteText) noteText.textContent = cfg.note[lang];
         letterBody.innerHTML = cfg.letter[lang]
             .trim()
             .split(/\n\s*\n/)

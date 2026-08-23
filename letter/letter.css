@@ -668,6 +668,96 @@ body {
     transform: none;
 }
 
+/* Performance ticket revealed at 6/6 */
+.st-ticket {
+    margin: 1.6rem auto 1.8rem;
+    max-width: 330px;
+    display: flex;
+    background: #3f4c37;
+    color: #f3ead6;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(63, 76, 55, 0.35);
+    overflow: hidden;
+    text-align: left;
+}
+
+.st-complete.show .st-ticket {
+    animation: st-ticket-in 0.9s cubic-bezier(0.2, 1.3, 0.4, 1) 0.25s both;
+}
+
+@keyframes st-ticket-in {
+    0% { opacity: 0; transform: translateY(28px) rotate(3deg) scale(0.96); }
+    100% { opacity: 1; transform: rotate(-2deg); }
+}
+
+.st-ticket-main {
+    flex: 1;
+    padding: 1.3rem 1.4rem 1.2rem;
+}
+
+.st-ticket-eyebrow {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: #d9c9a8;
+}
+
+.st-ticket-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 0.35rem;
+}
+
+.st-ticket-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.8rem;
+    color: #d9c9a8;
+    margin-top: 0.5rem;
+}
+
+.st-ticket-stub {
+    flex: 0 0 84px;
+    border-left: 1.5px dashed rgba(243, 234, 214, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 0.4rem;
+    position: relative;
+}
+
+.st-ticket-stub::before,
+.st-ticket-stub::after {
+    content: "";
+    position: absolute;
+    left: -8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--lp-bg);
+}
+
+.st-ticket-stub::before { top: -8px; }
+.st-ticket-stub::after { bottom: -8px; }
+
+.st-ticket-stub svg {
+    width: 26px;
+    height: 26px;
+    color: #d9c9a8;
+}
+
+.st-ticket-stub span {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #d9c9a8;
+    text-align: center;
+}
+
 .st-finale-art {
     width: 56px;
     height: 56px;

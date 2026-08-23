@@ -69,7 +69,7 @@
             btn.innerHTML =
                 (s.num ? `<span class="lp-scape-num">${s.num}</span>` : '') +
                 `<span class="lp-scape-icon">${ICONS[s.icon] || ''}</span>` +
-                `<span class="lp-scape-ko">${s.labelKo}</span>` +
+                (s.labelKo ? `<span class="lp-scape-ko">${s.labelKo}</span>` : '') +
                 `<span class="lp-scape-en">${s.label}</span>` +
                 `<span class="lp-scape-sub">${s.sub}</span>`;
             btn.addEventListener('click', () => selectScape(s.id));

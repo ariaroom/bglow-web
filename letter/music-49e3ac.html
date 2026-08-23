@@ -42,7 +42,7 @@
             </button>
             <div class="lp-player-info">
                 <p class="lp-player-title">Quando me&rsquo;n vo &mdash; Puccini</p>
-                <p class="lp-player-sub desc" id="playerSub">Original song</p>
+                <p class="lp-player-sub desc" id="playerSub">When I was eighteen, I began studying classical singing with this song.<br>What you're hearing is my voice from when it all began.</p>
                 <div class="lp-progress">
                     <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
                     <div class="lp-time"><span id="cur">0:00</span><span id="dur">–:––</span></div>
@@ -71,7 +71,7 @@
 
         <details class="lp-letter">
             <summary>
-                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
+                <span>Read the Letter</span>
                 <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <path d="M6 9l6 6 6-6" />
@@ -94,14 +94,6 @@
         window.LETTER_PAGE = {
             chapter: "music",
             narration: "../assets/audio/music_song.m4a",
-            playerSub: {
-                ko: "이 곡은 제가 18살 겨울, 처음 성악을 배웠을 때 불렀던 곡입니다.<br>지금 들리는 것은, 당시 제가 불렀던 목소리입니다.",
-                en: "When I was eighteen, I began studying classical singing with this song.<br>What you're hearing is my voice from when it all began."
-            },
-            note: {
-                ko: "보다 몰입감 있는 경험을 위해, 이어폰을 사용해 주세요.",
-                en: "Please use headphones for the full experience."
-            },
             soundscapes: [],
 
             letter: {

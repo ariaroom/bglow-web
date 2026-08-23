@@ -73,8 +73,8 @@
         const warn = document.createElement('div');
         warn.className = 'st-inapp';
         warn.innerHTML =
-            '<span>스탬프를 모으려면 기본 브라우저(Safari/Chrome)로 열어 주세요.<br>' +
-            'Please open in Safari or Chrome so your stamps stay together.</span>' +
+            '<span>스탬프를 모으려면 휴대폰 기본 브라우저(Safari · Chrome · 삼성 인터넷)로 열어 주세요.<br>' +
+            'Please open this page in your phone&rsquo;s default browser so your stamps stay together.</span>' +
             '<button type="button" aria-label="Close">&times;</button>';
         warn.querySelector('button').addEventListener('click', () => warn.remove());
         document.body.prepend(warn);

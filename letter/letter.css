@@ -777,3 +777,12 @@ body:has(.st-board-link) .letter-page {
     margin-top: 0.9rem;
     line-height: 1.8;
 }
+
+.lp-video-caption .ko-line {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-style: normal;
+    font-size: 0.92rem;
+    color: var(--lp-text);
+    margin-bottom: 0.25rem;
+}

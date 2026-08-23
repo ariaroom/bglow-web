@@ -24,6 +24,7 @@
             <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
             <p class="lp-chapter">Nature</p>
             <p class="lp-tagline">
+                <span class="ko">하나의 편지, 세 개의 풍경</span>
                 <span class="en">One letter, three landscapes</span>
             </p>
         </header>
@@ -54,6 +55,7 @@
         </section>
 
         <p class="lp-hint" id="scapeHint">
+            <span class="ko">작품을 이동하며 풍경을 선택해 주세요.</span>
             Select the landscape as you move.<span id="hintNarr"><br>
                 The narration will continue &mdash; only the soundscape will change.</span>
         </p>
@@ -79,7 +81,7 @@
 
         <details class="lp-letter">
             <summary>
-                <span>Read the Letter</span>
+                <span>편지 읽기 <span class="en-label">Read the Letter</span></span>
                 <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <path d="M6 9l6 6 6-6" />
@@ -104,9 +106,9 @@
             chapter: "nature",
             narration: null,
             soundscapes: [
-                { id: "sea", num: "01", label: "Sea", sub: "Ocean Waves", icon: "sea", src: "../assets/audio/nature_sea.m4a" },
-                { id: "grass", num: "02", label: "Grass", sub: "Birdsong & Breeze", icon: "grass", src: "../assets/audio/nature_grass.m4a" },
-                { id: "sunset", num: "03", label: "Sunset", sub: "Evening Wind", icon: "sunset", src: "../assets/audio/nature_sunset.m4a" }
+                { id: "sea", num: "01", label: "Sea", labelKo: "바다", sub: "Ocean Waves", icon: "sea", src: "../assets/audio/nature_sea.m4a" },
+                { id: "grass", num: "02", label: "Grass", labelKo: "잔디", sub: "Birdsong & Breeze", icon: "grass", src: "../assets/audio/nature_grass.m4a" },
+                { id: "sunset", num: "03", label: "Sunset", labelKo: "노을", sub: "Evening Wind", icon: "sunset", src: "../assets/audio/nature_sunset.m4a" }
             ],
             letter: {
                 ko: `가끔 나는,

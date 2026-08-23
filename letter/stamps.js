@@ -104,15 +104,24 @@
             '</button>' +
             (got ? '<p class="st-board-go">View your stamps &rarr;</p>' : '');
 
-        station.querySelector('.st-seal-btn').addEventListener('click', () => {
+        const sealBtn = station.querySelector('.st-seal-btn');
+        sealBtn.addEventListener('click', () => {
+            if (sealBtn.classList.contains('pressing')) return;
             const stamps = read();
             if (!stamps[chapterId]) {
                 stamps[chapterId] = new Date().toISOString();
                 write(stamps);
             }
-            // Carry the stamp in the URL too: the board animates it, and even
-            // a storage-blocked browser still gets its moment.
-            location.href = `${BOARD_URL}?just=${chapterId}`;
+            // Press the seal here first, then drift over to the board.
+            // ?just carries the stamp so even a storage-blocked browser
+            // still gets its moment there.
+            sealBtn.classList.add('pressing');
+            setTimeout(() => {
+                document.body.classList.add('st-leave');
+                setTimeout(() => {
+                    location.href = `${BOARD_URL}?just=${chapterId}`;
+                }, 600);
+            }, 950);
         });
     }
 
@@ -120,6 +129,7 @@
 
     const board = document.getElementById('stampBoard');
     if (board) {
+        document.body.classList.add('st-arrive');
         const just = params.get('just');
         const stamps = read();
         // Storage may have been unavailable on the letter page — trust ?just.

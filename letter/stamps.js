@@ -1,19 +1,20 @@
 /*
  * Stamp collection for the QR letter pages.
  *
- * Included by every letter page (after letter.js). Each page gets a "stamp
- * station" at the bottom: the visitor scrolls through the letter, presses the
- * seal, and an ink-stamp animation plays. Progress (6 mini seals) lives right
- * there — there is no separate board page. When the sixth stamp is pressed,
- * a finale overlay invites the visitor to place a flower in the vase for the
- * final performance.
+ * Flow: the visitor reads a letter page, presses the seal at the bottom, and
+ * is taken to the stamp board page where the new stamp presses itself into
+ * the collection. The board shows all six slots; once the sixth is collected
+ * it reveals the finale (choose a flower, place it in the vase, the final
+ * performance begins). No links between letter pages — visitors move through
+ * the room by scanning each artwork's QR.
  *
- * localStorage is optional: when it throws (private mode, blocked) pressing
- * still animates within the page — persistence just won't survive navigation.
+ * localStorage is optional: when it throws (private mode, blocked) the press
+ * still navigates to the board carrying the stamp in the URL, so the moment
+ * itself never breaks — persistence across scans just isn't guaranteed.
  */
 (() => {
     const KEY = 'bglow.stamps.v1';
-    const FINALE_KEY = 'bglow.stamps.finale.v1';
+    const BOARD_URL = 'board-e6489d.html';
 
     // Route order for the exhibition.
     const CHAPTERS = [
@@ -57,15 +58,12 @@
         try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* no-op */ }
     }
 
-    if (new URLSearchParams(location.search).has('reset')) {
-        try { localStorage.removeItem(KEY); localStorage.removeItem(FINALE_KEY); } catch { /* no-op */ }
+    const params = new URLSearchParams(location.search);
+    if (params.has('reset')) {
+        try { localStorage.removeItem(KEY); } catch { /* no-op */ }
     }
 
     const count = (stamps) => CHAPTERS.filter(c => stamps[c.id]).length;
-
-    const chapterId = window.LETTER_PAGE && window.LETTER_PAGE.chapter;
-    const chapter = CHAPTERS.find(c => c.id === chapterId);
-    if (!chapter) return;
 
     // ---------- in-app browser warning (storage would fragment) ----------
 
@@ -80,99 +78,84 @@
         document.body.prepend(warn);
     }
 
-    // ---------- stamp station at the bottom of the page ----------
+    // ---------- letter page: seal button -> board ----------
 
-    const station = document.createElement('section');
-    station.className = 'st-station';
-    const footer = document.querySelector('.lp-footer');
-    footer.parentNode.insertBefore(station, footer);
+    const chapterId = window.LETTER_PAGE && window.LETTER_PAGE.chapter;
+    const chapter = CHAPTERS.find(c => c.id === chapterId);
+    if (chapter) {
+        const station = document.createElement('section');
+        station.className = 'st-station';
+        const footer = document.querySelector('.lp-footer');
+        footer.parentNode.insertBefore(station, footer);
 
-    function render() {
-        const stamps = read();
-        const got = !!stamps[chapterId];
-        const done = count(stamps);
-
+        const got = !!read()[chapterId];
         station.innerHTML =
             '<div class="st-head">Stamp</div>' +
             '<p class="st-lead">' +
             (got
-                ? '<span class="ko">이 작품의 스탬프를 모았습니다.</span>Stamp collected.'
+                ? '<span class="ko">이 작품의 스탬프는 이미 모았습니다.</span>You already collected this stamp.'
                 : '<span class="ko">작품을 감상하셨다면, 스탬프를 찍어 주세요.</span>' +
                   'When you have spent time with this artwork, press the seal.') +
             '</p>' +
-            `<button type="button" class="st-seal-btn${got ? ' pressed' : ''}" ${got ? 'disabled' : ''}>` +
+            `<button type="button" class="st-seal-btn${got ? ' pressed' : ''}">` +
             `<span class="st-seal-icon">${chapter.icon}</span>` +
             `<span class="st-seal-name">${chapter.en}</span>` +
             '</button>' +
-            `<div class="st-row">${CHAPTERS.map(c =>
-                `<span class="st-mini${stamps[c.id] ? ' on' : ''}${c.id === chapterId ? ' here' : ''}" title="${c.en}">${c.icon}</span>`
-            ).join('')}</div>` +
-            `<p class="st-count">${done} / ${CHAPTERS.length}</p>`;
+            (got ? '<p class="st-board-go">View your stamps &rarr;</p>' : '');
 
-        const btn = station.querySelector('.st-seal-btn');
-        if (!got) btn.addEventListener('click', press);
+        station.querySelector('.st-seal-btn').addEventListener('click', () => {
+            const stamps = read();
+            if (!stamps[chapterId]) {
+                stamps[chapterId] = new Date().toISOString();
+                write(stamps);
+            }
+            // Carry the stamp in the URL too: the board animates it, and even
+            // a storage-blocked browser still gets its moment.
+            location.href = `${BOARD_URL}?just=${chapterId}`;
+        });
     }
 
-    function press() {
+    // ---------- board page ----------
+
+    const board = document.getElementById('stampBoard');
+    if (board) {
+        const just = params.get('just');
         const stamps = read();
-        if (!stamps[chapterId]) {
-            stamps[chapterId] = new Date().toISOString();
+        // Storage may have been unavailable on the letter page — trust ?just.
+        if (just && CHAPTERS.some(c => c.id === just) && !stamps[just]) {
+            stamps[just] = new Date().toISOString();
             write(stamps);
         }
-        const btn = station.querySelector('.st-seal-btn');
-        btn.disabled = true;
-        btn.classList.add('pressing');
 
-        // let the ink animation land, then settle into the pressed state
+        const done = count(stamps);
+        const complete = done === CHAPTERS.length;
+
+        board.innerHTML = CHAPTERS.map((c) => {
+            const got = !!stamps[c.id];
+            const animate = got && c.id === just;
+            return `
+            <div class="st-slot${got ? ' stamped' : ''}">
+                <div class="st-seal-btn slot${got ? ' pressed' : ''}${animate ? ' pressing' : ''}">
+                    <span class="st-seal-icon">${c.icon}</span>
+                    <span class="st-seal-name">${c.en}</span>
+                </div>
+                <span class="st-slot-ko">${c.ko}</span>
+            </div>`;
+        }).join('');
+
+        document.getElementById('stampCount').textContent = `${done} / ${CHAPTERS.length}`;
+
+        const guide = document.getElementById('boardGuide');
+        const finale = document.getElementById('boardFinale');
+        // Let the just-pressed animation land before revealing what's next.
+        const delay = just ? 1100 : 200;
         setTimeout(() => {
-            render();
-            const stampsNow = read();
-            // storage may be unavailable — count the press locally anyway
-            const done = Math.max(count(stampsNow), stampsNow[chapterId] ? count(stampsNow) : 1);
-            if (done === CHAPTERS.length) showFinale();
-        }, 950);
-    }
-
-    // ---------- finale ----------
-
-    function showFinale() {
-        try {
-            if (localStorage.getItem(FINALE_KEY)) return;
-            localStorage.setItem(FINALE_KEY, '1');
-        } catch { /* still show it */ }
-
-        const ov = document.createElement('div');
-        ov.className = 'st-finale';
-        ov.innerHTML =
-            '<div class="st-finale-card">' +
-            '<div class="st-finale-art">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">' +
-            '<path d="M12 21v-8"/><path d="M12 13c0-3 2-5.5 5-6-.3 3-2 5.5-5 6z"/>' +
-            '<path d="M12 13c0-3-2-5.5-5-6 .3 3 2 5.5 5 6z"/><circle cx="12" cy="5.5" r="2"/></svg>' +
-            '</div>' +
-            '<p class="st-finale-title">여섯 개의 조각이 모두 모였습니다</p>' +
-            '<p class="st-finale-title-en">All six pieces have come together</p>' +
-            '<p class="st-finale-text">이제 마음이 가는 꽃 한 송이를 골라<br>꽃병에 놓아 주세요.<br>마지막 공연이 시작됩니다.</p>' +
-            '<p class="st-finale-text-en">Choose the flower that speaks to your heart<br>and place it in the vase.<br>The final performance will begin.</p>' +
-            '<button type="button" class="st-finale-close">Close</button>' +
-            '</div>';
-        ov.querySelector('.st-finale-close').addEventListener('click', () => {
-            ov.classList.remove('show');
-            setTimeout(() => ov.remove(), 500);
-        });
-        document.body.appendChild(ov);
-        requestAnimationFrame(() => ov.classList.add('show'));
-    }
-
-    render();
-
-    // Revisit case: everything already collected but the finale was never
-    // shown on this device (e.g. the sixth press happened while storage was
-    // briefly unavailable) — offer it again quietly.
-    const stamps = read();
-    if (count(stamps) === CHAPTERS.length) {
-        let seen = false;
-        try { seen = !!localStorage.getItem(FINALE_KEY); } catch { /* ignore */ }
-        if (!seen) showFinale();
+            if (complete) {
+                finale.hidden = false;
+                requestAnimationFrame(() => finale.classList.add('show'));
+            } else {
+                guide.hidden = false;
+            }
+        }, delay);
     }
 })();

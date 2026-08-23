@@ -532,6 +532,7 @@ body {
     margin-bottom: 0.15rem;
 }
 
+/* The seal — a button on letter pages, a display slot on the board */
 .st-seal-btn {
     width: 104px;
     height: 104px;
@@ -576,100 +577,94 @@ body {
     50% { transform: scale(1.03); box-shadow: 0 0 0 9px rgba(169, 126, 82, 0); }
 }
 
-.st-seal-btn.pressing {
-    animation: st-press 0.9s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
-}
-
-@keyframes st-press {
-    0% { transform: scale(1.7) rotate(6deg); opacity: 0.25; }
-    55% { transform: scale(0.94) rotate(-4deg); opacity: 1; }
-    75% { transform: scale(1.03) rotate(-4deg); }
-    100% { transform: scale(1) rotate(-4deg); background: var(--lp-accent-soft); }
-}
-
-.st-seal-btn.pressed,
-.st-seal-btn:disabled.pressed {
+.st-seal-btn.pressed {
     animation: none;
     transform: rotate(-4deg);
     background: var(--lp-accent-soft);
     cursor: default;
 }
 
-.st-row {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.55rem;
+.st-board-go {
+    margin-top: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lp-muted);
 }
 
-.st-mini {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--lp-border);
+/* Board grid */
+.st-board-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem 0.8rem;
+    justify-items: center;
+    padding: 0.4rem 0;
+}
+
+.st-slot {
+    text-align: center;
+}
+
+.st-seal-btn.slot {
+    width: 96px;
+    height: 96px;
+    animation: none;
+    cursor: default;
+}
+
+.st-seal-btn.slot:not(.pressed) {
+    border-color: var(--lp-border);
     color: var(--lp-border);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    opacity: 0.85;
 }
 
-.st-mini svg {
-    width: 18px;
-    height: 18px;
+.st-seal-btn.slot:not(.pressed)::after {
+    border-color: var(--lp-border);
 }
 
-.st-mini.here {
-    border-color: var(--lp-accent);
+.st-seal-btn.slot.pressing {
+    animation: st-press 1s cubic-bezier(0.2, 1.4, 0.4, 1) both;
 }
 
-.st-mini.on {
-    border-color: var(--lp-accent);
-    background: var(--lp-accent-soft);
-    color: var(--lp-accent);
-    transform: rotate(-4deg);
+@keyframes st-press {
+    0% { transform: scale(1.9) rotate(7deg); opacity: 0; }
+    45% { transform: scale(0.92) rotate(-4deg); opacity: 1; }
+    70% { transform: scale(1.04) rotate(-4deg); }
+    100% { transform: scale(1) rotate(-4deg); }
+}
+
+.st-slot-ko {
+    display: block;
+    margin-top: 0.55rem;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.82rem;
+    color: var(--lp-muted);
+}
+
+.st-slot.stamped .st-slot-ko {
+    color: var(--lp-text);
 }
 
 .st-count {
-    margin-top: 0.7rem;
-    font-size: 0.72rem;
+    text-align: center;
+    font-size: 0.78rem;
     letter-spacing: 2px;
     color: var(--lp-muted);
     font-variant-numeric: tabular-nums;
 }
 
-/* Finale overlay */
-.st-finale {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    background: rgba(43, 36, 27, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.st-finale.show {
-    opacity: 1;
-}
-
-.st-finale-card {
-    max-width: 340px;
-    width: 100%;
-    background: var(--lp-card);
-    border: 1px solid var(--lp-border);
-    border-radius: 18px;
-    padding: 2.2rem 1.8rem 1.8rem;
+/* Finale (inline on the board once all six are collected) */
+.st-complete {
     text-align: center;
-    transform: translateY(14px) scale(0.97);
-    transition: transform 0.5s ease;
+    border-top: 1px solid var(--lp-border);
+    padding-top: 1.8rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.st-finale.show .st-finale-card {
+.st-complete.show {
+    opacity: 1;
     transform: none;
 }
 
@@ -718,19 +713,6 @@ body {
     line-height: 1.8;
     color: var(--lp-muted);
     margin-top: 0.8rem;
-}
-
-.st-finale-close {
-    margin-top: 1.5rem;
-    border: 1px solid var(--lp-accent);
-    background: none;
-    color: var(--lp-accent);
-    border-radius: 999px;
-    padding: 0.5rem 1.6rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    cursor: pointer;
 }
 
 .lp-video-caption .ko-line {

@@ -112,11 +112,7 @@
             }
             // Carry the stamp in the URL too: the board animates it, and even
             // a storage-blocked browser still gets its moment.
-            if (count(read()) === CHAPTERS.length) {
-                location.href = FINALE_URL;
-            } else {
-                location.href = `${BOARD_URL}?just=${chapterId}`;
-            }
+            location.href = `${BOARD_URL}?just=${chapterId}`;
         });
     }
 
@@ -153,7 +149,7 @@
         const guide = document.getElementById('boardGuide');
         if (complete) {
             // The board's job is done — hand over to the finale page.
-            setTimeout(() => { location.href = FINALE_URL; }, just ? 1300 : 400);
+            setTimeout(() => { location.href = FINALE_URL; }, just ? 2200 : 600);
         } else {
             setTimeout(() => { guide.hidden = false; }, just ? 1100 : 200);
         }

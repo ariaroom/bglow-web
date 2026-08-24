@@ -927,18 +927,22 @@ body.st-arrive {
 
 .fn-petal {
     position: absolute;
-    top: -3vh;
-    width: 10px;
-    height: 14px;
-    background: #dcc9a2;
-    border-radius: 60% 40% 55% 45% / 60% 60% 40% 40%;
+    top: -7vh;
     opacity: 0;
-    animation: fn-fall 9s linear infinite;
+    animation: fn-fall 10s linear infinite;
+    will-change: transform, opacity;
+}
+
+.fn-petal-static {
+    position: absolute;
+    opacity: 0.95;
+    filter: drop-shadow(0 5px 7px rgba(115, 92, 60, 0.14));
 }
 
 @keyframes fn-fall {
-    0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
-    12% { opacity: 0.65; }
-    85% { opacity: 0.5; }
-    100% { opacity: 0; transform: translateY(108vh) translateX(7vw) rotate(320deg); }
+    0% { opacity: 0; transform: translateY(0) translateX(0) rotate(-15deg); }
+    10% { opacity: 0.9; }
+    50% { transform: translateY(52vh) translateX(-4vw) rotate(140deg); }
+    88% { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(108vh) translateX(6vw) rotate(290deg); }
 }

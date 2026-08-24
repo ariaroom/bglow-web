@@ -176,13 +176,36 @@
         } else {
             document.body.classList.add('fn-play');
             const petals = document.querySelector('.fn-petals');
-            for (let i = 0; i < 10; i++) {
-                const petal = document.createElement('span');
-                petal.className = 'fn-petal';
-                petal.style.left = (5 + Math.random() * 90) + '%';
-                petal.style.animationDelay = (Math.random() * 6) + 's';
-                petal.style.animationDuration = (7 + Math.random() * 5) + 's';
-                petals.appendChild(petal);
+            const petalSrc = (n) => `../assets/petals/petal-${n}.png`;
+
+            // resting petals scattered like the printed mockup
+            const RESTING = [
+                [7, 10, 34, -20, 1], [86, 7, 42, 15, 4], [82, 37, 24, 80, 8],
+                [4, 58, 46, -60, 2], [88, 74, 34, 30, 10], [12, 88, 28, 100, 6]
+            ];
+            RESTING.forEach(([l, t, w, rot, n]) => {
+                const img = document.createElement('img');
+                img.className = 'fn-petal-static';
+                img.src = petalSrc(n);
+                img.alt = '';
+                img.style.left = l + '%';
+                img.style.top = t + '%';
+                img.style.width = w + 'px';
+                img.style.transform = `rotate(${rot}deg)`;
+                petals.appendChild(img);
+            });
+
+            // drifting petals
+            for (let i = 0; i < 9; i++) {
+                const img = document.createElement('img');
+                img.className = 'fn-petal';
+                img.src = petalSrc(1 + Math.floor(Math.random() * 12));
+                img.alt = '';
+                img.style.left = (3 + Math.random() * 94) + '%';
+                img.style.width = (20 + Math.random() * 22) + 'px';
+                img.style.animationDelay = (Math.random() * 7) + 's';
+                img.style.animationDuration = (8 + Math.random() * 6) + 's';
+                petals.appendChild(img);
             }
         }
     }

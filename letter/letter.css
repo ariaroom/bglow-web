@@ -73,19 +73,20 @@ body {
     margin-bottom: 1rem;
 }
 
-.lp-tagline .ko {
-    display: block;
-    font-family: 'Noto Serif KR', serif;
-    font-size: 1.05rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-}
-
 .lp-tagline .en {
     display: block;
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
+    color: var(--lp-text);
+    margin-bottom: 0.3rem;
+}
+
+.lp-tagline .ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
     color: var(--lp-muted);
 }
 
@@ -212,16 +213,17 @@ body {
 /* Hint */
 .lp-hint {
     text-align: center;
-    font-size: 0.82rem;
-    line-height: 1.65;
-    color: var(--lp-muted);
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--lp-text);
 }
 
 .lp-hint .ko {
     display: block;
     font-family: 'Noto Serif KR', serif;
-    color: var(--lp-text);
-    margin-bottom: 0.15rem;
+    font-size: 0.78rem;
+    color: var(--lp-muted);
+    margin-top: 0.2rem;
 }
 
 /* Soundscape cards */
@@ -303,18 +305,19 @@ body {
     height: 28px;
 }
 
-.lp-scape-ko {
-    display: block;
-    font-family: 'Noto Serif KR', serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
 .lp-scape-en {
     display: block;
     font-family: 'Playfair Display', serif;
-    font-size: 0.8rem;
-    margin-top: 0.1rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+.lp-scape-ko {
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.72rem;
+    color: var(--lp-muted);
+    margin-top: 0.15rem;
 }
 
 .lp-scape-sub {
@@ -339,8 +342,8 @@ body {
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 0.9rem;
-    color: var(--lp-muted);
+    font-size: 0.92rem;
+    color: var(--lp-text);
     margin-top: 0.7rem;
 }
 
@@ -410,8 +413,15 @@ body {
     justify-content: space-between;
     padding: 1.1rem 1.4rem;
     cursor: pointer;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.98rem;
+}
+
+.lp-letter summary .ko-label {
     font-family: 'Noto Serif KR', serif;
-    font-size: 0.95rem;
+    color: var(--lp-muted);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
 }
 
 .lp-letter summary::-webkit-details-marker {
@@ -519,8 +529,8 @@ body {
 }
 
 .st-lead {
-    font-size: 0.85rem;
-    color: var(--lp-muted);
+    font-size: 0.86rem;
+    color: var(--lp-text);
     line-height: 1.7;
     margin-bottom: 1.3rem;
 }
@@ -528,8 +538,9 @@ body {
 .st-lead .ko {
     display: block;
     font-family: 'Noto Serif KR', serif;
-    color: var(--lp-text);
-    margin-bottom: 0.15rem;
+    font-size: 0.78rem;
+    color: var(--lp-muted);
+    margin-top: 0.2rem;
 }
 
 /* The seal — a button on letter pages, a display slot on the board */
@@ -781,9 +792,9 @@ body.st-arrive {
     display: block;
     font-family: 'Noto Serif KR', serif;
     font-style: normal;
-    font-size: 0.92rem;
-    color: var(--lp-text);
-    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--lp-muted);
+    margin-top: 0.3rem;
 }
 
 /* ================= Finale page ================= */

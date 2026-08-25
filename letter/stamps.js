@@ -72,8 +72,8 @@
         const warn = document.createElement('div');
         warn.className = 'st-inapp';
         warn.innerHTML =
-            '<span>스탬프를 모으려면 휴대폰 기본 브라우저(Safari · Chrome · 삼성 인터넷)로 열어 주세요.<br>' +
-            'Please open this page in your phone&rsquo;s default browser so your stamps stay together.</span>' +
+            '<span>Please open this page in your phone&rsquo;s default browser so your stamps stay together.<br>' +
+            '스탬프를 모으려면 휴대폰 기본 브라우저(Safari · Chrome · 삼성 인터넷)로 열어 주세요.</span>' +
             '<button type="button" aria-label="Close">&times;</button>';
         warn.querySelector('button').addEventListener('click', () => warn.remove());
         document.body.prepend(warn);
@@ -94,9 +94,9 @@
             '<div class="st-head">Stamp</div>' +
             '<p class="st-lead">' +
             (got
-                ? '<span class="ko">이 작품의 스탬프는 이미 모았습니다.</span>You already collected this stamp.'
-                : '<span class="ko">작품을 감상하셨다면, 스탬프를 찍어 주세요.</span>' +
-                  'When you have spent time with this artwork, press the seal.') +
+                ? 'You already collected this stamp.<span class="ko">이 작품의 스탬프는 이미 모았습니다.</span>'
+                : 'When you have spent time with this artwork, press the seal.' +
+                  '<span class="ko">작품을 감상하셨다면, 스탬프를 찍어 주세요.</span>') +
             '</p>' +
             `<button type="button" class="st-seal-btn${got ? ' pressed' : ''}">` +
             `<span class="st-seal-icon">${chapter.icon}</span>` +

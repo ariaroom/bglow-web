@@ -233,7 +233,7 @@
 
     function showAudioError(e) {
         console.warn(e);
-        subEl.textContent = 'Audio failed to load — tap to retry';
+        subEl.textContent = 'Audio failed to load. Tap to retry.';
         started = false;
         setState('idle');
     }

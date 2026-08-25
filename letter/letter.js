@@ -304,11 +304,17 @@
         }
         const noteText = document.querySelector('.lp-note-text');
         if (cfg.note && noteText) noteText.textContent = cfg.note[lang];
-        letterBody.innerHTML = cfg.letter[lang]
+        const paras = cfg.letter[lang]
             .trim()
             .split(/\n\s*\n/)
-            .map((p) => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-            .join('');
+            .map((p) => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`);
+        // Some letters end by turning to the visitor with a question —
+        // give that closing line its own voice.
+        if (cfg.closingQuestion && paras.length) {
+            paras[paras.length - 1] = paras[paras.length - 1]
+                .replace('<p>', '<p class="lp-question">');
+        }
+        letterBody.innerHTML = paras.join('');
         document.querySelectorAll('.lp-lang button').forEach((b) => {
             b.classList.toggle('active', b.dataset.lang === lang);
         });

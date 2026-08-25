@@ -462,6 +462,15 @@ body {
     margin-bottom: 0;
 }
 
+.lp-letter-body p.lp-question {
+    color: var(--lp-accent);
+    margin-top: 1.8em;
+}
+
+.lp-letter-body[data-lang="en"] p.lp-question {
+    font-style: italic;
+}
+
 .lp-letter-body[data-lang="ko"] {
     font-family: 'Noto Serif KR', serif;
 }

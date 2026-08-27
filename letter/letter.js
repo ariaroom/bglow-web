@@ -47,7 +47,10 @@
     }
 
     // ---------- Soundscape selector ----------
-    let currentId = cfg.soundscapes[0] ? cfg.soundscapes[0].id : null;
+    // With narration, the first soundscape is preselected because it starts
+    // together with the letter. Without narration nothing looks "on" until
+    // the visitor taps — a highlighted-but-silent card reads as broken.
+    let currentId = (hasNarration && cfg.soundscapes[0]) ? cfg.soundscapes[0].id : null;
     const scapesHead = document.querySelector('.lp-scapes-head');
 
     // Multiple soundscapes always show the selector. A single soundscape

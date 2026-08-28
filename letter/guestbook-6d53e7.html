@@ -84,18 +84,11 @@
             border-color: var(--lp-accent);
         }
 
-        .gb-consent {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.6rem;
-            font-size: 0.82rem;
+        .gb-notice {
+            text-align: center;
+            font-size: 0.78rem;
             color: var(--lp-muted);
-            line-height: 1.6;
-        }
-
-        .gb-consent input {
-            margin-top: 0.2rem;
-            accent-color: var(--lp-accent);
+            line-height: 1.7;
         }
 
         .gb-submit {
@@ -191,10 +184,10 @@
 
             <input type="text" name="website" id="gbWebsite" style="display:none" tabindex="-1" autocomplete="off">
 
-            <label class="gb-consent">
-                <input type="checkbox" id="gbQuote" checked>
-                <span>You may share my words when introducing this exhibition.<br>제 문장을 전시 소개에 사용해도 좋습니다.</span>
-            </label>
+            <p class="gb-notice">
+                Your words may be shared when we introduce this exhibition.<br>
+                남겨주신 문장은 전시를 소개할 때 사용될 수 있습니다.
+            </p>
 
             <button type="submit" class="gb-submit" id="gbSubmit">Leave it in the Guestbook</button>
             <p class="gb-error" id="gbError" hidden></p>
@@ -249,7 +242,6 @@
                             chapter,
                             comment,
                             name: document.getElementById('gbName').value.trim(),
-                            allowQuote: document.getElementById('gbQuote').checked,
                             website: document.getElementById('gbWebsite').value
                         })
                     });

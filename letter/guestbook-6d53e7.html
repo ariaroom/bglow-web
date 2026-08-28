@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#f7f3ec">
+    <title>Guestbook · LOVE'S LAST LETTER</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="letter.css">
+    <style>
+        .gb-form {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .gb-label {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .gb-label small {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--lp-muted);
+            font-size: 0.8rem;
+            margin-left: 0.3rem;
+        }
+
+        .gb-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .gb-chip {
+            border: 1px solid var(--lp-border);
+            background: var(--lp-card);
+            color: var(--lp-text);
+            border-radius: 999px;
+            padding: 0.5rem 1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .gb-chip.on {
+            border-color: var(--lp-accent);
+            background: var(--lp-accent-soft);
+            color: var(--lp-accent);
+        }
+
+        .gb-input,
+        .gb-textarea {
+            width: 100%;
+            border: 1px solid var(--lp-border);
+            border-radius: 12px;
+            background: var(--lp-card);
+            padding: 0.9rem 1rem;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 16px;
+            color: var(--lp-text);
+        }
+
+        .gb-textarea {
+            min-height: 9.5rem;
+            line-height: 1.8;
+            resize: vertical;
+        }
+
+        .gb-input:focus,
+        .gb-textarea:focus {
+            outline: none;
+            border-color: var(--lp-accent);
+        }
+
+        .gb-consent {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            color: var(--lp-muted);
+            line-height: 1.6;
+        }
+
+        .gb-consent input {
+            margin-top: 0.2rem;
+            accent-color: var(--lp-accent);
+        }
+
+        .gb-submit {
+            border: none;
+            background: var(--lp-accent);
+            color: #fdfaf5;
+            border-radius: 999px;
+            padding: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .gb-submit:disabled {
+            opacity: 0.55;
+        }
+
+        .gb-error {
+            color: #a04b3c;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .gb-thanks {
+            text-align: center;
+            padding: 2.5rem 0 1rem;
+        }
+
+        .gb-thanks .orn {
+            color: var(--lp-accent);
+            margin-bottom: 1rem;
+        }
+
+        .gb-thanks .orn svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .gb-thanks h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 1.3rem;
+        }
+
+        .gb-thanks p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--lp-muted);
+            margin-top: 0.8rem;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="letter-page">
+
+        <header class="lp-header">
+            <p class="lp-eyebrow">Immersive Solo Exhibition</p>
+            <h1 class="lp-title">LOVE&rsquo;S LAST LETTER</h1>
+            <p class="lp-chapter">Guestbook</p>
+        </header>
+
+        <p class="lp-hint">
+            Before you go, leave a few words behind.
+            <span class="ko">떠나시기 전에, 몇 마디를 남겨 주세요.</span>
+        </p>
+
+        <form class="gb-form" id="gbForm">
+            <div>
+                <label class="gb-label">Which letter stayed with you? <small>optional</small></label>
+                <div class="gb-chips" id="gbChips">
+                    <button type="button" class="gb-chip" data-ch="nature">Nature</button>
+                    <button type="button" class="gb-chip" data-ch="dog">Dog</button>
+                    <button type="button" class="gb-chip" data-ch="music">Music</button>
+                    <button type="button" class="gb-chip" data-ch="lover">Lover</button>
+                    <button type="button" class="gb-chip" data-ch="mother">Mother</button>
+                    <button type="button" class="gb-chip" data-ch="myself">Myself</button>
+                </div>
+            </div>
+
+            <div>
+                <label class="gb-label" for="gbComment">Your words</label>
+                <textarea class="gb-textarea" id="gbComment" maxlength="2000"
+                    placeholder="What did this exhibition leave with you?"></textarea>
+            </div>
+
+            <div>
+                <label class="gb-label" for="gbName">Your name <small>optional &mdash; initials are fine</small></label>
+                <input class="gb-input" id="gbName" type="text" maxlength="120" autocomplete="off">
+            </div>
+
+            <input type="text" name="website" id="gbWebsite" style="display:none" tabindex="-1" autocomplete="off">
+
+            <label class="gb-consent">
+                <input type="checkbox" id="gbQuote" checked>
+                <span>You may share my words when introducing this exhibition.<br>제 문장을 전시 소개에 사용해도 좋습니다.</span>
+            </label>
+
+            <button type="submit" class="gb-submit" id="gbSubmit">Leave it in the Guestbook</button>
+            <p class="gb-error" id="gbError" hidden></p>
+        </form>
+
+        <section class="gb-thanks" id="gbThanks" hidden>
+            <div class="orn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+                    <path d="M12 21v-8" />
+                    <path d="M12 13c0-3 2-5.5 5-6-.3 3-2 5.5-5 6z" />
+                    <path d="M12 13c0-3-2-5.5-5-6 .3 3 2 5.5 5 6z" />
+                    <circle cx="12" cy="5.5" r="2" />
+                </svg>
+            </div>
+            <h2>Thank you for walking with her.</h2>
+            <p>Your words are kept.<br>See you at the next chapter.</p>
+        </section>
+
+        <footer class="lp-footer">Soohyun Aria Jo</footer>
+
+    </main>
+
+    <script>
+        (() => {
+            let chapter = null;
+            const chips = document.querySelectorAll('.gb-chip');
+            chips.forEach((c) => c.addEventListener('click', () => {
+                chapter = (chapter === c.dataset.ch) ? null : c.dataset.ch;
+                chips.forEach((x) => x.classList.toggle('on', x.dataset.ch === chapter));
+            }));
+
+            const form = document.getElementById('gbForm');
+            const err = document.getElementById('gbError');
+            const btn = document.getElementById('gbSubmit');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const comment = document.getElementById('gbComment').value.trim();
+                if (!comment) {
+                    err.textContent = 'Please write a few words first.';
+                    err.hidden = false;
+                    return;
+                }
+                err.hidden = true;
+                btn.disabled = true;
+                btn.textContent = 'Leaving it…';
+                try {
+                    const r = await fetch('/api/review', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chapter,
+                            comment,
+                            name: document.getElementById('gbName').value.trim(),
+                            allowQuote: document.getElementById('gbQuote').checked,
+                            website: document.getElementById('gbWebsite').value
+                        })
+                    });
+                    if (!r.ok) throw new Error('bad status');
+                    form.hidden = true;
+                    document.querySelector('.lp-hint').hidden = true;
+                    document.getElementById('gbThanks').hidden = false;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } catch (e2) {
+                    err.textContent = 'Something went wrong. Please try again.';
+                    err.hidden = false;
+                    btn.disabled = false;
+                    btn.textContent = 'Leave it in the Guestbook';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

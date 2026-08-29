@@ -16,3 +16,7 @@ alter table reviews enable row level security;
 -- v2: five-point "would you recommend" scale.
 alter table reviews add column if not exists recommend smallint
     check (recommend between 1 and 5);
+
+-- v3: optional improvement feedback (internal use).
+alter table reviews add column if not exists feedback text
+    check (char_length(feedback) <= 2000);

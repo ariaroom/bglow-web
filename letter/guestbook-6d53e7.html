@@ -114,6 +114,10 @@
             color: var(--lp-text);
         }
 
+        .gb-textarea-sm {
+            min-height: 4.5rem;
+        }
+
         .gb-textarea {
             min-height: 9.5rem;
             line-height: 1.8;
@@ -236,6 +240,11 @@
                 <input class="gb-input" id="gbName" type="text" maxlength="120" autocomplete="off">
             </div>
 
+            <div>
+                <label class="gb-label" for="gbFeedback">Anything we could do better? <small>optional</small></label>
+                <textarea class="gb-textarea gb-textarea-sm" id="gbFeedback" maxlength="2000"></textarea>
+            </div>
+
             <input type="text" name="website" id="gbWebsite" style="display:none" tabindex="-1" autocomplete="off">
 
             <p class="gb-notice">
@@ -319,6 +328,7 @@
                             recommend,
                             comment,
                             name,
+                            feedback: document.getElementById('gbFeedback').value.trim(),
                             website: document.getElementById('gbWebsite').value
                         })
                     });

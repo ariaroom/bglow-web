@@ -15,6 +15,7 @@ export default async function handler(req, res) {
 
     const comment = String(body.comment ?? '').trim();
     const name = String(body.name ?? '').trim().slice(0, 120);
+    const feedback = String(body.feedback ?? '').trim().slice(0, 2000);
     const chapter = CHAPTERS.includes(body.chapter) ? body.chapter : null;
     const recommend = Number.isInteger(body.recommend) && body.recommend >= 1 && body.recommend <= 5
         ? body.recommend : null;
@@ -30,6 +31,7 @@ export default async function handler(req, res) {
             recommend,
             comment,
             name: name || null,
+            feedback: feedback || null,
             allow_quote: allowQuote
         });
         if (error) throw error;

@@ -16,6 +16,8 @@ export default async function handler(req, res) {
     const comment = String(body.comment ?? '').trim();
     const name = String(body.name ?? '').trim().slice(0, 120);
     const chapter = CHAPTERS.includes(body.chapter) ? body.chapter : null;
+    const recommend = Number.isInteger(body.recommend) && body.recommend >= 1 && body.recommend <= 5
+        ? body.recommend : null;
     const allowQuote = body.allowQuote !== false;
 
     if (!comment) return res.status(400).json({ error: 'empty_comment' });
@@ -25,6 +27,7 @@ export default async function handler(req, res) {
     try {
         const { error } = await db().from('reviews').insert({
             chapter,
+            recommend,
             comment,
             name: name || null,
             allow_quote: allowQuote

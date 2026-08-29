@@ -12,3 +12,7 @@ create table if not exists reviews (
 
 -- Service key only: RLS on with no policies blocks the public anon key.
 alter table reviews enable row level security;
+
+-- v2: five-point "would you recommend" scale.
+alter table reviews add column if not exists recommend smallint
+    check (recommend between 1 and 5);

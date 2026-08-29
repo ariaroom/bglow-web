@@ -60,6 +60,48 @@
             color: var(--lp-accent);
         }
 
+        .gb-flowers {
+            display: flex;
+            gap: 0.7rem;
+            justify-content: center;
+            padding: 0.3rem 0 0.15rem;
+        }
+
+        .gb-flower {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--lp-border);
+            border-radius: 50%;
+            background: var(--lp-card);
+            color: var(--lp-border);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gb-flower svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .gb-flower.on {
+            border-color: var(--lp-accent);
+            background: var(--lp-accent-soft);
+            color: var(--lp-accent);
+        }
+
+        .gb-anchors {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.72rem;
+            color: var(--lp-muted);
+            margin-top: 0.45rem;
+            padding: 0 0.2rem;
+        }
+
         .gb-input,
         .gb-textarea {
             width: 100%;
@@ -172,6 +214,18 @@
             </div>
 
             <div>
+                <label class="gb-label">Would you recommend this exhibition to a friend?</label>
+                <div class="gb-flowers" id="gbFlowers">
+                    <button type="button" class="gb-flower" data-v="1" aria-label="1 of 5"></button>
+                    <button type="button" class="gb-flower" data-v="2" aria-label="2 of 5"></button>
+                    <button type="button" class="gb-flower" data-v="3" aria-label="3 of 5"></button>
+                    <button type="button" class="gb-flower" data-v="4" aria-label="4 of 5"></button>
+                    <button type="button" class="gb-flower" data-v="5" aria-label="5 of 5"></button>
+                </div>
+                <div class="gb-anchors"><span>Not really</span><span>Absolutely</span></div>
+            </div>
+
+            <div>
                 <label class="gb-label" for="gbComment">Your words</label>
                 <textarea class="gb-textarea" id="gbComment" maxlength="2000"
                     placeholder="What did this exhibition leave with you?"></textarea>
@@ -212,6 +266,17 @@
 
     <script>
         (() => {
+            const FLOWER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 21v-8"/><path d="M12 13c0-3 2-5.5 5-6-.3 3-2 5.5-5 6z"/><path d="M12 13c0-3-2-5.5-5-6 .3 3 2 5.5 5 6z"/><circle cx="12" cy="5.5" r="2"/></svg>';
+            let recommend = null;
+            const flowers = document.querySelectorAll('.gb-flower');
+            flowers.forEach((f) => {
+                f.innerHTML = FLOWER;
+                f.addEventListener('click', () => {
+                    recommend = Number(f.dataset.v);
+                    flowers.forEach((x) => x.classList.toggle('on', Number(x.dataset.v) <= recommend));
+                });
+            });
+
             let chapter = null;
             const chips = document.querySelectorAll('.gb-chip');
             chips.forEach((c) => c.addEventListener('click', () => {
@@ -237,6 +302,11 @@
                     err.hidden = false;
                     return;
                 }
+                if (!recommend) {
+                    err.textContent = 'Please tap a flower first.';
+                    err.hidden = false;
+                    return;
+                }
                 err.hidden = true;
                 btn.disabled = true;
                 btn.textContent = 'Leaving it…';
@@ -246,6 +316,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             chapter,
+                            recommend,
                             comment,
                             name,
                             website: document.getElementById('gbWebsite').value

@@ -178,7 +178,7 @@
             </div>
 
             <div>
-                <label class="gb-label" for="gbName">Your name</label>
+                <label class="gb-label" for="gbName">Your name or initials</label>
                 <input class="gb-input" id="gbName" type="text" maxlength="120" autocomplete="off">
             </div>
 
@@ -233,7 +233,7 @@
                     return;
                 }
                 if (!name) {
-                    err.textContent = 'Please sign your name.';
+                    err.textContent = 'Please sign your name or initials.';
                     err.hidden = false;
                     return;
                 }

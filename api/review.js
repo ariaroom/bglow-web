@@ -1,6 +1,6 @@
 import { db } from '../lib/db.js';
 
-const CHAPTERS = ['nature', 'dog', 'music', 'lover', 'mother', 'myself'];
+const CHAPTERS = ['nature', 'dog', 'music', 'lover', 'mother', 'myself', 'performance', 'seventh'];
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {

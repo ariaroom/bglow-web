@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     const allowQuote = body.allowQuote !== false;
 
     if (!comment) return res.status(400).json({ error: 'empty_comment' });
+    if (!name) return res.status(400).json({ error: 'empty_name' });
     if (comment.length > 2000) return res.status(400).json({ error: 'too_long' });
 
     try {

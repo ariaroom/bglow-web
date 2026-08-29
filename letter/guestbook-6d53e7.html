@@ -178,7 +178,7 @@
             </div>
 
             <div>
-                <label class="gb-label" for="gbName">Your name <small>optional &mdash; initials are fine</small></label>
+                <label class="gb-label" for="gbName">Your name</label>
                 <input class="gb-input" id="gbName" type="text" maxlength="120" autocomplete="off">
             </div>
 
@@ -226,8 +226,14 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const comment = document.getElementById('gbComment').value.trim();
+                const name = document.getElementById('gbName').value.trim();
                 if (!comment) {
                     err.textContent = 'Please write a few words first.';
+                    err.hidden = false;
+                    return;
+                }
+                if (!name) {
+                    err.textContent = 'Please sign your name.';
                     err.hidden = false;
                     return;
                 }
@@ -241,7 +247,7 @@
                         body: JSON.stringify({
                             chapter,
                             comment,
-                            name: document.getElementById('gbName').value.trim(),
+                            name,
                             website: document.getElementById('gbWebsite').value
                         })
                     });

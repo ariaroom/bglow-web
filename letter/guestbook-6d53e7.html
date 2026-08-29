@@ -184,8 +184,34 @@
             font-family: 'Playfair Display', serif;
             font-style: italic;
             color: var(--lp-muted);
-            margin-top: 0.8rem;
+            margin-top: 1.1rem;
+            line-height: 1.75;
+        }
+
+        .gb-thanks .gb-shine {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--lp-accent);
+            margin-top: 1.3rem;
+        }
+
+        .gb-postcard {
+            margin-top: 2.2rem;
+            border: 1px solid var(--lp-accent);
+            border-radius: 14px;
+            background: var(--lp-card);
+            padding: 1.2rem 1.4rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
             line-height: 1.7;
+        }
+
+        .gb-postcard .ko {
+            display: block;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 0.75rem;
+            color: var(--lp-muted);
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -265,8 +291,13 @@
                     <circle cx="12" cy="5.5" r="2" />
                 </svg>
             </div>
-            <h2>Thank you for walking with her.</h2>
-            <p>Your words are kept.<br>See you at the next chapter.</p>
+            <h2>Thank you for holding<br>her story in your heart.</h2>
+            <p>May what stayed with you today<br>remind you of this, again and again &mdash;</p>
+            <p class="gb-shine">You are already shining.</p>
+            <div class="gb-postcard">
+                Show this screen to our staff<br>to receive an exhibition postcard.
+                <span class="ko">이 화면을 스태프에게 보여주시면 전시 엽서를 드립니다.</span>
+            </div>
         </section>
 
         <footer class="lp-footer">Soohyun Aria Jo</footer>

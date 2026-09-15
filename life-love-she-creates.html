@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life, Love &amp; Everything She Creates | B-Glow</title>
+    <meta name="description"
+        content="Soohyun Jo is a selected artist in Life, Love & Everything She Creates — an international juried virtual exhibition by Women In Arts Network, August 24 – October 30, 2026.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="assets/logo_transparent.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --ll-bg: #f4f0e8;
+            --ll-card: #fdfbf6;
+            --ll-border: #e7dfd0;
+            --ll-ink: #33302b;
+            --ll-muted: #857c6f;
+            --ll-green: #3f4c37;
+        }
+
+        body.tickets-page {
+            background: var(--ll-bg);
+            color: var(--ll-ink);
+        }
+
+        .ll-main {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 9rem 1.5rem 5rem;
+        }
+
+        .ll-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .ll-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #6f7d5f;
+            margin-bottom: 1rem;
+        }
+
+        .ll-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            line-height: 1.15;
+            margin-bottom: 0.8rem;
+        }
+
+        .ll-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            color: var(--ll-muted);
+        }
+
+        .ll-subtitle strong {
+            font-weight: 500;
+            color: var(--ll-ink);
+        }
+
+        .ll-dates {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #6f7d5f;
+            margin-top: 0.6rem;
+        }
+
+        .ll-section {
+            background: var(--ll-card);
+            border: 1px solid var(--ll-border);
+            border-radius: 18px;
+            padding: 2.4rem 2.6rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .ll-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--ll-muted);
+            margin-bottom: 1.3rem;
+        }
+
+        .ll-section p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #4a463f;
+        }
+
+        .ll-section p + p {
+            margin-top: 1rem;
+        }
+
+        /* Intro: invitation beside the text */
+        .ll-intro {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2.2rem;
+            align-items: start;
+        }
+
+        .ll-intro img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Exhibited work: small, a teaser rather than the full reveal */
+        .ll-work {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2.2rem;
+            align-items: center;
+        }
+
+        .ll-work img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+        }
+
+        .ll-section p.ll-work-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ll-ink);
+            margin: 0 0 0.2rem;
+        }
+
+        .ll-section p.ll-work-medium {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: #6f7d5f;
+            margin: 0 0 0.9rem;
+        }
+
+        .ll-section p.ll-work-desc {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #55503f;
+            margin: 0;
+        }
+
+        .ll-note-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid var(--ll-border);
+            margin-top: 1.6rem;
+        }
+
+        /* CTA */
+        .ll-cta {
+            text-align: center;
+            padding: 2.8rem 2.6rem;
+        }
+
+        .ll-cta p {
+            margin-bottom: 1.6rem;
+        }
+
+        .ll-btns {
+            display: flex;
+            justify-content: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .ll-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.95rem 2.2rem;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.85);
+            transition: all 0.3s ease;
+        }
+
+        .ll-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .ll-btn-primary {
+            background: var(--ll-green);
+            border-color: var(--ll-green);
+            color: #fff;
+        }
+
+        .ll-btn-primary:hover {
+            background: #333f2b;
+            color: #fff;
+        }
+
+        @media (max-width: 640px) {
+            .ll-main {
+                padding-top: 7rem;
+            }
+
+            .ll-section {
+                padding: 1.8rem 1.5rem;
+            }
+
+            .ll-intro,
+            .ll-work {
+                grid-template-columns: 1fr;
+                gap: 1.4rem;
+            }
+
+            .ll-intro img {
+                max-width: 260px;
+                margin: 0 auto;
+            }
+
+            .ll-work img {
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body class="tickets-page">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo_transparent.png" alt="B-Glow Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#news">Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" target="_blank"
+                        rel="noopener">Donate</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="ll-main">
+
+            <header class="ll-header">
+                <p class="ll-eyebrow">Current Exhibition &middot; Online</p>
+                <h1 class="ll-title">Life, Love &amp; Everything She Creates</h1>
+                <p class="ll-subtitle">International Juried Virtual Exhibition &middot;
+                    <strong>Women In Arts Network</strong></p>
+                <p class="ll-dates">August 24 &ndash; October 30, 2026 &middot; Online / International</p>
+            </header>
+
+            <section class="ll-section">
+                <div class="ll-intro">
+                    <img src="assets/life_love_she_creates.jpg"
+                        alt="Life, Love & Everything She Creates — virtual exhibition invitation">
+                    <div>
+                        <h2>About the Exhibition</h2>
+                        <p>Life, Love &amp; Everything She Creates brings together 50 women artists from diverse
+                            backgrounds and creative practices, exploring life, love, memory, identity, and the
+                            experiences that shape artistic creation.</p>
+                        <p>The works gathered here do not offer one version of life, love, or creativity. They move
+                            between the personal and the imagined, the familiar and the unfamiliar &mdash; some artists
+                            work with subjects close to their everyday lives, while others use abstraction, symbolism,
+                            or form to express what cannot be easily described.</p>
+                    </div>
+                </div>
+                <img class="ll-note-img" src="assets/life_love_note.jpg"
+                    alt="Exhibition note and featured artists of Life, Love & Everything She Creates">
+            </section>
+
+            <section class="ll-section">
+                <div class="ll-work">
+                    <img src="assets/life_love_artwork.jpg"
+                        alt="Sanctuary in the Storm — digital artwork by Soohyun Jo">
+                    <div>
+                        <h2>Exhibited Work &middot; Selected Artist Soohyun Jo</h2>
+                        <p class="ll-work-title">Sanctuary in the Storm</p>
+                        <p class="ll-work-medium">Digital Art &middot; 2026</p>
+                        <p class="ll-work-desc">To smile at each other even in pouring rain is the gift of pure love:
+                            a sanctuary where masks fall away and only the heart&rsquo;s truth remains.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ll-section ll-cta">
+                <p>Step inside the virtual gallery to see the work in full, alongside 50 artists from around the
+                    world.</p>
+                <div class="ll-btns">
+                    <a class="ll-btn ll-btn-primary"
+                        href="https://artspaces.kunstmatrix.com/en/exhibition/15828089/life-love-everything-she-creates"
+                        target="_blank" rel="noopener">View Virtual Exhibition</a>
+                    <a class="ll-btn" href="https://womeninartsnetwork.com/life-love-everything-she-creates/"
+                        target="_blank" rel="noopener">Women In Arts Network</a>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 B-Glow. All rights reserved. &middot;
+                    <a href="https://fundraising.fracturedatlas.org/b-glow-project/general_support" class="footer-link"
+                        target="_blank" rel="noopener">Support our vision</a>
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

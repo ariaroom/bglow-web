@@ -244,6 +244,38 @@
                         </div>
                     </article>
 
+                    <!-- Card 3: Life, Love & Everything She Creates (online) -->
+                    <article class="ue-card fade-in-up" data-start="2026-08-24" data-end="2026-10-30"
+                        data-eyebrow="Current Exhibition">
+                        <div class="ue-poster">
+                            <img src="assets/life_love_she_creates.jpg"
+                                alt="Life, Love &amp; Everything She Creates — virtual exhibition invitation">
+                        </div>
+                        <div class="ue-body">
+                            <p class="ue-eyebrow"></p>
+                            <h3 class="ue-title">Life, Love &amp; Everything She Creates</h3>
+                            <p class="ue-subtitle">International Juried Virtual Exhibition</p>
+                            <hr class="ue-divider">
+                            <p class="ue-desc">Life, Love &amp; Everything She Creates brings together 50 women
+                                artists from diverse backgrounds and creative practices, exploring life, love,
+                                memory, identity, and the experiences that shape artistic creation.</p>
+                            <ul class="ue-meta">
+                                <li><svg class="ue-ic"><use href="#ic-building" /></svg><span>Women In Arts Network</span></li>
+                                <li><svg class="ue-ic"><use href="#ic-users" /></svg><span>Selected Artist: Soohyun Jo</span></li>
+                                <li><svg class="ue-ic"><use href="#ic-calendar" /></svg><span>August 24 – October 30, 2026</span></li>
+                                <li><svg class="ue-ic"><use href="#ic-pin" /></svg><span>Online / International</span></li>
+                            </ul>
+                            <div class="ue-actions">
+                                <a href="https://artspaces.kunstmatrix.com/en/exhibition/15828089/life-love-everything-she-creates"
+                                    target="_blank" rel="noopener" class="ue-btn ue-btn-primary">View Virtual
+                                    Exhibition <svg class="ue-btn-arrow"><use href="#ic-arrow" /></svg></a>
+                                <a href="https://womeninartsnetwork.com/life-love-everything-she-creates/"
+                                    target="_blank" rel="noopener" class="ue-btn">Exhibition Details
+                                    <svg class="ue-btn-arrow"><use href="#ic-arrow" /></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
                 </template>
             </div>
         </section>
@@ -373,7 +405,10 @@
                 var def = defs.filter(function (d) { return d.key === status; })[0];
 
                 var eyebrow = card.querySelector('.ue-eyebrow');
-                if (eyebrow) eyebrow.textContent = def.eyebrow;
+                // A card can name its own eyebrow while it is showing
+                // (e.g. "Current Exhibition"); Upcoming/Ended still win.
+                if (eyebrow) eyebrow.textContent =
+                    (status === 'current' && card.getAttribute('data-eyebrow')) || def.eyebrow;
 
                 if (status === 'past') {
                     card.classList.add('ue-card-past');

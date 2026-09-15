@@ -421,8 +421,13 @@
                         btn.parentNode.replaceChild(ended, btn);
                     }
                 }
-                buckets[status].push(card);
+                buckets[status].push({ card: card, start: start, end: end });
             });
+
+            // Most recently ended first; current/upcoming soonest first.
+            buckets.past.sort(function (a, b) { return b.end - a.end; });
+            buckets.current.sort(function (a, b) { return a.start - b.start; });
+            buckets.upcoming.sort(function (a, b) { return a.start - b.start; });
 
             defs.forEach(function (def) {
                 var list = buckets[def.key];
@@ -434,7 +439,7 @@
                 h.textContent = def.label;
                 var grid = document.createElement('div');
                 grid.className = 'upcoming-grid';
-                list.forEach(function (c) { grid.appendChild(c); });
+                list.forEach(function (c) { grid.appendChild(c.card); });
                 sec.appendChild(h);
                 sec.appendChild(grid);
                 root.appendChild(sec);
